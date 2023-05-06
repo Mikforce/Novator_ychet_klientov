@@ -1,7 +1,10 @@
 from django.db import models
+from django.conf import settings
+from django.utils import timezone
 
 
 class Teacher(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     classes = models.ManyToManyField('Student', related_name='teachers')
     salary = models.DecimalField(max_digits=8, decimal_places=2)
@@ -11,9 +14,10 @@ class Teacher(models.Model):
 
 
 class Student(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     pass_type = models.CharField(max_length=50)
-    payment = models.DecimalField(max_digits=8, decimal_places=2)
+    payment = models.CharField(max_length=50)
     start_time = models.DateTimeField()
 
     def __str__(self):
@@ -21,6 +25,7 @@ class Student(models.Model):
 
 
 class Administrator(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     salary_per_hour = models.DecimalField(max_digits=8, decimal_places=2)
 

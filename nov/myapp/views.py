@@ -14,12 +14,20 @@ def teacher_list(request):
     return render(request, 'teacher_list.html', {'teachers': teachers, 'form': form})
 
 def student_list(request):
+
     students = Student.objects.all()
-    return render(request, 'student_list.html', {'students': students})
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('student_list')
+    else:
+        form = StudentForm()
+    return render(request, 'student_list.html', {'students': students, 'form': form})
 
 def administrator(request):
     lessons = Administrator.objects.all()
-    return render(request, 'lesson_list.html', {'lessons': lessons})
+    return render(request, 'administrator.html', {'lessons': lessons})
 
 def add_lesson(request):
     if request.method == 'POST':
