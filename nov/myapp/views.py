@@ -3,7 +3,6 @@ from .models import Teacher, Student, Administrator
 from .forms import StudentForm, TeacherForm
 
 def teacher_list(request):
-
     teachers = Teacher.objects.all()
     if request.method == 'POST':
         form = TeacherForm(request.POST)
@@ -12,9 +11,7 @@ def teacher_list(request):
             return redirect('teacher_list')
     else:
         form = TeacherForm()
-    return render(request, 'add_teacher.html', {'form': form})
-
-    return render(request, 'base.html', {'teachers': teachers})
+    return render(request, 'teacher_list.html', {'teachers': teachers, 'form': form})
 
 def student_list(request):
     students = Student.objects.all()

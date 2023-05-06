@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Students</h2>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Pass Type</th>
+      <th>Payment</th>
+      <th>Start Time</th>
+    </tr>
+    {% for student in students %}
+      <tr>
+        <td>{{ student.name }}</td>
+        <td>{{ student.pass_type }}</td>
+        <td>{{ student.payment }}</td>
+        <td>{{ student.start_time }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td>No students found.</td>
