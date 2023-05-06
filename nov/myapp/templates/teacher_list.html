@@ -27,13 +27,13 @@
             <button type="submit">Добавить Учителя</button>
         </form>
 
-        <ul>
-        {% for teacher in teachers %}
-            <li>{{ teacher.name }} - {{ teacher.salary }}</li>
-        {% empty %}
-            <p>Нет учителей в базе данных</p>
-        {% endfor %}
-    </ul>
+        <tr>
+            {% for teacher in teachers %}
+                <li>{{ teacher.name }} - {{ teacher.salary }}</li>
+            {% empty %}
+                <p>Нет учителей в базе данных</p>
+            {% endfor %}
+        </tr>
 
 
     </div>
