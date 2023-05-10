@@ -66,7 +66,7 @@ def add_coach(request):
 
         return redirect('coach_list')
     else:
-        return render(request, 'teacher_list.html')
+        return render(request, 'add_coach.html')
 
 def coach_list(request):
     coaches = Coach.objects.all()
