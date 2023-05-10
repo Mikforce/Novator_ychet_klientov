@@ -11,13 +11,13 @@ def add_client(request):
         birth_date = request.POST['birth_date']
         phone_number = request.POST['phone_number']
         parent_name = request.POST['parent_name']
-        group_id = request.POST['group_obj']
+
         date_joined = request.POST['date_joined']
 
-        group = Group.objects.get(id=group_id)
+        
 
         client = Client(full_name=full_name, birth_date=birth_date, phone_number=phone_number,
-                        parent_name=parent_name, group=group, date_joined=date_joined)
+                        parent_name=parent_name, date_joined=date_joined)
         client.save()
 
         return redirect('client_list')
