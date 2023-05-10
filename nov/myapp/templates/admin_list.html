@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Admin List</h1>
+  <ul>
+    {% for admin in admins %}
+      <li>{{ admin.full_name }} - {{ admin.phone_number }}</li>
+    {% empty %}
+      <li>No admins yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

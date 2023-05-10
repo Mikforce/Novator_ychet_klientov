@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+
+  <h1>Список групп</h1>
+    <table>
+        <tr>
+            <th>Название</th>
+            <th>Тренер</th>
+            <th>Описание</th>
+        </tr>
+        {% for group in groups %}
+        <tr>
+            <td>{{ group.name }}</td>
+            <td>{{ group.coach.full_name }}</td>
+            <td>{{ group.description }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+    </div>
+</div>
+
+
+{% endblock %}

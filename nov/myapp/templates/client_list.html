@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <h1>Список клиентов</h1>
+    <table>
+        <tr>
+            <th>ФИО</th>
+            <th>Дата рождения</th>
+            <th>Телефон</th>
+            <th>Имя родителя</th>
+            <th>Группа</th>
+            <th>Дата записи</th>
+        </tr>
+        {% for client in clients %}
+        <tr>
+            <td>{{ client.full_name }}</td>
+            <td>{{ client.birth_date }}</td>
+            <td>{{ client.phone_number }}</td>
+            <td>{{ client.parent_name }}</td>
+            <td>{{ client.group.name }}</td>
+            <td>{{ client.date_joined }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+    </div>
+</div>
+
+
+{% endblock %}

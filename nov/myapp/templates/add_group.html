@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+         <h1>Добавление группы</h1>
+            <form method="post">
+                {% csrf_token %}
+                <label for="name">Название:</label>
+                <input type="text" name="name" id="name" required><br>
+                <label for="coach">Тренер:</label>
+                <select name="coach" id="coach" required>
+                    {% for coach in coaches %}
+                    <option value="{{ coach.id }}">{{ coach.full_name }}</option>
+                    {% endfor %}
+                </select><br>
+                <label for="description">Описание:</label>
+                <textarea name="description" id="description" required></textarea><br>
+                <button type="submit">Сохранить</button>
+            </form>
+
+
+    </div>
+</div>
+
+{% endblock %}

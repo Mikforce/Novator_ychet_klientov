@@ -1,0 +1,12 @@
+<{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Subscription List</h1>
+  <ul>
+    {% for subscription in subscriptions %}
+      <li>{{ subscription.group.name }} - {{ subscription.client.full_name }} - {{ subscription.coach.full_name }}</li>
+    {% empty %}
+      <li>No subscriptions yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Coach List</h1>
+  <ul>
+    {% for coach in coaches %}
+      <li>{{ coach.full_name }} - {{ coach.phone_number }}</li>
+    {% empty %}
+      <li>No coaches yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

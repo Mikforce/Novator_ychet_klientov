@@ -3,43 +3,34 @@ from django.conf import settings
 from django.utils import timezone
 
 
-class Teacher(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    classes = models.ManyToManyField('Student', related_name='teachers')
-    salary = models.DecimalField(max_digits=8, decimal_places=2)
+class Client(models.Model):
+    full_name = models.CharField(max_length=255)
+    birth_date = models.DateField()
+    phone_number = models.CharField(max_length=20)
+    parent_name = models.CharField(max_length=255)
+    group_obj = models.ForeignKey('Group', on_delete=models.CASCADE)
+    date_joined = models.DateField()
 
-    def __str__(self):
-        return self.name
+class Group(models.Model):
+    name = models.CharField(max_length=255)
+    coach = models.ForeignKey('Coach', on_delete=models.CASCADE)
+    description = models.TextField()
+    students = models.ManyToManyField(Client, related_name='group_students')
 
-
-class Student(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    pass_type = models.CharField(max_length=50)
-    payment = models.CharField(max_length=50)
-    start_time = models.DateTimeField()
-
-    def __str__(self):
-        return self.name
-
+class Coach(models.Model):
+    full_name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=20)
+    students = models.ManyToManyField(Client)
+    groupqs = models.ManyToManyField(Group, related_name='coach_groupqs')
 
 class Administrator(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    salary_per_hour = models.DecimalField(max_digits=8, decimal_places=2)
+    full_name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=20)
 
-    def __str__(self):
-        return self.name
-
-# Здесь мы определяем три модели: Teacher, Student и Administrator.
-#
-# Модель Teacher имеет поля name (имя учителя), classes (список классов, которые он ведет) и salary (начисленная зарплата за месяц).
-#
-# Модель Student имеет поля name (имя ученика), pass_type (тип абонемента), payment (оплата занятий) и start_time (время начала абонемента).
-#
-# Модель Administrator имеет поля name (имя администратора) и salary_per_hour (зарплата администратора за часы работы).
-#
-# Также мы используем ManyToManyField в модели Teacher для связи с моделью Student, так как у каждого учителя может быть несколько классов, а у каждого класса может быть несколько учеников.
-#
-# Это лишь примерный код, который можно доработать и оптимизировать под конкретные потребности студии. Не забудьте запустить миграции после создания моделей, чтобы они были сохранены в базе данных.
+class Subscription(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    coach = models.ForeignKey(Coach, on_delete=models.CASCADE)
+    lessons_count = models.IntegerField()
+    attendance = models.BooleanField(default=False)
+    comment = models.TextField(blank=True, null=True)
