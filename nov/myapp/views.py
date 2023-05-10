@@ -14,7 +14,6 @@ def add_client(request):
 
         date_joined = request.POST['date_joined']
 
-        
 
         client = Client(full_name=full_name, birth_date=birth_date, phone_number=phone_number,
                         parent_name=parent_name, date_joined=date_joined)

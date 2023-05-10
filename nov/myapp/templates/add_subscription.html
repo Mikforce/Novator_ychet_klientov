@@ -1,33 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Add Subscription</h1>
-  <form method="post">
-    {% csrf_token %}
-    <label for="group">Group:</label>
-    <select id="group" name="group">
-      {% for group in groups %}
-        <option value="{{ group.id }}">{{ group.name }}</option>
-      {% endfor %}
-    </select><br><br>
-    <label for="client">Client:</label>
-    <select id="client" name="client">
-      {% for client in clients %}
-        <option value="{{ client.id }}">{{ client.full_name }}</option>
-      {% endfor %}
-    </select><br><br>
-    <label for="coach">Coach:</label>
-    <select id="coach" name="coach">
-      {% for coach in coaches %}
-        <option value="{{ coach.id }}">{{ coach.full_name }}</option>
-      {% endfor %}
-    </select><br><br>
-    <label for="lessons_count">Lessons Count:</label>
-    <input type="text" id="lessons_count" name="lessons_count"><br><br>
-    <label for="attendance">Attendance:</label>
-    <input type="checkbox" id="attendance" name="attendance"><br><br>
-    <label for="comment">Comment:</label>
-    <textarea id="comment" name="comment"></textarea><br><br>
-    <input type="submit" value="Save">
-  </form>
+
+<div class="container">
+    <div class="card">
+      <h1>Добавить абонемент</h1>
+      <form method="post">
+        {% csrf_token %}
+        <label for="group">Группа:</label>
+        <select id="group" name="group">
+          {% for group in groups %}
+            <option value="{{ group.id }}">{{ group.name }}</option>
+          {% endfor %}
+        </select><br><br>
+        <label for="client">Ученик:</label>
+        <select id="client" name="client">
+          {% for client in clients %}
+            <option value="{{ client.id }}">{{ client.full_name }}</option>
+          {% endfor %}
+        </select><br><br>
+        <label for="coach">Учитель:</label>
+        <select id="coach" name="coach">
+          {% for coach in coaches %}
+            <option value="{{ coach.id }}">{{ coach.full_name }}</option>
+          {% endfor %}
+        </select><br><br>
+        <label for="lessons_count">Количество занятий:</label>
+        <input type="text" id="lessons_count" name="lessons_count"><br><br>
+        <label for="attendance">Посещение:</label>
+        <input type="checkbox" id="attendance" name="attendance"><br><br>
+        <label for="comment">Коментарии:</label>
+        <textarea id="comment" name="comment"></textarea><br><br>
+        <input type="submit" value="Save">
+      </form>
+
+
+    </div>
+</div>
+
 {% endblock %}
