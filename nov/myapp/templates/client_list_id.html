@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Список клиентов</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ФИО</th>
+        <th>Дата рождения</th>
+        <th>Телефон</th>
+        <th>Родитель</th>
+        <th>Группа</th>
+        <th>Дата записи</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for client in object_list %}
+        <tr>
+          <td>{{ client.full_name }}</td>
+          <td>{{ client.birth_date }}</td>
+          <td>{{ client.phone_number }}</td>
+          <td>{{ client.parent_name }}</td>
+          <td>{{ client.group_obj }}</td>
+          <td>{{ client.date_joined }}</td>
+          <td><a href="{% url 'edit_delete_client' client.pk %}">Редактировать</a></td>
+          <td><a href="{% url 'client_delete' client.pk %}">Удалить</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

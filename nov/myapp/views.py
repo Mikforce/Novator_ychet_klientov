@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Group, Coach, Administrator, Subscription, Client
+from django.views.generic import DeleteView, UpdateView
+from django.urls import reverse_lazy
 
 
 from django.shortcuts import render, redirect
@@ -28,6 +30,18 @@ def client_list(request):
     clients = Client.objects.all()
     return render(request, 'client_list.html', {'clients': clients})
 
+def edit_delete_client(request):
+    if request.method == 'POST':
+        client_id = request.POST.get('client_id')
+        client = Client.objects.get(id=client_id)
+
+        if 'edit' in request.POST:
+            # Выполнить действия для редактирования клиента
+            return render(request, 'client_edit.html', {'client': client})
+        elif 'delete' in request.POST:
+            # Выполнить действия для удаления клиента
+            client.delete()
+            return redirect('client_list')
 
 
 

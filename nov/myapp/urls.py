@@ -18,4 +18,5 @@ urlpatterns = [
 
     path('add_subscription/', add_subscription, name='add_subscription'),
     path('subscription_list/', subscription_list, name='subscription_list'),
+
 ]
