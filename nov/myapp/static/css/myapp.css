@@ -71,3 +71,28 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #0062cc;
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa; /* измените на свой основной цвет фона навбара */
+  padding: 10px;
+}
+
+.navbar ul {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  margin: 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #333; /* измените на свой цвет текста ссылок */
+}

@@ -4,8 +4,8 @@ from .views import subscription_list, admin_list, coach_list, add_coach,add_grou
 
 urlpatterns = [
 
-    path('students/', add_client, name='student_list'),
-    path('students_oll/', client_list, name='student_list'),
+    path('student_list/', add_client, name='student_list'),
+    path('students_oll/', client_list, name='client_list'),
 
     path('add_group/', add_group, name='add_group'),
     path('group_list/', group_list, name='group_list'),
