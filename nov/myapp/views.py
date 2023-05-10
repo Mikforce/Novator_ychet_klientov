@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Group, Coach, Administrator, Subscription, Client
 
 
@@ -27,6 +27,8 @@ def add_client(request):
 def client_list(request):
     clients = Client.objects.all()
     return render(request, 'client_list.html', {'clients': clients})
+
+
 
 
 

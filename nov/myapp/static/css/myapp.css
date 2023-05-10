@@ -96,3 +96,7 @@ button[type="submit"]:hover {
   text-decoration: none;
   color: #333; /* измените на свой цвет текста ссылок */
 }
+
+.btn-group-vertical button {
+  background-color: #474A51	;
+}
