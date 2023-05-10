@@ -9,6 +9,13 @@
     <title>Teachers</title>
 </head>
 <body>
+<ul>
+  <li><a href="{% url 'student_list' %}">Students</a></li>
+  <li><a href="{% url 'add_group' %}">Add Group</a></li>
+  <li><a href="{% url 'add_coach' %}">Add Coach</a></li>
+  <li><a href="{% url 'admin_list' %}">Admins</a></li>
+  <li><a href="{% url 'add_subscription' %}">Add Subscription</a></li>
+</ul>
   {% block content %}
 
   {% endblock %}

@@ -8,7 +8,7 @@ class Client(models.Model):
     birth_date = models.DateField()
     phone_number = models.CharField(max_length=20)
     parent_name = models.CharField(max_length=255)
-    group_obj = models.ForeignKey('Group', on_delete=models.CASCADE)
+    group_obj = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, blank=True)
     date_joined = models.DateField()
 
 class Group(models.Model):
@@ -20,8 +20,8 @@ class Group(models.Model):
 class Coach(models.Model):
     full_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=20)
-    students = models.ManyToManyField(Client)
-    groupqs = models.ManyToManyField(Group, related_name='coach_groupqs')
+    students = models.ManyToManyField(Client, null=True, blank=True)
+    groupqs = models.ManyToManyField(Group, related_name='coach_groupqs', null=True, blank=True)
 
 class Administrator(models.Model):
     full_name = models.CharField(max_length=255)
