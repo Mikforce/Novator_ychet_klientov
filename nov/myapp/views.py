@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Group, Coach, Administrator, Subscription, Client
 from django.views.generic import DeleteView, UpdateView
 from django.urls import reverse_lazy
-
-
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.shortcuts import render, redirect
 
 
@@ -30,19 +30,32 @@ def client_list(request):
     clients = Client.objects.all()
     return render(request, 'client_list.html', {'clients': clients})
 
-def edit_delete_client(request):
+# Обновление клиента
+def update_client(request, id):
+    client = get_object_or_404(Client, id=id)
+
     if request.method == 'POST':
-        client_id = request.POST.get('client_id')
-        client = Client.objects.get(id=client_id)
+        client.full_name = request.POST['full_name']
+        client.birth_date = request.POST['birth_date']
+        client.phone_number = request.POST['phone_number']
+        client.parent_name = request.POST['parent_name']
+        # client.group_obj = request.POST['group_obj']
+        client.date_joined = request.POST['date_joined']
 
-        if 'edit' in request.POST:
-            # Выполнить действия для редактирования клиента
-            return render(request, 'client_edit.html', {'client': client})
-        elif 'delete' in request.POST:
-            # Выполнить действия для удаления клиента
-            client.delete()
-            return redirect('client_list')
+        client.save()
+        return HttpResponseRedirect(reverse('client_list'))
+    else:
+        context = {
+            'client': client,
+        }
+        return render(request, 'update_client.html', context)
 
+
+# Удаление клиента
+def delete_client(request, id):
+    client = get_object_or_404(Client, id=id)
+    client.delete()
+    return HttpResponseRedirect(reverse('client_list'))
 
 
 
@@ -65,6 +78,32 @@ def add_group(request):
 def group_list(request):
     groups = Group.objects.all()
     return render(request, 'group_list.html', {'groups': groups})
+
+
+
+def update_group(request, id):
+    group = get_object_or_404(Group, id=id)
+
+    if request.method == 'POST':
+        group.name = request.POST['name']
+        group.coach_id = request.POST['coach']
+        group.description = request.POST['description']
+        group.сoach = Coach.objects.get(id=group.coach_id)
+
+        group.save()
+        return HttpResponseRedirect(reverse('group_list'))
+    else:
+        context = {
+            'group': group,
+        }
+        return render(request, 'update_group.html', context)
+
+
+# Удаление клиента
+def delete_group(request, id):
+    group = get_object_or_404(Group, id=id)
+    group.delete()
+    return HttpResponseRedirect(reverse('group_list'))
 
 
 

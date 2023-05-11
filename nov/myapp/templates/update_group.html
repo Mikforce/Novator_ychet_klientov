@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+
+            <h1>Изменения группы</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="full_name">название группы:</label>
+        <input type="text" id="full_name" name="name" value="{{ group.name }}"><br>
+
+        <label for="coach">Тренер:</label>
+        <input type="full_name" id="name" name="full_name" value="{{ group.coach.full_name }}"><br>
+
+
+
+
+
+        <label for="description">описание:</label>
+        <input type="description" id="description" name="description" value="{{ group.description }}"><br>
+
+
+        <button type="submit">Сохранить изменения</button>
+    </form>
+
+
+
+
+    </div>
+</div>
+{% endblock %}

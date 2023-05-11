@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+
+            <h1>Удаление клиента</h1>
+<form method="post" action="{% url 'delete_client' id=client.id %}">
+  {% csrf_token %}
+  <input type="submit" value="Удалить">
+</form>
+
+
+
+    </div>
+</div>
+{% endblock %}

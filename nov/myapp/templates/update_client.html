@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+
+            <h1>Изменения клиента</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="full_name">ФИО:</label>
+        <input type="text" id="full_name" name="full_name" value="{{ client.full_name }}"><br>
+
+        <label for="birth_date">Дата рождения:</label>
+        <input type="date" id="birth_date" name="birth_date" value="{{ client.birth_date }}"><br>
+
+        <label for="phone_number">Телефон:</label>
+        <input type="tel" id="phone_number" name="phone_number" value="{{ client.phone_number }}"><br>
+
+        <label for="parent_name">Имя родителя:</label>
+        <input type="text" id="parent_name" name="parent_name" value="{{ client.parent_name }}"><br>
+<!--        <label for="group">Группа:</label>-->
+<!--        <select name="group" id="group" required>-->
+<!--            {% for group in groups %}-->
+<!--            <option value="{{ group.id }}">{{ group.name }}</option>-->
+<!--            {% endfor %}-->
+<!--        </select><br>-->
+        <label for="date_joined">Дата записи:</label>
+        <input type="date" id="date_joined" name="date_joined" value="{{ client.date_joined }}"><br>
+
+        <button type="submit">Сохранить изменения</button>
+    </form>
+
+
+
+
+    </div>
+</div>
+{% endblock %}

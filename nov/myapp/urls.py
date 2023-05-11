@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import subscription_list, admin_list, coach_list, add_coach,add_group,group_list, add_client, add_admin, add_subscription, client_list
+from .views import delete_group, update_group, update_client, delete_client, subscription_list, admin_list, coach_list, add_coach,add_group,group_list, add_client, add_admin, add_subscription, client_list
 
 urlpatterns = [
 
@@ -18,5 +18,11 @@ urlpatterns = [
 
     path('add_subscription/', add_subscription, name='add_subscription'),
     path('subscription_list/', subscription_list, name='subscription_list'),
+
+    path('client/<int:id>/update/', update_client, name='update_client'),
+    path('client/<int:id>/delete/', delete_client, name='delete_client'),
+
+    path('group/<int:id>/update/', update_group, name='update_group'),
+    path('group/<int:id>/delete/', delete_group, name='delete_group'),
 
 ]
