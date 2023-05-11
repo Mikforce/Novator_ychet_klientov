@@ -83,10 +83,11 @@ def group_list(request):
 
 def update_group(request, id):
     group = get_object_or_404(Group, id=id)
+    coach = get_object_or_404(Coach, id=id)
 
     if request.method == 'POST':
         group.name = request.POST['name']
-        group.coach_id = request.POST['coach']
+        coach.coach_id = request.POST['full_name']
         group.description = request.POST['description']
         group.сoach = Coach.objects.get(id=group.coach_id)
 
