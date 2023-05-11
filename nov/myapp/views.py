@@ -6,7 +6,11 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render, redirect
 
-
+def home(request):
+    context = {
+        'title': 'Мое приложение учета клиентов'
+    }
+    return render(request, 'index.html')
 # def add_client(request):
 #     if request.method == 'POST':
 #         full_name = request.POST['full_name']

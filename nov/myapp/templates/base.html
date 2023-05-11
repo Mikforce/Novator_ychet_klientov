@@ -10,6 +10,7 @@
 </head>
 <body>
 
+
 <div class="btn-group-vertical" role="group" aria-label="Button group with nested dropdown">
 
     <button type="button" class="btn btn-primary"><a href="{% url 'client_list' %}" class="list-group-item">Все Ученики</a></button>
@@ -22,8 +23,6 @@
     <button type="button" class="btn btn-primary"><a href="{% url 'subscription_list' %}" class="list-group-item">Все Абонементы</a></button>
 
 </div>
-
-
 {% block content %}
 
 {% endblock %}

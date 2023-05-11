@@ -25,4 +25,6 @@ urlpatterns = [
     path('group/<int:id>/update/', update_group, name='update_group'),
     path('group/<int:id>/delete/', delete_group, name='delete_group'),
 
+    path('', views.home, name='home'),
+
 ]
