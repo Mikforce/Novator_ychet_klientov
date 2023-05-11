@@ -3,27 +3,35 @@
 {% block content %}
 <div class="container">
     <div class="card">
-        <h1>Добавление клиента</h1>
-      <form method="post">
-        {% csrf_token %}
-        <label for="full_name">ФИО:</label>
-        <input type="text" name="full_name" id="full_name" required><br>
-        <label for="birth_date">Дата рождения:</label>
-        <input type="date" name="birth_date" id="birth_date" required><br>
-        <label for="phone_number">Телефон:</label>
-        <input type="tel" name="phone_number" id="phone_number" required><br>
-        <label for="parent_name">Имя родителя:</label>
-        <input type="text" name="parent_name" id="parent_name" required><br>
-        <label for="group">Группа:</label>
-        <select name="group" id="group" required>
-            {% for group in groups %}
-            <option value="{{ group.id }}">{{ group.name }}</option>
-            {% endfor %}
-        </select><br>
-        <label for="date_joined">Дата записи:</label>
-        <input type="date" name="date_joined" id="date_joined" required><br>
-        <button type="submit">Сохранить</button>
-      </form>
+  <h2>Добавить клиента</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <label for="full_name">Полное имя:</label>
+    <input type="text" name="full_name" required><br>
+
+    <label for="birth_date">Дата рождения:</label>
+    <input type="date" name="birth_date" required><br>
+
+    <label for="phone_number">Номер телефона:</label>
+    <input type="text" name="phone_number" required><br>
+
+    <label for="parent_name">Имя родителя:</label>
+    <input type="text" name="parent_name" required><br>
+
+    <label for="group">Группа:</label>
+    <select name="group" required>
+      {% for group in groups %}
+        <option value="{{ group.id }}">{{ group.name }}</option>
+      {% endfor %}
+    </select><br>
+
+    <label for="date_joined">Дата:</label>
+    <input type="date" name="date_joined" required><br>
+
+    <button type="submit">Добавить</button>
+  </form>
+
+
     </div>
 </div>
 {% endblock %}

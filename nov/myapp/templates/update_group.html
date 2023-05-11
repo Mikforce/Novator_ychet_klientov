@@ -5,30 +5,27 @@
     <div class="card">
 
             <h1>Изменения группы</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label for="full_name">название группы:</label>
-        <input type="text" id="full_name" name="name" value="{{ group.name }}"><br>
-
-        <label for="coach">Тренер:</label>
-        <input type="full_name" id="name" name="full_name" value="{{ group.coach.full_name }}"><br>
-
-<!--        <select name="coach" id="coach" required>-->
-<!--                    {% for coach in coaches %}-->
-<!--                    <option value="{{ coach.id }}">{{ coach.full_name }}</option>-->
-<!--                    {% endfor %}-->
-<!--                </select><br>-->
-
-
-
-        <label for="description">описание:</label>
-        <input type="description" id="description" name="description" value="{{ group.description }}"><br>
-
-
-        <button type="submit">Сохранить изменения</button>
-    </form>
-
-
+                  <form method="post">
+                    {% csrf_token %}
+                    <label for="id_name">Name:</label>
+                    <input type="text" name="name" id="id_name" value="{{ group.name }}">
+                    <br><br>
+                    <label for="id_coach">Coach:</label>
+                    <select name="coach" id="id_coach">
+                      {% for coach in coaches %}
+                        {% if coach.id == group.coach_id %}
+                          <option value="{{ coach.id }}" selected>{{ coach.full_name }}</option>
+                        {% else %}
+                          <option value="{{ coach.id }}">{{ coach.full_name }}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                    <br><br>
+                    <label for="id_description">Description:</label>
+                    <textarea name="description" id="id_description">{{ group.description }}</textarea>
+                    <br><br>
+                    <button type="submit">Save Changes</button>
+                  </form>
 
 
     </div>

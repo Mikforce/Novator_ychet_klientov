@@ -7,30 +7,71 @@ from django.urls import reverse
 from django.shortcuts import render, redirect
 
 
+# def add_client(request):
+#     if request.method == 'POST':
+#         full_name = request.POST['full_name']
+#         birth_date = request.POST['birth_date']
+#         phone_number = request.POST['phone_number']
+#         parent_name = request.POST['parent_name']
+#
+#         date_joined = request.POST['date_joined']
+#
+#
+#         client = Client(full_name=full_name, birth_date=birth_date, phone_number=phone_number,
+#                         parent_name=parent_name, date_joined=date_joined)
+#         client.save()
+#
+#         return redirect('client_list')
+#     else:
+#         groups = Group.objects.all()
+#         return render(request, 'student_list.html', {'groups': groups})
+#
+def client_list(request):
+    clients = Client.objects.all()
+    return render(request, 'client_list.html', {'clients': clients})
 def add_client(request):
     if request.method == 'POST':
         full_name = request.POST['full_name']
         birth_date = request.POST['birth_date']
         phone_number = request.POST['phone_number']
         parent_name = request.POST['parent_name']
-
+        group_id = request.POST.get('group')
         date_joined = request.POST['date_joined']
 
-
-        client = Client(full_name=full_name, birth_date=birth_date, phone_number=phone_number,
-                        parent_name=parent_name, date_joined=date_joined)
+        group_obj = Group.objects.get(id=group_id)
+        client = Client(full_name=full_name, birth_date=birth_date, phone_number=phone_number, parent_name=parent_name, group_obj=group_obj, date_joined=date_joined)
         client.save()
-
         return redirect('client_list')
-    else:
-        groups = Group.objects.all()
-        return render(request, 'student_list.html', {'groups': groups})
 
-def client_list(request):
-    clients = Client.objects.all()
-    return render(request, 'client_list.html', {'clients': clients})
+    groups = Group.objects.all()
+    return render(request, 'student_list.html', {'groups': groups})
+
+
+
+
 
 # Обновление клиента
+# def update_client(request, id):
+#     client = get_object_or_404(Client, id=id)
+#     groupnt = get_object_or_404(Group, id=id)
+#
+#     if request.method == 'POST':
+#         client.full_name = request.POST['full_name']
+#         client.birth_date = request.POST['birth_date']
+#         client.phone_number = request.POST['phone_number']
+#         client.parent_name = request.POST['parent_name']
+#         # client.group_obj = request.POST['group_obj']
+#         client.date_joined = request.POST['date_joined']
+#
+#         client.save()
+#         return HttpResponseRedirect(reverse('client_list'))
+#     else:
+#         context = {
+#             'client': client,
+#         }
+#         return render(request, 'update_client.html', context)
+
+
 def update_client(request, id):
     client = get_object_or_404(Client, id=id)
 
@@ -39,16 +80,16 @@ def update_client(request, id):
         client.birth_date = request.POST['birth_date']
         client.phone_number = request.POST['phone_number']
         client.parent_name = request.POST['parent_name']
-        # client.group_obj = request.POST['group_obj']
+        group_id = request.POST.get('group')
         client.date_joined = request.POST['date_joined']
 
+        group_obj = Group.objects.get(id=group_id)
+        client.group_obj = group_obj
         client.save()
-        return HttpResponseRedirect(reverse('client_list'))
-    else:
-        context = {
-            'client': client,
-        }
-        return render(request, 'update_client.html', context)
+        return redirect('client_list')
+
+    groups = Group.objects.all()
+    return render(request, 'update_client.html', {'client': client, 'groups': groups})
 
 
 # Удаление клиента
@@ -59,46 +100,70 @@ def delete_client(request, id):
 
 
 
+# def add_group(request):
+#     if request.method == 'POST':
+#         name = request.POST['name']
+#         coach_id = request.POST['coach']
+#         description = request.POST['description']
+#
+#         coach = Coach.objects.get(id=coach_id)
+#
+#         group = Group(name=name, coach=coach, description=description)
+#         group.save()
+#
+#         return redirect('group_list')
+#     else:
+#         coaches = Coach.objects.all()
+#         return render(request, 'add_group.html', {'coaches': coaches})
 def add_group(request):
     if request.method == 'POST':
-        name = request.POST['name']
-        coach_id = request.POST['coach']
-        description = request.POST['description']
-
-        coach = Coach.objects.get(id=coach_id)
-
-        group = Group(name=name, coach=coach, description=description)
+        name = request.POST.get('name')
+        coach_id = request.POST.get('coach')
+        description = request.POST.get('description')
+        group = Group(
+            name=name,
+            coach_id=coach_id,
+            description=description
+        )
         group.save()
-
         return redirect('group_list')
     else:
         coaches = Coach.objects.all()
-        return render(request, 'add_group.html', {'coaches': coaches})
-
+    return render(request, 'add_group.html', {'coaches': coaches})
 def group_list(request):
     groups = Group.objects.all()
     return render(request, 'group_list.html', {'groups': groups})
 
 
 
+# def update_group(request, id):
+#     group = get_object_or_404(Group, id=id)
+#     coach = get_object_or_404(Coach, id=id)
+#
+#     if request.method == 'POST':
+#         group.name = request.POST['name']
+#         coach.coach_id = request.POST['full_name']
+#         group.description = request.POST['description']
+#         group.сoach = Coach.objects.get(id=group.coach_id)
+#
+#         group.save()
+#         return HttpResponseRedirect(reverse('group_list'))
+#     else:
+#         context = {
+#             'group': group,
+#         }
+#         return render(request, 'update_group.html', context)
 def update_group(request, id):
-    group = get_object_or_404(Group, id=id)
-    coach = get_object_or_404(Coach, id=id)
-
+    group = Group.objects.get(id=id)
     if request.method == 'POST':
-        group.name = request.POST['name']
-        coach.coach_id = request.POST['full_name']
-        group.description = request.POST['description']
-        group.сoach = Coach.objects.get(id=group.coach_id)
-
+        group.name = request.POST.get('name')
+        group.coach_id = request.POST.get('coach')
+        group.description = request.POST.get('description')
         group.save()
-        return HttpResponseRedirect(reverse('group_list'))
+        return redirect('group_list')
     else:
-        context = {
-            'group': group,
-        }
-        return render(request, 'update_group.html', context)
-
+        coaches = Coach.objects.all()
+    return render(request, 'update_group.html', {'group': group, 'coaches': coaches})
 
 # Удаление клиента
 def delete_group(request, id):
