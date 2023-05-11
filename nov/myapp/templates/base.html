@@ -9,20 +9,40 @@
     <title>Novator</title>
 </head>
 <body>
+          <nav>
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'home' %}">Главная</a>
+              </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'client_list' %}">Все Ученики</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'student_list' %}">Добавить Ученика</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'group_list' %}">Группы</a>
+              </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'add_group' %}">Добавить группы</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'subscription_list' %}">Абонементы</a>
+              </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'add_subscription' %}">Добавить Абонементы</a>
+              </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin_list' %}">Администратор</a>
+              </li>
+                 <li class="nav-item">
+                <a class="nav-link" href="{% url 'add_coach' %}">Добавить Учителя</a>
+              </li>
+
+            </ul>
+          </nav>
 
 
-<div class="btn-group-vertical" role="group" aria-label="Button group with nested dropdown">
-
-    <button type="button" class="btn btn-primary"><a href="{% url 'client_list' %}" class="list-group-item">Все Ученики</a></button>
-    <button type="button" class="btn btn-primary"><a href="{% url 'student_list' %}" class="list-group-item">Добавить Ученика</a></button>
-    <button type="button" class="btn btn-primary"><a href="{% url 'add_group' %}" class="list-group-item">Добавить группы</a></button>
-    <button type="button" class="btn btn-primary"><a href="{% url 'group_list' %}" class="list-group-item">Все группы</a></button>
-    <button type="button" class="btn btn-primary"><a href="{% url 'add_coach' %}" class="list-group-item">Добавить Учителя</a></button>
-    <button type="button" class="btn btn-primary"><a href="{% url 'admin_list' %}" class="list-group-item">Администратор</a></button>
-    <button type="button" class="btn btn-primary"><a href="{% url 'add_subscription' %}" class="list-group-item">Добавить Абонементы</a></button>
-    <button type="button" class="btn btn-primary"><a href="{% url 'subscription_list' %}" class="list-group-item">Все Абонементы</a></button>
-
-</div>
 {% block content %}
 
 {% endblock %}
