@@ -100,3 +100,34 @@ button[type="submit"]:hover {
 .btn-group-vertical button {
   background-color: #474A51	;
 }
+
+nav {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  padding: 10px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-right: 15px;
+}
+
+.nav-link {
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #007bff;
+}

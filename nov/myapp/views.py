@@ -245,3 +245,14 @@ def add_subscription(request):
 def subscription_list(request):
     subscriptions = Subscription.objects.all()
     return render(request, 'subscription_list.html', {'subscriptions': subscriptions})
+
+
+
+
+
+
+
+
+
+
+
