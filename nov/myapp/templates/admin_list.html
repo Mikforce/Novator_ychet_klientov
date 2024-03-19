@@ -6,7 +6,7 @@
       <h1>Администратор</h1>
       <ul>
         {% for admin in admins %}
-          <li>{{ admin.full_name }} - {{ admin.phone_number }}</li>
+          <li>{{ admin }}</li>
         {% empty %}
           <li>No admins yet.</li>
         {% endfor %}

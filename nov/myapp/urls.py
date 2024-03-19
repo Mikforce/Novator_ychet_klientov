@@ -1,6 +1,9 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
-from .views import delete_group, update_group, update_client, delete_client, subscription_list, admin_list, coach_list, add_coach,add_group,group_list, add_client, add_admin, add_subscription, client_list
+from .views import delete_group, update_group, update_client, delete_client, edit_subscription, subscription_list, admin_list, coach_list, add_coach,add_group,group_list, add_client, add_admin, add_subscription, client_list
+from django.contrib import admin
+from . import views as user_views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 
@@ -18,6 +21,7 @@ urlpatterns = [
 
     path('add_subscription/', add_subscription, name='add_subscription'),
     path('subscription_list/', subscription_list, name='subscription_list'),
+path('subscriptions/<int:subscription_id>/edit/', edit_subscription, name='edit_subscription'),
 
     path('client/<int:id>/update/', update_client, name='update_client'),
     path('client/<int:id>/delete/', delete_client, name='delete_client'),
@@ -26,6 +30,13 @@ urlpatterns = [
     path('group/<int:id>/delete/', delete_group, name='delete_group'),
 
     path('', views.home, name='home'),
+
+    path('admin/', admin.site.urls),
+	path('register/', user_views.register, name='register'),
+    path('profile/', user_views.profile, name='profile'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+
 
 
 

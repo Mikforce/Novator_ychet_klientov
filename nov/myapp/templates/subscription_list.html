@@ -1,17 +1,37 @@
-<{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 
 <div class="container">
     <div class="card">
-        <h1>Список абонементов</h1>
-        <ul>
-          {% for subscription in subscriptions %}
-            <li>{{ subscription.group.name }} - {{ subscription.client.full_name }} - {{ subscription.coach.full_name }}</li>
-          {% empty %}
-            <li>No subscriptions yet.</li>
-          {% endfor %}
-        </ul>
+  <table>
+    <thead>
+        <tr>
+            <th>Группа</th>
+            <th>Клиент</th>
+            <th>Тренер</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subscription in subscriptions %}
+        <tr>
+            <td>{{ subscription.group.name }}</td>
+            <td>{{ subscription.client.full_name }}</td>
+            <td>{{ subscription.coach.full_name }}</td>
+            <td>
+                <a href="{% url 'edit_subscription' subscription.id %}">Редактировать</a>
+                <a href="{% url 'delete_client' id=subscription.id %}">Удалить</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No subscriptions yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 
     </div>
 </div>

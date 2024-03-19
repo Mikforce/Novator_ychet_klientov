@@ -1,38 +1,62 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Group, Coach, Administrator, Subscription, Client
+from .models import Group, Coach, Administrator, Subscription, Client, Post, Profile
 from django.views.generic import DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib import messages
+from .forms import UserRegisterForm, SubscriptionForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Создан аккаунт {username}!')
+            # return render(request, 'profile.html')
+            return redirect('home')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'register.html', {'form': form})
+
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
 
 def home(request):
     context = {
-        'title': 'Мое приложение учета клиентов'
+        'posts': Post.objects.all()
     }
-    return render(request, 'index.html')
-# def add_client(request):
-#     if request.method == 'POST':
-#         full_name = request.POST['full_name']
-#         birth_date = request.POST['birth_date']
-#         phone_number = request.POST['phone_number']
-#         parent_name = request.POST['parent_name']
+    return render(request, 'index.html', context)
+
+
+def about(request):
+    return render(request, 'admin_list.html', {'title': 'О клубе Python Bytes'})
+
+
+
 #
-#         date_joined = request.POST['date_joined']
-#
-#
-#         client = Client(full_name=full_name, birth_date=birth_date, phone_number=phone_number,
-#                         parent_name=parent_name, date_joined=date_joined)
-#         client.save()
-#
-#         return redirect('client_list')
-#     else:
-#         groups = Group.objects.all()
-#         return render(request, 'student_list.html', {'groups': groups})
-#
+# def client_list(request):
+#     clients = Client.objects.all()
+#     return render(request, 'client_list.html', {'clients': clients})
+
 def client_list(request):
-    clients = Client.objects.all()
+    query = request.GET.get('q')
+
+    if query:
+        clients = Client.objects.filter(full_name__icontains=query)
+    else:
+        clients = Client.objects.all()
+
     return render(request, 'client_list.html', {'clients': clients})
+
+
 def add_client(request):
     if request.method == 'POST':
         full_name = request.POST['full_name']
@@ -50,30 +74,6 @@ def add_client(request):
     groups = Group.objects.all()
     return render(request, 'student_list.html', {'groups': groups})
 
-
-
-
-
-# Обновление клиента
-# def update_client(request, id):
-#     client = get_object_or_404(Client, id=id)
-#     groupnt = get_object_or_404(Group, id=id)
-#
-#     if request.method == 'POST':
-#         client.full_name = request.POST['full_name']
-#         client.birth_date = request.POST['birth_date']
-#         client.phone_number = request.POST['phone_number']
-#         client.parent_name = request.POST['parent_name']
-#         # client.group_obj = request.POST['group_obj']
-#         client.date_joined = request.POST['date_joined']
-#
-#         client.save()
-#         return HttpResponseRedirect(reverse('client_list'))
-#     else:
-#         context = {
-#             'client': client,
-#         }
-#         return render(request, 'update_client.html', context)
 
 
 def update_client(request, id):
@@ -103,22 +103,6 @@ def delete_client(request, id):
     return HttpResponseRedirect(reverse('client_list'))
 
 
-
-# def add_group(request):
-#     if request.method == 'POST':
-#         name = request.POST['name']
-#         coach_id = request.POST['coach']
-#         description = request.POST['description']
-#
-#         coach = Coach.objects.get(id=coach_id)
-#
-#         group = Group(name=name, coach=coach, description=description)
-#         group.save()
-#
-#         return redirect('group_list')
-#     else:
-#         coaches = Coach.objects.all()
-#         return render(request, 'add_group.html', {'coaches': coaches})
 def add_group(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -134,29 +118,13 @@ def add_group(request):
     else:
         coaches = Coach.objects.all()
     return render(request, 'add_group.html', {'coaches': coaches})
+
 def group_list(request):
     groups = Group.objects.all()
     return render(request, 'group_list.html', {'groups': groups})
 
 
 
-# def update_group(request, id):
-#     group = get_object_or_404(Group, id=id)
-#     coach = get_object_or_404(Coach, id=id)
-#
-#     if request.method == 'POST':
-#         group.name = request.POST['name']
-#         coach.coach_id = request.POST['full_name']
-#         group.description = request.POST['description']
-#         group.сoach = Coach.objects.get(id=group.coach_id)
-#
-#         group.save()
-#         return HttpResponseRedirect(reverse('group_list'))
-#     else:
-#         context = {
-#             'group': group,
-#         }
-#         return render(request, 'update_group.html', context)
 def update_group(request, id):
     group = Group.objects.get(id=id)
     if request.method == 'POST':
@@ -175,10 +143,6 @@ def delete_group(request, id):
     group.delete()
     return HttpResponseRedirect(reverse('group_list'))
 
-
-
-from django.shortcuts import render, redirect
-from .models import Coach
 
 def add_coach(request):
     if request.method == 'POST':
@@ -212,7 +176,7 @@ def add_admin(request):
         return render(request, 'add_admin.html')
 
 def admin_list(request):
-    admins = Administrator.objects.all()
+    admins = User.objects.all()
     return render(request, 'admin_list.html', {'admins': admins})
 
 
@@ -247,8 +211,32 @@ def subscription_list(request):
     return render(request, 'subscription_list.html', {'subscriptions': subscriptions})
 
 
+def edit_subscription(request, subscription_id):
+    subscription = Subscription.objects.get(id=subscription_id)
+    groups = Group.objects.all()
+    clients = Client.objects.all()
+    coaches = Coach.objects.all()
 
+    if request.method == 'POST':
+        group_id = request.POST.get('group')  # Получаем идентификатор группы из POST запроса
+        group = Group.objects.get(id=group_id)  # Получаем объект Group по идентификатору
 
+        # Присваиваем объект Group полю subscription.group
+        subscription.group = group
+
+        # Дополнительно можно сохранить изменения
+        subscription.save()
+
+        return redirect('subscription_list')  # Перенаправление на subscription_list.html
+
+    context = {
+        'subscription': subscription,
+        'groups': groups,
+        'clients': clients,
+        'coaches': coaches,
+    }
+
+    return render(request, 'edit_subscription.html', context)
 
 
 

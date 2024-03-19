@@ -4,6 +4,11 @@
 <div class="container">
     <div class="card">
         <h1>Список клиентов</h1>
+      <form method="GET">
+        <input type="text" name="q" placeholder="Search clients by name" value="{{ request.GET.q }}">
+        <button type="submit">Search</button>
+    </form>
+
   <table>
     <thead>
       <tr>

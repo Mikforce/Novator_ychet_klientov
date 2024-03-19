@@ -4,22 +4,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-      <h2>Edit Client</h2>
+      <h2>Редактировать клиента</h2>
       <form method="POST">
         {% csrf_token %}
-        <label for="full_name">Full Name:</label>
+        <label for="full_name">ФИО:</label>
         <input type="text" name="full_name" value="{{ client.full_name }}" required><br>
 
-        <label for="birth_date">Birth Date:</label>
+        <label for="birth_date">Дата рождения:</label>
         <input type="date" name="birth_date" value="{{ client.birth_date }}" required><br>
 
-        <label for="phone_number">Phone Number:</label>
+        <label for="phone_number">Номер телефона:</label>
         <input type="text" name="phone_number" value="{{ client.phone_number }}" required><br>
 
-        <label for="parent_name">Parent Name:</label>
+        <label for="parent_name">ФИО родителя:</label>
         <input type="text" name="parent_name" value="{{ client.parent_name }}" required><br>
 
-        <label for="group">Group:</label>
+        <label for="group">Группа:</label>
         <select name="group" required>
           {% for group in groups %}
             {% if group.id == client.group_obj.id %}
@@ -30,10 +30,10 @@
       {% endfor %}
     </select><br>
 
-    <label for="date_joined">Date Joined:</label>
+    <label for="date_joined">Дата изменения:</label>
     <input type="date" name="date_joined" value="{{ client.date_joined }}" required><br>
 
-    <button type="submit">Save</button>
+    <button type="submit">Сохранить</button>
 {% endblock %}
 
 
