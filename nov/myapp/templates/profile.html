@@ -9,6 +9,11 @@
           <p class="text-secondary">{{ user.email }}</p>
         </div>
       </div>
-      <!-- Здесь будет форма -->
     </div>
+    <h1>Users Activity for Current Month</h1>
+    <ul>
+        {% for user_data in users_data %}
+            <li>{{ user_data.user.username }} - Activities: {{ user_data.num_activities }}</li>
+        {% endfor %}
+    </ul>
 {% endblock content %}

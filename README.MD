@@ -16,7 +16,9 @@ venv\Scripts\activate.bat
 ```commandline
 pip install -r requirements.txt
 ```
-
+pip install django-crispy-forms
+pip install crispy-bootstrap5
+pip install django-user-activity-log
 ```
 python manage.py runserver
 

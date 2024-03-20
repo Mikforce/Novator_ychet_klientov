@@ -10,15 +10,20 @@
             <th>Группа</th>
             <th>Клиент</th>
             <th>Тренер</th>
-            <th>Действия</th>
+            <th>Количество занятий</th>
+            <th>attendance</th>
+            <th>Коментарий</th>
         </tr>
     </thead>
     <tbody>
         {% for subscription in subscriptions %}
         <tr>
-            <td>{{ subscription.group.name }}</td>
-            <td>{{ subscription.client.full_name }}</td>
-            <td>{{ subscription.coach.full_name }}</td>
+                    <td>{{ subscription.group.name }}</td>
+                    <td>{{ subscription.client.full_name }}</td>
+                    <td>{{ subscription.coach.full_name }}</td>
+                    <td>{{ subscription.lessons_count }}</td>
+                    <td>{{ subscription.attendance }}</td>
+                    <td>{{ subscription.comment }}</td>
             <td>
                 <a href="{% url 'edit_subscription' subscription.id %}">Редактировать</a>
                 <a href="{% url 'delete_client' id=subscription.id %}">Удалить</a>

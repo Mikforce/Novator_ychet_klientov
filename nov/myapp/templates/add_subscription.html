@@ -28,7 +28,8 @@
         <label for="lessons_count">Количество занятий:</label>
         <input type="text" id="lessons_count" name="lessons_count"><br><br>
         <label for="attendance">Оплата:</label>
-        <input type="checkbox" id="attendance" name="attendance"><br><br>
+        <input type="hidden" name="attendance" value="off">
+        <input type="checkbox" id="attendance" name="attendance" value="on"><br><br>
         <label for="comment">Коментарии:</label>
         <textarea id="comment" name="comment"></textarea><br><br>
         <input type="submit" value="Save">

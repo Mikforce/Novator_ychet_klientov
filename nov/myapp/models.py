@@ -1,23 +1,40 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from datetime import datetime, timedelta
 from django.contrib.auth.models import User
 
 
+class UserActivityLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    activity_type = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user.username} - {self.activity_type} - {self.timestamp}'
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    active_time = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.username} Profile'
-class Post(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField()
-    date_posted = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.title
+    def calculate_active_time_current_month(self):
+        now = timezone.now()
+        start_of_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        end_of_month = start_of_month.replace(month=start_of_month.month % 12 + 1)
+
+        user_activity_logs = UserActivityLog.objects.filter(user=self.user, timestamp__gte=start_of_month,
+                                                            timestamp__lt=end_of_month)
+
+        total_active_time = timedelta()
+        for log in user_activity_logs:
+            total_active_time += timedelta(seconds=log.duration)
+
+        total_minutes = total_active_time.total_seconds() // 60
+        self.active_time = total_minutes
+        self.save()
 
 class Client(models.Model):
     full_name = models.CharField(max_length=255)
@@ -39,9 +56,6 @@ class Coach(models.Model):
     students = models.ManyToManyField(Client, null=True, blank=True)
     groupqs = models.ManyToManyField(Group, related_name='coach_groupqs', null=True, blank=True)
 
-class Administrator(models.Model):
-    full_name = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=20)
 
 class Subscription(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -50,3 +64,12 @@ class Subscription(models.Model):
     lessons_count = models.IntegerField()
     attendance = models.BooleanField(default=False)
     comment = models.TextField(blank=True, null=True)
+
+
+class MarkedAttendance(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='marked_attendance')  # Связь с пользователем, которого отметили
+    timestamp = models.DateTimeField(auto_now_add=True)  # Время отметки
+    group = models.CharField(max_length=100)  # Группа, к которой относится пользователь
+
+    def __str__(self):
+        return f'{self.user.username} - {self.group} - {self.timestamp}'

@@ -1,0 +1,7 @@
+Client Details
+--------------
+Full Name: {full_name}
+Birth Date: {birth_date}
+Phone Number: {phone_number}
+Parent Name: {parent_name}
+Group: {group_name}

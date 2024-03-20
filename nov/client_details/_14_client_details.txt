@@ -1,0 +1,18 @@
+Client Details
+--------------
+Full Name: {full_name}
+Birth Date: {birth_date}
+Phone Number: {phone_number}
+Parent Name: {parent_name}
+Group: {group_name}
+DateTo create a text file template where you can insert client data and save it for each client, you can define a template file with placeholders that will be replaced with actual client information. Here's an example of how you can achieve this:
+
+1. Create a text file template (let's name it `client_details_template.txt`) with placeholders for client data:
+
+```plaintext
+Full Name: Борц
+Birth Date: 2020-02-12
+Phone Number: 71232121111111
+Parent Name: Пурц
+Group: Break dance top
+Date Joined: 2024-03-05

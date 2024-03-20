@@ -6,7 +6,7 @@
       <h1>Администратор</h1>
       <ul>
         {% for admin in admins %}
-          <li>{{ admin }}</li>
+          <li>{{ admin }} - {{ admin.get_time_spent_this_month }}</li>
         {% empty %}
           <li>No admins yet.</li>
         {% endfor %}
