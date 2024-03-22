@@ -36,11 +36,14 @@ class Profile(models.Model):
         self.active_time = total_minutes
         self.save()
 
+
 class Client(models.Model):
     full_name = models.CharField(max_length=255)
     birth_date = models.DateField()
     phone_number = models.CharField(max_length=20)
     parent_name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255, default='Unknown Address')  # Add a default value here
+    card_number = models.CharField(max_length=100, unique=True)
     group_obj = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, blank=True)
     date_joined = models.DateField()
 
@@ -64,7 +67,7 @@ class Subscription(models.Model):
     lessons_count = models.IntegerField()
     attendance = models.BooleanField(default=False)
     comment = models.TextField(blank=True, null=True)
-
+    button_highlighted = models.BooleanField(default=False)
 
 class MarkedAttendance(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='marked_attendance')  # Связь с пользователем, которого отметили

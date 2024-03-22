@@ -28,7 +28,6 @@ urlpatterns = [
 
     path('', views.home, name='home'),
 
-    path('admin/', admin.site.urls),  # Правильный URL для админ-панели
 
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),

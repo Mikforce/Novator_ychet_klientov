@@ -3,156 +3,150 @@
 {% block content %}
 <div class="container">
     <div class="card">
-        <div class="container-fluid py-5 bg-light">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Список групп</h2>
+        <div class="container-fluid py-3 bg-light">
+            <div class="row align-items-start">
+                <div class="col-md-4">
+                    <div class="card-body">
+                        <h2 class="mb-3">Список групп</h2>
+                        <ul class="group-list">
+                            {% for group in groups %}
+                            <li>
+                                <button class="group-button" data-group-name="{{ group.name }}">{{ group.name }}</button>
+                            </li>
+                            {% empty %}
+                            <li>No groups available.</li>
+                            {% endfor %}
+                        </ul>
                     </div>
-
-                    <div class="card mt-5">
-                        <div class="card-header">{{ title }}</div>
-
-                        <div class="card-body">
-                            <div class="group-list">
-                                <ul>
-                                    {% for group in groups %}
-                                    <li>
-                                        <button class="group-button" data-group-name="{{ group.name }}">{{ group.name }}
-                                        </button>
-                                    </li>
-                                    {% empty %}
-                                    <li>No groups available.</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="client-list" style="display: none;">
-                                <h3>Клиенты, посетившие выбранную группу:</h3>
-                                <table class="table table-striped mt-3">
-                                    <thead>
+                </div>
+                <div class="col-md-4">
+                    <table class="table table-striped mt-3" id="client-table">
+                        <thead>
+                            <tr>
+                                <th>Группа</th>
+                                <th>Клиент</th>
+                                <th>Кол. занятий</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for subscription in subscriptions %}
+                            <tr class="client-row" style="display: none;" data-group-name="{{ subscription.group.name }}">
+                                <td>{{ subscription.group.name }}</td>
+                                <td>{{ subscription.client.full_name }}</td>
+                                <td>
+                                    <span>{{ subscription.lessons_count }}</span>
+                                    <button class="attendance-button" data-subscription-id="{{ subscription.id }}" data-lessons-count="{{ subscription.lessons_count }}">
+                                        Посетил
+                                    </button>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3">No subscriptions available.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-body" style="text-align: center;">
+                        <div class="client-list" id="client-list">
+                            <h3>Клиенты, посетившие выбранную группу:</h3>
+                            <table class="table table-striped mt-3">
+                                <thead>
                                     <tr>
                                         <th>Клиент</th>
-
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for markedAttendances in markedAttendance %}
+                                </thead>
+                                <tbody>
+                                    {% for markedAttendance in markedAttendance %}
                                     <tr>
-                                        <td>{{ markedAttendances }}</td>
-
+                                        <td>{{ markedAttendance }}</td>
                                     </tr>
                                     {% empty %}
                                     <tr>
-                                        <td colspan="2">No marked attendances available.</td>
+                                        <td colspan="1">No marked attendances available.</td>
                                     </tr>
                                     {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <table class="table table-striped mt-3" id="client-table">
-                                <thead>
-                                <tr>
-                                    <th>Группа</th>
-                                    <th>Клиент</th>
-                                    <th>Кол. занятий</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for subscription in subscriptions %}
-                                <tr class="client-row" data-group-name="{{ subscription.group.name }}">
-                                    <td>{{ subscription.group.name }}</td>
-                                    <td>{{ subscription.client.full_name }}</td>
-                                    <td>
-                                        <span>{{ subscription.lessons_count }}</span>
-                                        <button class="attendance-button" data-subscription-id="{{ subscription.id }}">
-                                            Посетил
-                                        </button>
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="3">No subscriptions available.</td>
-                                </tr>
-                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-
-                        <script>
-                            const groupButtons = document.querySelectorAll('.group-button');
-                            const clientRows = document.querySelectorAll('.client-row');
-
-                            groupButtons.forEach(button => {
-                                button.addEventListener('click', () => {
-                                    const groupName = button.getAttribute('data-group-name');
-
-                                    clientRows.forEach(row => {
-                                        if (row.getAttribute('data-group-name') === groupName) {
-                                            row.style.display = 'table-row';
-                                        } else {
-                                            row.style.display = 'none';
-                                        }
-                                    });
-                                });
-                            });
-
-                            const attendanceButtons = document.querySelectorAll('.attendance-button');
-
-                            attendanceButtons.forEach(button => {
-                                button.addEventListener('click', () => {
-                                    const subscriptionId = button.getAttribute('data-subscription-id');
-                                    const lessonsCount = button.getAttribute('data-lessons-count');
-
-                                    if (lessonsCount === '0') {
-                                        alert('Нельзя отметить посещаемость для абонемента с нулевым количеством занятий!');
-                                        return;
-                                    }
-
-                                    fetch(`/update_subscription/${subscriptionId}/`, {
-                                        method: 'POST',
-                                        headers: {
-                                            'X-CSRFToken': getCookie('csrftoken'),
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({})
-                                    })
-                                    .then(response => {
-                                        if (response.ok) {
-                                            button.disabled = true;
-                                            const textElement = document.createTextNode(' Посетил');
-                                            textElement.style.color = 'green';
-                                            button.parentNode.appendChild(textElement);
-                                            alert('Абонемент успешно обновлен.');
-                                        } else {
-                                            alert('Не удалось обновить абонемент.');
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error('Ошибка:', error);
-                                    });
-                                });
-                            });
-
-                            function getCookie(name) {
-                                let cookieValue = null;
-                                if (document.cookie && document.cookie !== '') {
-                                    const cookies = document.cookie.split(';');
-                                    for (let i = 0; i < cookies.length; i++) {
-                                        const cookie = cookies[i].trim();
-                                        if (cookie.startsWith(name + '=')) {
-                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                            break;
-                                        }
-                                    }
-                                }
-                                return cookieValue;
-                            }
-                        </script>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+</div>
+<script>
+    const groupButtons = document.querySelectorAll('.group-button');
+    const clientRows = document.querySelectorAll('.client-row');
+
+    groupButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const groupName = button.getAttribute('data-group-name');
+
+            clientRows.forEach(row => {
+                if (row.getAttribute('data-group-name') === groupName) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    const attendanceButtons = document.querySelectorAll('.attendance-button');
+
+    attendanceButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const subscriptionId = button.getAttribute('data-subscription-id');
+            const lessonsCount = button.getAttribute('data-lessons-count');
+
+            if (lessonsCount === '0') {
+                alert('Нельзя отметить посещаемость для абонемента с нулевым количеством занятий!');
+                return;
+            }
+
+            fetch(`/update_subscription/${subscriptionId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => {
+                if (response.ok) {
+                    button.disabled = true;
+                    const textElement = document.createTextNode(' Посетил');
+                    textElement.style.color = 'green';
+                    button.parentNode.appendChild(textElement);
+                    alert('Абонемент успешно обновлен.');
+                } else {
+                    alert('Не удалось обновить абонемент.');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+        });
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+{% endblock %}

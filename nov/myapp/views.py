@@ -93,11 +93,13 @@ def add_client(request):
         birth_date = request.POST['birth_date']
         phone_number = request.POST['phone_number']
         parent_name = request.POST['parent_name']
+        address = request.POST['address']
+        card_number = request.POST['card_number']
         group_id = request.POST.get('group')
         date_joined = request.POST['date_joined']
 
         group_obj = Group.objects.get(id=group_id)
-        client = Client(full_name=full_name, birth_date=birth_date, phone_number=phone_number, parent_name=parent_name,
+        client = Client(full_name=full_name, birth_date=birth_date, phone_number=phone_number, parent_name=parent_name, address=address, card_number=card_number,
                         group_obj=group_obj, date_joined=date_joined)
         client.save()
 
@@ -107,8 +109,10 @@ def add_client(request):
             'birth_date': birth_date,
             'phone_number': phone_number,
             'parent_name': parent_name,
+            'address': address,
             'group_name': group_obj.name,
             'date_joined': date_joined,
+            'client_id': client.id,
         }
 
         client_details_text = render_to_string('client_details_template/client_details_template.txt', context)
@@ -120,7 +124,7 @@ def add_client(request):
         # Create the directory if it doesn't exist
         os.makedirs('client_details', exist_ok=True)
 
-        with open(file_path, 'w') as file:
+        with open(file_path, 'w', encoding='utf-8') as file:
             file.write(client_details_text)
         time.sleep(2)
         # Open the file after saving
