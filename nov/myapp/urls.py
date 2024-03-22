@@ -37,6 +37,6 @@ urlpatterns = [
 
     path('users-activity/', users_activity_view, name='users_activity'),
 
-    path('update_subscription/<int:subscription_id>/', views.update_subscription, name='update_subscription'),
+    path('update_subscription/<int:subscription_id>/<str:action>/', views.update_subscription, name='update_subscription'),
 
 ]

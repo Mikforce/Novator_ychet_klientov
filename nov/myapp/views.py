@@ -301,22 +301,27 @@ def edit_subscription(request, subscription_id):
 
 
 @login_required
-def update_subscription(request, subscription_id):
+def update_subscription(request, subscription_id, action):
     if request.method == 'POST':
         try:
             subscription = Subscription.objects.get(id=subscription_id)
-            # Выполнение логики обновления данных о посещении занятий
-            subscription.lessons_count -= 1
-            if subscription.lessons_count < 0:
-                subscription.lessons_count = 0
-            subscription.button_highlighted = True  # Сохраняем состояние подсветки кнопки
+
+            if action == 'subtract':
+                subscription.lessons_count -= 1
+                if subscription.lessons_count < 0:
+                    subscription.lessons_count = 0
+                    subscription.button_highlighted = True
+            elif action == 'add':
+                subscription.lessons_count += 1
+                subscription.button_highlighted = False
+
             subscription.save()
 
-            # Сохраняем информацию о клиенте, которого отметили
+            # Save information about the marked attendance
             marked_attendance = MarkedAttendance(user=request.user, group=subscription.group)
             marked_attendance.save()
-
-            return JsonResponse({'message': 'Subscription updated successfully.'})
+            # Перенаправление на текущую страницу
+            return HttpResponseRedirect(reverse(home))
         except Subscription.DoesNotExist:
             return JsonResponse({'error': 'Subscription not found.'}, status=404)
 

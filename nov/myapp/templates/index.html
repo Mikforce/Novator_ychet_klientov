@@ -1,3 +1,19 @@
+<style>
+    .mark-button,
+    .cancel-button {
+        font-size: 14px; /* уменьшаем размер кнопок */
+    }
+
+    .mark-button {
+        background-color: green; /* зеленый цвет кнопки Отметить */
+        color: white;
+    }
+
+    .cancel-button {
+        background-color: red; /* красный цвет кнопки Отменить */
+        color: white;
+    }
+</style>
 {% extends 'base.html' %}
 
 {% block content %}
@@ -11,7 +27,8 @@
                         <ul class="group-list">
                             {% for group in groups %}
                             <li>
-                                <button class="group-button" data-group-name="{{ group.name }}">{{ group.name }}</button>
+                                <button class="group-button" data-group-name="{{ group.name }}">{{ group.name }}
+                                </button>
                             </li>
                             {% empty %}
                             <li>No groups available.</li>
@@ -22,29 +39,43 @@
                 <div class="col-md-4">
                     <table class="table table-striped mt-3" id="client-table">
                         <thead>
-                            <tr>
-                                <th>Группа</th>
-                                <th>Клиент</th>
-                                <th>Кол. занятий</th>
-                            </tr>
+                        <tr>
+                            <th>Группа</th>
+                            <th>Клиент</th>
+                            <th>Кол. занятий</th>
+                            <th>Действие</th>
+
+                        </tr>
                         </thead>
                         <tbody>
-                            {% for subscription in subscriptions %}
-                            <tr class="client-row" style="display: none;" data-group-name="{{ subscription.group.name }}">
-                                <td>{{ subscription.group.name }}</td>
-                                <td>{{ subscription.client.full_name }}</td>
-                                <td>
-                                    <span>{{ subscription.lessons_count }}</span>
-                                    <button class="attendance-button" data-subscription-id="{{ subscription.id }}" data-lessons-count="{{ subscription.lessons_count }}">
-                                        Посетил
-                                    </button>
-                                </td>
-                            </tr>
-                            {% empty %}
-                            <tr>
-                                <td colspan="3">No subscriptions available.</td>
-                            </tr>
-                            {% endfor %}
+                        {% for subscription in subscriptions %}
+                        <tr class="client-row" style="display: none;" data-group-name="{{ subscription.group.name }}">
+                            <td>{{ subscription.group.name }}</td>
+                            <td>{{ subscription.client.full_name }}</td>
+                            <td>
+                                <span>{{ subscription.lessons_count }}</span>
+                            </td>
+                            <td>
+                                <form method="post"
+                                      action="{% url 'update_subscription' subscription_id=subscription.id action='subtract' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="mark-button">Отметить</button>
+                                </form>
+
+                                <form method="post"
+                                      action="{% url 'update_subscription' subscription_id=subscription.id action='add' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="cancel-button">Отменить</button>
+                                </form>
+
+                            </td>
+
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3">No subscriptions available.</td>
+                        </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -54,20 +85,20 @@
                             <h3>Клиенты, посетившие выбранную группу:</h3>
                             <table class="table table-striped mt-3">
                                 <thead>
-                                    <tr>
-                                        <th>Клиент</th>
-                                    </tr>
+                                <tr>
+                                    <th>Клиент</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    {% for markedAttendance in markedAttendance %}
-                                    <tr>
-                                        <td>{{ markedAttendance }}</td>
-                                    </tr>
-                                    {% empty %}
-                                    <tr>
-                                        <td colspan="1">No marked attendances available.</td>
-                                    </tr>
-                                    {% endfor %}
+                                {% for markedAttendance in markedAttendance %}
+                                <tr>
+                                    <td>{{ markedAttendance }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="1">No marked attendances available.</td>
+                                </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -78,75 +109,59 @@
     </div>
 </div>
 </div>
+
 <script>
-    const groupButtons = document.querySelectorAll('.group-button');
-    const clientRows = document.querySelectorAll('.client-row');
+const groupButtons = document.querySelectorAll('.group-button');
+const clientRows = document.querySelectorAll('.client-row');
 
-    groupButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const groupName = button.getAttribute('data-group-name');
+ groupButtons.forEach(button => {
+   button.addEventListener('click', () => {
+     const groupName = button.getAttribute('data-group-name');
 
-            clientRows.forEach(row => {
-                if (row.getAttribute('data-group-name') === groupName) {
-                    row.style.display = 'table-row';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-    });
+     clientRows.forEach(row => {
+       if (row.getAttribute('data-group-name') === groupName) {
+         row.style.display = 'table-row';
+       } else {
+         row.style.display = 'none';
+       }
+     });
+   });
+ });
 
-    const attendanceButtons = document.querySelectorAll('.attendance-button');
 
-    attendanceButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const subscriptionId = button.getAttribute('data-subscription-id');
-            const lessonsCount = button.getAttribute('data-lessons-count');
 
-            if (lessonsCount === '0') {
-                alert('Нельзя отметить посещаемость для абонемента с нулевым количеством занятий!');
-                return;
-            }
 
-            fetch(`/update_subscription/${subscriptionId}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken'),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => {
-                if (response.ok) {
-                    button.disabled = true;
-                    const textElement = document.createTextNode(' Посетил');
-                    textElement.style.color = 'green';
-                    button.parentNode.appendChild(textElement);
-                    alert('Абонемент успешно обновлен.');
-                } else {
-                    alert('Не удалось обновить абонемент.');
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-            });
-        });
-    });
 
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.startsWith(name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
+
+ // Check localStorage on page load to maintain button states
+ attendanceButtons.forEach(button => {
+     const subscriptionId = button.getAttribute('data-subscription-id');
+     const localStorageKey = `subscription_${subscriptionId}`;
+
+     if (localStorage.getItem(localStorageKey) === 'visited') {
+         button.disabled = true;
+         const textElement = document.createTextNode(' Посетил');
+         const textSpan = document.createElement('span');
+         textSpan.style.color = 'green';
+         textSpan.appendChild(textElement);
+         button.parentNode.replaceChild(textSpan, button);
+     }
+ });
+
+ function getCookie(name) {
+   let cookieValue = null;
+   if (document.cookie && document.cookie !== '') {
+     const cookies = document.cookie.split(';');
+     for (let i = 0; i < cookies.length; i++) {
+       const cookie = cookies[i].trim();
+       if (cookie.startsWith(name + '=')) {
+         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+         break;
+       }
+     }
+   }
+   return cookieValue;
+ }
 </script>
 
 {% endblock %}
