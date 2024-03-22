@@ -19,6 +19,12 @@
         <label for="parent_name">ФИО родителя:</label>
         <input type="text" name="parent_name" value="{{ client.parent_name }}" required><br>
 
+          <label for="parent_name">address:</label>
+        <input type="text" name="address" value="{{ client.address }}" required><br>
+
+          <label for="parent_name">card_number:</label>
+        <input type="text" name="card_number" value="{{ client.card_number }}" required><br>
+
         <label for="group">Группа:</label>
         <select name="group" required>
           {% for group in groups %}

@@ -145,6 +145,8 @@ def update_client(request, id):
         client.birth_date = request.POST['birth_date']
         client.phone_number = request.POST['phone_number']
         client.parent_name = request.POST['parent_name']
+        client.address = request.POST['address']
+        client.card_number = request.POST['card_number']
         group_id = request.POST.get('group')
         client.date_joined = request.POST['date_joined']
 
