@@ -70,9 +70,9 @@ class Subscription(models.Model):
     button_highlighted = models.BooleanField(default=False)
 
 class MarkedAttendance(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='marked_attendance')  # Связь с пользователем, которого отметили
+    user = models.ForeignKey(Subscription, on_delete=models.CASCADE, related_name='marked_attendance')  # Связь с пользователем, которого отметили
     timestamp = models.DateTimeField(auto_now_add=True)  # Время отметки
     group = models.CharField(max_length=100)  # Группа, к которой относится пользователь
 
     def __str__(self):
-        return f'{self.user.username} - {self.group} - {self.timestamp}'
+        return f'{self.user} - {self.group} - {self.timestamp}'

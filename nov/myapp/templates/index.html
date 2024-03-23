@@ -1,19 +1,107 @@
-<style>
-    .mark-button,
-    .cancel-button {
-        font-size: 14px; /* уменьшаем размер кнопок */
-    }
+    <style>
 
-    .mark-button {
-        background-color: green; /* зеленый цвет кнопки Отметить */
-        color: white;
-    }
+.container {
+    margin-top: 20px;
+}
 
-    .cancel-button {
-        background-color: red; /* красный цвет кнопки Отменить */
-        color: white;
-    }
-</style>
+.card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.group-list {
+    list-style: none;
+    padding: 0;
+}
+
+.group-list li {
+    margin-bottom: 10px;
+}
+
+.group-button {
+    background: #f0f0f0;
+    color: #333;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.group-button:hover {
+    background: #e0e0e0;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.table td, .table th {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.mark-button {
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    background-color: #ff0000; /* Изменяем цвет фона кнопки */
+    color: #ffffff; /* Изменяем цвет текста кнопки */
+    border: none; /* Убираем границу у кнопки */
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.cancel-button {
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    background-color: #ff0000; /* Изменяем цвет фона кнопки */
+    color: #ff0000; /* Изменяем цвет текста кнопки */
+    border: none; /* Убираем границу у кнопки */
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.mark-button:hover, .cancel-button:hover {
+    opacity: 0.8;
+}
+
+.client-list {
+    margin-top: 20px;
+}
+
+.client-list h3 {
+    margin-bottom: 10px;
+}
+
+.client-list table {
+    width: 100%;
+    color: #333;
+}
+
+.client-list th, .client-list td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+
+    </style>
 {% extends 'base.html' %}
 
 {% block content %}
@@ -92,7 +180,9 @@
                                 <tbody>
                                 {% for markedAttendance in markedAttendance %}
                                 <tr>
-                                    <td>{{ markedAttendance }}</td>
+                                    <td>{{ markedAttendance.user.client.full_name }}</td>
+                                    <td>{{ markedAttendance.user.client.group_obj.name }}</td>
+                                    <td>{{ markedAttendance.timestamp }}</td>
                                 </tr>
                                 {% empty %}
                                 <tr>
@@ -111,57 +201,57 @@
 </div>
 
 <script>
-const groupButtons = document.querySelectorAll('.group-button');
-const clientRows = document.querySelectorAll('.client-row');
+    const groupButtons = document.querySelectorAll('.group-button');
+    const clientRows = document.querySelectorAll('.client-row');
 
- groupButtons.forEach(button => {
-   button.addEventListener('click', () => {
-     const groupName = button.getAttribute('data-group-name');
+     groupButtons.forEach(button => {
+       button.addEventListener('click', () => {
+         const groupName = button.getAttribute('data-group-name');
 
-     clientRows.forEach(row => {
-       if (row.getAttribute('data-group-name') === groupName) {
-         row.style.display = 'table-row';
-       } else {
-         row.style.display = 'none';
-       }
+         clientRows.forEach(row => {
+           if (row.getAttribute('data-group-name') === groupName) {
+             row.style.display = 'table-row';
+           } else {
+             row.style.display = 'none';
+           }
+         });
+       });
      });
-   });
- });
 
 
 
 
 
 
- // Check localStorage on page load to maintain button states
- attendanceButtons.forEach(button => {
-     const subscriptionId = button.getAttribute('data-subscription-id');
-     const localStorageKey = `subscription_${subscriptionId}`;
+     // Check localStorage on page load to maintain button states
+     attendanceButtons.forEach(button => {
+         const subscriptionId = button.getAttribute('data-subscription-id');
+         const localStorageKey = `subscription_${subscriptionId}`;
 
-     if (localStorage.getItem(localStorageKey) === 'visited') {
-         button.disabled = true;
-         const textElement = document.createTextNode(' Посетил');
-         const textSpan = document.createElement('span');
-         textSpan.style.color = 'green';
-         textSpan.appendChild(textElement);
-         button.parentNode.replaceChild(textSpan, button);
-     }
- });
+         if (localStorage.getItem(localStorageKey) === 'visited') {
+             button.disabled = true;
+             const textElement = document.createTextNode(' Посетил');
+             const textSpan = document.createElement('span');
+             textSpan.style.color = 'green';
+             textSpan.appendChild(textElement);
+             button.parentNode.replaceChild(textSpan, button);
+         }
+     });
 
- function getCookie(name) {
-   let cookieValue = null;
-   if (document.cookie && document.cookie !== '') {
-     const cookies = document.cookie.split(';');
-     for (let i = 0; i < cookies.length; i++) {
-       const cookie = cookies[i].trim();
-       if (cookie.startsWith(name + '=')) {
-         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-         break;
+     function getCookie(name) {
+       let cookieValue = null;
+       if (document.cookie && document.cookie !== '') {
+         const cookies = document.cookie.split(';');
+         for (let i = 0; i < cookies.length; i++) {
+           const cookie = cookies[i].trim();
+           if (cookie.startsWith(name + '=')) {
+             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+             break;
+           }
+         }
        }
+       return cookieValue;
      }
-   }
-   return cookieValue;
- }
 </script>
 
 {% endblock %}

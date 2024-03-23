@@ -22,6 +22,8 @@ pip install django-user-activity-log
 ```
 python manage.py runserver
 
+python manage.py makemigrations
+python manage.py migrate
 ```
 
 ## Автор

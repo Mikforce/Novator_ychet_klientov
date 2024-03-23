@@ -318,7 +318,7 @@ def update_subscription(request, subscription_id, action):
             subscription.save()
 
             # Save information about the marked attendance
-            marked_attendance = MarkedAttendance(user=request.user, group=subscription.group)
+            marked_attendance = MarkedAttendance(user=subscription, group=subscription.group)
             marked_attendance.save()
             # Перенаправление на текущую страницу
             return HttpResponseRedirect(reverse(home))
