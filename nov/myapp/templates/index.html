@@ -1,107 +1,89 @@
-    <style>
+<style>
 
-.container {
-    margin-top: 20px;
-}
+    .container {
+        margin-top: 20px;
+    }
 
-.card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-.card-body {
-    padding: 15px;
-}
+    .card-body {
+        padding: 15px;
+    }
 
-.group-list {
-    list-style: none;
-    padding: 0;
-}
+    .group-list {
+        list-style: none;
+        padding: 0;
+    }
 
-.group-list li {
-    margin-bottom: 10px;
-}
+    .group-list li {
+        margin-bottom: 10px;
+    }
 
-.group-button {
-    background: #f0f0f0;
-    color: #333;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    cursor: pointer;
-}
+    .group-button {
+        background: #f0f0f0;
+        color: #333;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        cursor: pointer;
+    }
 
-.group-button:hover {
-    background: #e0e0e0;
-}
-
-.table {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #333;
-}
-
-.table th {
-    background-color: #f8f9fa;
-    color: #333;
-    border: 1px solid #ddd;
-}
-
-.table td, .table th {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
+    .group-button:hover {
+        background: #e0e0e0;
+    }
 
 
-.mark-button {
-    padding: 0;
-    margin: 0;
-    font-size: 12px;
-    background-color: #ff0000; /* Изменяем цвет фона кнопки */
-    color: #ffffff; /* Изменяем цвет текста кнопки */
-    border: none; /* Убираем границу у кнопки */
-    border-radius: 3px;
-    cursor: pointer;
-}
+    /* Style for "Отметить" button */
+    .mark-button {
+        background-color: #4CAF50; /* Green background */
+        color: white; /* White text color */
+        padding: 10px 20px; /* Padding around text */
+        text-align: center; /* Center text */
+        text-decoration: none; /* Remove default underline */
+        display: inline-block; /* Make it a block element */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Add rounded corners */
+    }
 
-.cancel-button {
-    padding: 0;
-    margin: 0;
-    font-size: 12px;
-    background-color: #ff0000; /* Изменяем цвет фона кнопки */
-    color: #ff0000; /* Изменяем цвет текста кнопки */
-    border: none; /* Убираем границу у кнопки */
-    border-radius: 3px;
-    cursor: pointer;
-}
+    /* Style for "Отменить" button */
+    .cancel-button {
+        background-color: #f44336; /* Red background */
+        color: white; /* White text color */
+        padding: 10px 20px; /* Padding around text */
+        text-align: center; /* Center text */
+        text-decoration: none; /* Remove default underline */
+        display: inline-block; /* Make it a block element */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Add rounded corners */
+    }
 
-.mark-button:hover, .cancel-button:hover {
-    opacity: 0.8;
-}
+    .client-list {
+        margin-top: 20px;
+    }
 
-.client-list {
-    margin-top: 20px;
-}
+    .client-list h3 {
+        margin-bottom: 10px;
+    }
 
-.client-list h3 {
-    margin-bottom: 10px;
-}
+    .client-list table {
+        width: 100%;
+        color: #333;
+    }
 
-.client-list table {
-    width: 100%;
-    color: #333;
-}
+    .client-list th, .client-list td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    .button-wrapper {
+        display: inline-block; /* Display as inline block to align buttons next to each other */
+    }
 
-.client-list th, .client-list td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-
-    </style>
+</style>
 {% extends 'base.html' %}
 
 {% block content %}
@@ -109,7 +91,7 @@
     <div class="card">
         <div class="container-fluid py-3 bg-light">
             <div class="row align-items-start">
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="card-body">
                         <h2 class="mb-3">Список групп</h2>
                         <ul class="group-list">
@@ -125,14 +107,14 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <table class="table table-striped mt-3" id="client-table">
+                    <table class="table table-striped mt-5" id="client-table">
                         <thead>
                         <tr>
                             <th>Группа</th>
                             <th>Клиент</th>
                             <th>Кол. занятий</th>
+                            <th>Оплата</th>
                             <th>Действие</th>
-
                         </tr>
                         </thead>
                         <tbody>
@@ -142,22 +124,33 @@
                             <td>{{ subscription.client.full_name }}</td>
                             <td>
                                 <span>{{ subscription.lessons_count }}</span>
+                                <span>{{ subscription.button_highlighted }}</span>
                             </td>
                             <td>
-                                <form method="post"
-                                      action="{% url 'update_subscription' subscription_id=subscription.id action='subtract' %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="mark-button">Отметить</button>
-                                </form>
 
-                                <form method="post"
-                                      action="{% url 'update_subscription' subscription_id=subscription.id action='add' %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="cancel-button">Отменить</button>
-                                </form>
+                                {% if subscription.attendance %}
+                                Оплачено
+                                {% else %}
+                                Не оплачено
+                                {% endif %}
+
 
                             </td>
+                            <td>
+                                <div class="button-wrapper">
+                                    <form method="post"
+                                          action="{% url 'update_subscription' subscription_id=subscription.id action='subtract' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="mark-button">Отметить</button>
+                                    </form>
 
+                                    <form method="post"
+                                          action="{% url 'update_subscription' subscription_id=subscription.id action='add' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="cancel-button">Отменить</button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                         {% empty %}
                         <tr>
@@ -167,33 +160,37 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-md-4">
-                    <div class="card-body" style="text-align: center;">
-                        <div class="client-list" id="client-list">
-                            <h3>Клиенты, посетившие выбранную группу:</h3>
-                            <table class="table table-striped mt-3">
-                                <thead>
-                                <tr>
-                                    <th>Клиент</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for markedAttendance in markedAttendance %}
-                                <tr>
-                                    <td>{{ markedAttendance.user.client.full_name }}</td>
-                                    <td>{{ markedAttendance.user.client.group_obj.name }}</td>
-                                    <td>{{ markedAttendance.timestamp }}</td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="1">No marked attendances available.</td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+
+                    <div class="col-md-3">
+                        <div class="card-body" style="text-align: center;">
+                            <div class="client-list" id="client-list">
+                                <h3>Клиенты, посетившие центр за сегодня:</h3>
+                                <table class="table table-striped mt-3">
+                                    <thead>
+                                    <tr>
+                                        <th>Клиент</th>
+                                        <th>Группа</th>
+                                        <th>Дата</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for markedAttendance in markedAttendance %}
+                                    <tr>
+                                        <td>{{ markedAttendance.user.client.full_name }}</td>
+                                        <td>{{ markedAttendance.user.client.group_obj.name }}</td>
+                                        <td>{{ markedAttendance.timestamp }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="3">No marked attendances available.</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -217,10 +214,6 @@
          });
        });
      });
-
-
-
-
 
 
      // Check localStorage on page load to maintain button states

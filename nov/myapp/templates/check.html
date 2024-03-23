@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card" style="padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+
+        <form method="get" style="margin-bottom: 20px;">
+            <label for="start_date" style="display: block; margin-bottom: 5px;">Дата начала:</label>
+            <input type="date" name="start_date" style="padding: 5px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px;">
+
+            <label for="end_date" style="display: block; margin-bottom: 5px;">Дата окончания:</label>
+            <input type="date" name="end_date" style="padding: 5px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px;">
+
+            <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Фильтр</button>
+        </form>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th style="border-bottom: 1px solid #ccc;">Цена</th>
+                    <th style="border-bottom: 1px solid #ccc;">ФИО</th>
+                    <th style="border-bottom: 1px solid #ccc;">Тренер</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subscription in subscriptions %}
+                    <tr>
+                        <td style="padding: 10px; border-bottom: 1px solid #ccc;">{{ subscription.price }}</td>
+                        <td style="padding: 10px; border-bottom: 1px solid #ccc;">{{ subscription.client.full_name }}</td>
+                        <td style="padding: 10px; border-bottom: 1px solid #ccc;">{{ subscription.coach.full_name }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td style="padding: 10px;"><strong>Общая стоимость за месяц:</strong> {{ total_price }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

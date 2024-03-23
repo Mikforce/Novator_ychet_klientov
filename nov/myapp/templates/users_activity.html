@@ -1,9 +1,15 @@
 {% extends "base.html" %}
+
 {% block content %}
-    <h1>Users Activity for Current Month</h1>
-    <ul>
-        {% for user_data in users_data %}
-            <li>{{ user_data.user.username }} - Activities: {{ user_data.num_activities }}</li>
-        {% endfor %}
-    </ul>
+
+<div class="container">
+    <div class="card">
+        <h1>Активность пользователей за текущий месяц</h1>
+        <ul>
+            {% for user_data in users_data %}
+            <li>{{ user_data.user.username }} - Activities: {{ user_data.total_hours }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock content %}

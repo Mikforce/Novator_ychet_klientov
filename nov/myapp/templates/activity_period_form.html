@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Activity Period Form</title>
+</head>
+<body>
+    <h1>User Activity Period Form</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date"><br><br>
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    <h1>User Activity Period for {{ user.username }}</h1>
+    <p>Activity between {{ user }}  {{ user_activity_logs }}</p>
+
+    <ul>
+
+            <li>{{ total_durationn }}</li>
+
+    </ul>
+</body>
+</html>

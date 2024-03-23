@@ -30,6 +30,8 @@
             <input type="text" id="lessons_count" name="lessons_count" value="{{ subscription.lessons_count }}"><br><br>
             <label for="attendance">Оплата:</label>
             <input type="checkbox" id="attendance" name="attendance" {% if subscription.attendance %} checked {% endif %}><br><br>
+                    <label for="price">Стоимость абонемента:</label>
+        <input type="number" id="price" name="price" required><br><br>
             <label for="comment">Комментарии:</label>
             <textarea id="comment" name="comment">{{ subscription.comment }}</textarea><br><br>
             <button type="submit">Сохранить</button>

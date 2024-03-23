@@ -1,23 +1,23 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Group, Coach, Subscription, Client, Profile, MarkedAttendance
-from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from .models import Group, Coach, Subscription, Client, Profile, MarkedAttendance, UserActivityLog
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from .forms import UserRegisterForm
 import os
 import time
+from datetime import date
 from django.template.loader import render_to_string
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from datetime import datetime
 from django.utils import timezone
-from .models import UserActivityLog
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.contrib.auth import logout
-from django.http import JsonResponse
-from .models import Subscription
+from django.db.models import Sum
+from datetime import datetime, timedelta
+from django.core.exceptions import ObjectDoesNotExist
 
 
 
@@ -52,22 +52,29 @@ def logout_get(request):
 def home(request):
     groups = Group.objects.all()
     subscriptions = Subscription.objects.all()
-    markedAttendance = MarkedAttendance.objects.all()
-    return render(request, 'index.html', {'groups': groups, 'subscriptions': subscriptions, 'markedAttendance': markedAttendance})
+    # Фильтруем только тех клиентов, которые были помечены за сегодняшний день
+    markedAttendance = MarkedAttendance.objects.filter(timestamp__date=date.today())
+    return render(request, 'index.html', {'groups': groups, 'subscriptions': subscriptions,
+                                          'markedAttendance': markedAttendance})
+
 
 
 
 @login_required
 def users_activity_view(request):
     current_month = datetime.now().month
+    current_year = datetime.now().year
     users = User.objects.all()
     users_data = []
 
     for user in users:
-        user_activity = UserActivityLog.objects.filter(user=user, timestamp__month=current_month).count()
+        start_of_month = datetime(current_year, current_month, 1)
+        end_of_month = datetime(current_year, current_month, 1) + timedelta(days=31)
+        user_activity_logs = UserActivityLog.objects.filter(user=user, timestamp__range=(start_of_month, end_of_month))
+        user_activity_hours = sum([(log.timestamp.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1) - log.timestamp).total_seconds() / 3600 for log in user_activity_logs])
         users_data.append({
             'user': user,
-            'num_activities': user_activity
+            'total_hours': round(user_activity_hours, 2)
         })
 
     return render(request, 'users_activity.html', {'users_data': users_data})
@@ -99,7 +106,8 @@ def add_client(request):
         date_joined = request.POST['date_joined']
 
         group_obj = Group.objects.get(id=group_id)
-        client = Client(full_name=full_name, birth_date=birth_date, phone_number=phone_number, parent_name=parent_name, address=address, card_number=card_number,
+        client = Client(full_name=full_name, birth_date=birth_date, phone_number=phone_number, parent_name=parent_name,
+                        address=address, card_number=card_number,
                         group_obj=group_obj, date_joined=date_joined)
         client.save()
 
@@ -115,7 +123,8 @@ def add_client(request):
             'client_id': client.id,
         }
 
-        client_details_text = render_to_string('client_details_template/client_details_template.txt', context)
+        client_details_text = render_to_string('client_details_template/client_details_template.txt',
+                                               context)
 
         # Save the client information to a text file
         file_name = f"{slugify(full_name)}_{client.id}_client_details.txt"
@@ -241,6 +250,7 @@ def add_subscription(request):
         coach_id = request.POST['coach']
         lessons_count = request.POST['lessons_count']
         attendance = request.POST.get('attendance', 'off') == 'on'
+        price = request.POST.get('price')
         comment = request.POST['comment']
 
         group = Group.objects.get(id=group_id)
@@ -248,7 +258,7 @@ def add_subscription(request):
         coach = Coach.objects.get(id=coach_id)
 
         subscription = Subscription(group=group, client=client, coach=coach, lessons_count=lessons_count,
-                                    attendance=attendance, comment=comment)
+                                    attendance=attendance, comment=comment, price=price)
         subscription.save()
 
         return redirect('subscription_list')
@@ -256,7 +266,8 @@ def add_subscription(request):
         groups = Group.objects.all()
         clients = Client.objects.all()
         coaches = Coach.objects.all()
-        return render(request, 'add_subscription.html', {'groups': groups, 'clients': clients, 'coaches': coaches})
+        return render(request, 'add_subscription.html', {'groups': groups, 'clients': clients,
+                                                         'coaches': coaches})
 
 
 @login_required
@@ -275,6 +286,7 @@ def edit_subscription(request, subscription_id):
         coach_id = request.POST.get('coach', '')
         lessons_count = request.POST.get('lessons_count', '')
         attendance = request.POST.get('attendance', False)
+        price = request.POST.get('price', None) # Получаем стоимость абонемента
         comment = request.POST.get('comment', '')
 
         subscription.group_id = group_id
@@ -282,6 +294,7 @@ def edit_subscription(request, subscription_id):
         subscription.coach_id = coach_id
         subscription.lessons_count = lessons_count
         subscription.attendance = attendance == 'on' if isinstance(attendance, str) else attendance
+        subscription.price = price
         subscription.comment = comment
 
         subscription.save()
@@ -315,6 +328,7 @@ def update_subscription(request, subscription_id, action):
                 subscription.lessons_count += 1
                 subscription.button_highlighted = False
 
+
             subscription.save()
 
             # Save information about the marked attendance
@@ -334,3 +348,55 @@ def update_subscription(request, subscription_id, action):
             return JsonResponse({'error': 'Subscription not found.'}, status=404)
 
     return JsonResponse({'error': 'Invalid request method.'}, status=400)
+
+
+
+@login_required
+def check(request):
+    subscriptions = Subscription.objects.all()
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    if start_date and end_date:
+        subscriptions = subscriptions.filter(date__range=[start_date, end_date])
+        # Вычисляем сумму всех цен подписок за месяц
+        total_price = subscriptions.aggregate(total_price=Sum('price'))['total_price']
+
+        return render(request, 'check.html', {'subscriptions': subscriptions,
+                                              'total_price': total_price})
+    else:
+        return render(request, 'check.html', {'subscriptions': subscriptions})
+
+
+
+
+
+@login_required
+def checkcouch(request):
+    coach_name = request.GET.get('coach_name')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    print(coach_name)
+    print(end_date)
+
+    if start_date and end_date and coach_name:
+        coach = get_object_or_404(Coach, full_name=coach_name)
+        print(coach)
+        start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
+        end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
+
+        price_sum = Subscription.objects.filter(coach_id=coach.id, date__range=(start_datetime, end_datetime)).aggregate(total_price=Sum('price'))
+
+        return render(request, 'checkcouch.html', {'output_message': price_sum, 'coach_name': coach_name})
+    else:
+        return render(request, 'checkcouch.html', {'coach_name': coach_name})
+
+
+
+
+
+
+
+
+
+

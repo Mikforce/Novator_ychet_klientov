@@ -7,29 +7,39 @@
       <h1>Добавить абонемент</h1>
       <form method="post">
         {% csrf_token %}
+
         <label for="group">Группа:</label>
         <select id="group" name="group">
           {% for group in groups %}
             <option value="{{ group.id }}">{{ group.name }}</option>
           {% endfor %}
         </select><br><br>
+
         <label for="client">Ученик:</label>
         <select id="client" name="client">
           {% for client in clients %}
             <option value="{{ client.id }}">{{ client.full_name }}</option>
           {% endfor %}
         </select><br><br>
+
         <label for="coach">Учитель:</label>
         <select id="coach" name="coach">
           {% for coach in coaches %}
             <option value="{{ coach.id }}">{{ coach.full_name }}</option>
           {% endfor %}
         </select><br><br>
+
         <label for="lessons_count">Количество занятий:</label>
         <input type="text" id="lessons_count" name="lessons_count"><br><br>
+
         <label for="attendance">Оплата:</label>
         <input type="hidden" name="attendance" value="off">
         <input type="checkbox" id="attendance" name="attendance" value="on"><br><br>
+
+        <label for="price">Стоимость абонемента:</label>
+        <input type="number" id="price" name="price" ><br><br>
+
+
         <label for="comment">Коментарии:</label>
         <textarea id="comment" name="comment"></textarea><br><br>
         <input type="submit" value="Save">

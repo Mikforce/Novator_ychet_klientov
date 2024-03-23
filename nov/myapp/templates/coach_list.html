@@ -8,7 +8,7 @@
         <h1>Список учителей</h1>
         <ul>
           {% for coach in coaches %}
-            <li>{{ coach.full_name }} - {{ coach.phone_number }}</li>
+            <li>{{ coach.id }} -{{ coach.full_name }} - {{ coach.phone_number }}</li>
           {% empty %}
             <li>No coaches yet.</li>
           {% endfor %}

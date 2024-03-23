@@ -3,15 +3,15 @@ from django.conf import settings
 from django.utils import timezone
 from datetime import datetime, timedelta
 from django.contrib.auth.models import User
+from django.db.models import Sum
 
 
 class UserActivityLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     activity_type = models.CharField(max_length=255)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-        return f'{self.user.username} - {self.activity_type} - {self.timestamp}'
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
@@ -59,6 +59,16 @@ class Coach(models.Model):
     students = models.ManyToManyField(Client, null=True, blank=True)
     groupqs = models.ManyToManyField(Group, related_name='coach_groupqs', null=True, blank=True)
 
+    def calculate_total_price(self, start_date, end_date):
+        total_price = 0
+
+        subscriptions = Subscription.objects.filter(coach=self, date__range=[start_date, end_date])
+
+        for subscription in subscriptions:
+            total_price += subscription.price
+
+        return total_price
+
 
 class Subscription(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -66,8 +76,13 @@ class Subscription(models.Model):
     coach = models.ForeignKey(Coach, on_delete=models.CASCADE)
     lessons_count = models.IntegerField()
     attendance = models.BooleanField(default=False)
+    price = models.DecimalField(max_digits=10, decimal_places=2)  # Добавляем поле для стоимости абонемента
     comment = models.TextField(blank=True, null=True)
     button_highlighted = models.BooleanField(default=False)
+    date = models.DateTimeField(default=timezone.now)  # Добавляем поле для даты создания
+
+    def __str__(self):
+        return f'Subscription {self.id}'
 
 class MarkedAttendance(models.Model):
     user = models.ForeignKey(Subscription, on_delete=models.CASCADE, related_name='marked_attendance')  # Связь с пользователем, которого отметили
