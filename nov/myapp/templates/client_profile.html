@@ -1,4 +1,4 @@
-{% load bootstrap_calendar %}
+
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -55,18 +55,6 @@
             {% endif %}
         {% endfor %}
     </ul>
-
-
-
-<h2>Дни посещения занятий:</h2>
-{% bootstrap_calendar %}
-{% for subscription in subscriptions %}
-    {% if subscription.attendance %}
-        {% bootstrap_calendar_day subscription.date 'Посещено' %}
-    {% else %}
-        {% bootstrap_calendar_day subscription.date 'Не посещено' %}
-    {% endif %}
-{% endfor %}
 
 
 
