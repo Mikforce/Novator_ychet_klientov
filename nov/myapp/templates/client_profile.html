@@ -1,0 +1,74 @@
+{% load bootstrap_calendar %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #4CAF50;
+    }
+    p {
+        margin-bottom: 20px;
+    }
+    strong {
+        display: inline-block;
+        width: 150px;
+        text-align: right;
+        margin-right: 10px;
+    }
+    a {
+        display: block;
+        margin-top: 30px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+</style>
+<body>
+    <h1>Профиль клиента</h1>
+    <p><strong>Полное имя:</strong> {{ client.full_name }}</p>
+    <p><strong>Дата рождения:</strong> {{ client.birth_date }}</p>
+    <p><strong>Номер телефона:</strong> {{ client.phone_number }}</p>
+    <p><strong>Имя родителя:</strong> {{ client.parent_name }}</p>
+    <p><strong>Адрес:</strong> {{ client.address }}</p>
+    <p><strong>Номер карты:</strong> {{ client.card_number }}</p>
+    <p><strong>Группа:</strong> {{ client.group_obj.name }}</p>
+    <p><strong>Дата присоединения:</strong> {{ client.date_joined }}</p> <!-- Добавьте больше деталей при необходимости -->
+    <a href="{% url 'update_client' client.id %}">Редактировать клиента</a>
+    <a href="{% url 'delete_client' client.id %}">Удалить клиента</a>
+
+
+    <h2>Дни посещения занятий:</h2>
+    <ul>
+        {% for subscription in subscriptions %}
+            {% if subscription.attendance %}
+                <li style="color: green;">{{ subscription.date }} - Посещено</li>
+            {% else %}
+                <li>{{ subscription.date }} - Не посещено</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+
+
+<h2>Дни посещения занятий:</h2>
+{% bootstrap_calendar %}
+{% for subscription in subscriptions %}
+    {% if subscription.attendance %}
+        {% bootstrap_calendar_day subscription.date 'Посещено' %}
+    {% else %}
+        {% bootstrap_calendar_day subscription.date 'Не посещено' %}
+    {% endif %}
+{% endfor %}
+
+
+
+
+</body>

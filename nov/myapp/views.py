@@ -177,6 +177,13 @@ def delete_client(request, id):
 
 
 @login_required
+def view_client_profile(request, id):
+    client = get_object_or_404(Client, id=id)
+    subscriptions = Subscription.objects.filter(client=client)
+    return render(request, 'client_profile.html', {'client': client, 'subscriptions': subscriptions})
+
+
+@login_required
 def add_group(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -215,7 +222,6 @@ def update_group(request, id):
 
 
 @login_required
-# Удаление клиента
 def delete_group(request, id):
     group = get_object_or_404(Group, id=id)
     group.delete()
@@ -227,8 +233,9 @@ def add_coach(request):
     if request.method == 'POST':
         full_name = request.POST['full_name']
         phone_number = request.POST['phone_number']
+        percent = request.POST['percent']
 
-        coach = Coach(full_name=full_name, phone_number=phone_number)
+        coach = Coach(full_name=full_name, phone_number=phone_number, percent=percent)
         coach.save()
 
         return redirect('coach_list')
@@ -240,6 +247,27 @@ def add_coach(request):
 def coach_list(request):
     coaches = Coach.objects.all()
     return render(request, 'coach_list.html', {'coaches': coaches})
+
+
+@login_required
+def update_couch(request, pk):
+    coach = get_object_or_404(Coach, id=pk)
+
+    if request.method == 'POST':
+        coach.full_name = request.POST['full_name']
+        coach.phone_number = request.POST['phone_number']
+        coach.percent = request.POST['percent']
+        coach.save()
+
+        return redirect('coach_list')
+    else:
+        return render(request, 'update_couch.html', {'coach': coach})
+
+@login_required
+def delete_couch(request, pk):
+    coach = get_object_or_404(Coach, id=pk)
+    coach.delete()
+    return HttpResponseRedirect(reverse('coach_list'))
 
 
 @login_required
@@ -304,12 +332,13 @@ def edit_subscription(request, subscription_id):
     groups = Group.objects.all()
     clients = Client.objects.all()
     coaches = Coach.objects.all()
-
+    price = Subscription.objects.all()
     return render(request, 'edit_subscription.html', {
         'subscription': subscription,
         'groups': groups,
         'clients': clients,
-        'coaches': coaches
+        'coaches': coaches,
+        'price': price
     })
 
 
@@ -376,18 +405,25 @@ def checkcouch(request):
     coach_name = request.GET.get('coach_name')
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
-    print(coach_name)
-    print(end_date)
 
     if start_date and end_date and coach_name:
         coach = get_object_or_404(Coach, full_name=coach_name)
-        print(coach)
         start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
         end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
-        price_sum = Subscription.objects.filter(coach_id=coach.id, date__range=(start_datetime, end_datetime)).aggregate(total_price=Sum('price'))
+        from decimal import Decimal
+        paid_subscriptions_total  = Subscription.objects.filter(coach=coach, date__range=(start_datetime, end_datetime), attendance=True).aggregate(total_price=Sum('price'))
+        print(paid_subscriptions_total)
+        total_price_number = 0
+        if paid_subscriptions_total['total_price']:
+            total_price_decimal = paid_subscriptions_total['total_price']
+            coach_percent = Decimal(coach.percent) / 100
+            total_price_number = total_price_decimal * coach_percent
 
-        return render(request, 'checkcouch.html', {'output_message': price_sum, 'coach_name': coach_name})
+
+
+
+        return render(request, 'checkcouch.html', {'output_message': total_price_number, 'coach_name': coach_name})
     else:
         return render(request, 'checkcouch.html', {'coach_name': coach_name})
 

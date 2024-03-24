@@ -6,10 +6,14 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 
 
+class MyModel(models.Model):
+    my_datetime_field = models.DateTimeField(default=timezone.now)
+def default_datetime():
+    return timezone.now()
 class UserActivityLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     activity_type = models.CharField(max_length=255)
-    timestamp = models.DateTimeField(default=timezone.now)
+    timestamp = models.DateTimeField(default=default_datetime)
 
 
 class Profile(models.Model):
@@ -20,7 +24,8 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
-    def calculate_active_time_current_month(self):
+    @property
+    def active_time_current_month(self):
         now = timezone.now()
         start_of_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         end_of_month = start_of_month.replace(month=start_of_month.month % 12 + 1)
@@ -33,8 +38,7 @@ class Profile(models.Model):
             total_active_time += timedelta(seconds=log.duration)
 
         total_minutes = total_active_time.total_seconds() // 60
-        self.active_time = total_minutes
-        self.save()
+        return total_minutes
 
 
 class Client(models.Model):
@@ -49,25 +53,16 @@ class Client(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=255)
-    coach = models.ForeignKey('Coach', on_delete=models.CASCADE)
+    coach = models.ForeignKey('Coach', on_delete=models.CASCADE, related_name='coach_groups')
     description = models.TextField()
     students = models.ManyToManyField(Client, related_name='group_students')
 
 class Coach(models.Model):
     full_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=20)
-    students = models.ManyToManyField(Client, null=True, blank=True)
-    groupqs = models.ManyToManyField(Group, related_name='coach_groupqs', null=True, blank=True)
-
-    def calculate_total_price(self, start_date, end_date):
-        total_price = 0
-
-        subscriptions = Subscription.objects.filter(coach=self, date__range=[start_date, end_date])
-
-        for subscription in subscriptions:
-            total_price += subscription.price
-
-        return total_price
+    students = models.ManyToManyField(Client, related_name='coach_students')
+    groupqs = models.ManyToManyField(Group, related_name='coach_groupqs')
+    percent = models.FloatField(default=0)
 
 
 class Subscription(models.Model):
@@ -79,7 +74,7 @@ class Subscription(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Добавляем поле для стоимости абонемента
     comment = models.TextField(blank=True, null=True)
     button_highlighted = models.BooleanField(default=False)
-    date = models.DateTimeField(default=timezone.now)  # Добавляем поле для даты создания
+    date = models.DateTimeField(auto_now_add=True)  # Добавляем поле для даты создания
 
     def __str__(self):
         return f'Subscription {self.id}'

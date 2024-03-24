@@ -23,6 +23,18 @@
         margin-bottom: 10px;
     }
 
+.button-wrapper form {
+    margin-top: 0;
+    display: inline-block;
+    margin-right: 10px; /* Adjust as needed */
+}
+
+
+/* Изменить цвет кнопки "Отменить" */
+.cancel-button {
+    background-color: #f75e5e; /* Используйте любой желаемый цвет */
+    color: white;
+}
     .group-button {
         background: #f0f0f0;
         color: #333;
@@ -39,26 +51,26 @@
 
     /* Style for "Отметить" button */
     .mark-button {
-        background-color: #4CAF50; /* Green background */
-        color: white; /* White text color */
-        padding: 10px 20px; /* Padding around text */
-        text-align: center; /* Center text */
-        text-decoration: none; /* Remove default underline */
-        display: inline-block; /* Make it a block element */
-        border: none; /* Remove border */
-        border-radius: 5px; /* Add rounded corners */
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border: none;
+        border-radius: 5px;
     }
 
     /* Style for "Отменить" button */
     .cancel-button {
-        background-color: #f44336; /* Red background */
-        color: white; /* White text color */
-        padding: 10px 20px; /* Padding around text */
-        text-align: center; /* Center text */
-        text-decoration: none; /* Remove default underline */
-        display: inline-block; /* Make it a block element */
-        border: none; /* Remove border */
-        border-radius: 5px; /* Add rounded corners */
+        background-color: #f44336;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border: none;
+        border-radius: 5px;
     }
 
     .client-list {
@@ -80,7 +92,7 @@
         border-bottom: 1px solid #ddd;
     }
     .button-wrapper {
-        display: inline-block; /* Display as inline block to align buttons next to each other */
+        display: inline-block;
     }
 
 </style>
@@ -88,30 +100,34 @@
 
 {% block content %}
 <div class="container">
-    <div class="card">
-        <div class="container-fluid py-3 bg-light">
-            <div class="row align-items-start">
-                <div class="col-md-2">
-                    <div class="card-body">
-                        <h2 class="mb-3">Список групп</h2>
-                        <ul class="group-list">
-                            {% for group in groups %}
-                            <li>
-                                <button class="group-button" data-group-name="{{ group.name }}">{{ group.name }}
-                                </button>
-                            </li>
-                            {% empty %}
-                            <li>No groups available.</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-left">
+                <div class="card-body">
+                    <h2 class="mb-2">Список групп</h2>
+                    <ul class="group-list">
+                        {% for group in groups %}
+                        <li>
+                            <button class="group-button" data-group-name="{{ group.name }}">{{ group.name }}
+                            </button>
+                        </li>
+                        {% empty %}
+                        <li>No groups available.</li>
+                        {% endfor %}
+                    </ul>
                 </div>
-                <div class="col-md-4">
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card card-right">
+                <div class="card-inner">
                     <table class="table table-striped mt-5" id="client-table">
+
                         <thead>
                         <tr>
                             <th>Группа</th>
                             <th>Клиент</th>
+
                             <th>Кол. занятий</th>
                             <th>Оплата</th>
                             <th>Действие</th>
@@ -141,7 +157,7 @@
                                     <form method="post"
                                           action="{% url 'update_subscription' subscription_id=subscription.id action='subtract' %}">
                                         {% csrf_token %}
-                                        <button type="submit" class="mark-button">Отметить</button>
+                                        <button type="submit" class="mark-button">Посетил</button>
                                     </form>
 
                                     <form method="post"
@@ -159,92 +175,106 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                </div>
 
-                    <div class="col-md-3">
-                        <div class="card-body" style="text-align: center;">
-                            <div class="client-list" id="client-list">
-                                <h3>Клиенты, посетившие центр за сегодня:</h3>
-                                <table class="table table-striped mt-3">
-                                    <thead>
-                                    <tr>
-                                        <th>Клиент</th>
-                                        <th>Группа</th>
-                                        <th>Дата</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for markedAttendance in markedAttendance %}
-                                    <tr>
-                                        <td>{{ markedAttendance.user.client.full_name }}</td>
-                                        <td>{{ markedAttendance.user.client.group_obj.name }}</td>
-                                        <td>{{ markedAttendance.timestamp }}</td>
-                                    </tr>
-                                    {% empty %}
-                                    <tr>
-                                        <td colspan="3">No marked attendances available.</td>
-                                    </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+                    <div class="client-list-container">
+                        <div class="card client-list">
+                            <div class="card-body" style="text-align: center;">
+                                <div class="client-list" id="client-list">
+                                    <h3>Клиенты, посетившие центр за сегодня:</h3>
+                                    <table class="table table-striped mt-3">
+                                        <thead>
+                                        <tr>
+                                            <th>Клиент</th>
+                                            <th>Группа</th>
+                                            <th>Дата</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for markedAttendance in markedAttendance %}
+                                        <tr>
+                                            <td>{{ markedAttendance.user.client.full_name }}</td>
+                                            <td>{{ markedAttendance.user.client.group_obj.name }}</td>
+                                            <td>{{ markedAttendance.timestamp }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="3">No marked attendances available.</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-
+                </div>
             </div>
         </div>
     </div>
 </div>
-</div>
 
 <script>
     const groupButtons = document.querySelectorAll('.group-button');
-    const clientRows = document.querySelectorAll('.client-row');
+const clientRows = document.querySelectorAll('.client-row');
 
-     groupButtons.forEach(button => {
-       button.addEventListener('click', () => {
-         const groupName = button.getAttribute('data-group-name');
+groupButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const groupName = button.getAttribute('data-group-name');
 
-         clientRows.forEach(row => {
-           if (row.getAttribute('data-group-name') === groupName) {
-             row.style.display = 'table-row';
-           } else {
-             row.style.display = 'none';
-           }
-         });
-       });
-     });
+        clientRows.forEach(row => {
+            if (row.getAttribute('data-group-name') === groupName) {
+                row.style.display = 'table-row';
+            } else {
+                row.style.display = 'none';
+            }
+        });
 
+        // Save group state in localStorage
+        localStorage.setItem('currentGroup', groupName);
+    });
 
-     // Check localStorage on page load to maintain button states
-     attendanceButtons.forEach(button => {
-         const subscriptionId = button.getAttribute('data-subscription-id');
-         const localStorageKey = `subscription_${subscriptionId}`;
+    // Restore group state from localStorage on page load
+    const savedGroup = localStorage.getItem('currentGroup');
+    if (savedGroup) {
+        clientRows.forEach(row => {
+            if (row.getAttribute('data-group-name') === savedGroup) {
+                row.style.display = 'table-row';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+});
 
-         if (localStorage.getItem(localStorageKey) === 'visited') {
-             button.disabled = true;
-             const textElement = document.createTextNode(' Посетил');
-             const textSpan = document.createElement('span');
-             textSpan.style.color = 'green';
-             textSpan.appendChild(textElement);
-             button.parentNode.replaceChild(textSpan, button);
-         }
-     });
+// Check localStorage on page load to maintain button states
+attendanceButtons.forEach(button => {
+    const subscriptionId = button.getAttribute('data-subscription-id');
+    const localStorageKey = `subscription_${subscriptionId}`;
 
-     function getCookie(name) {
-       let cookieValue = null;
-       if (document.cookie && document.cookie !== '') {
-         const cookies = document.cookie.split(';');
-         for (let i = 0; i < cookies.length; i++) {
-           const cookie = cookies[i].trim();
-           if (cookie.startsWith(name + '=')) {
-             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-             break;
-           }
-         }
-       }
-       return cookieValue;
-     }
+    if (localStorage.getItem(localStorageKey) === 'visited') {
+        button.disabled = true;
+        const textElement = document.createTextNode(' Посетил');
+        const textSpan = document.createElement('span');
+        textSpan.style.color = 'green';
+        textSpan.appendChild(textElement);
+        button.parentNode.replaceChild(textSpan, button);
+    }
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 </script>
 
 {% endblock %}

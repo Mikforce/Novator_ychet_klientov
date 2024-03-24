@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='useractivitylog',
             name='start_time',
-            field=models.DateTimeField(default=0),
+            field=models.DateTimeField(default=django.utils.timezone.now),
             preserve_default=False,
         ),
     ]

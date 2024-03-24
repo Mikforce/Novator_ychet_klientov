@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
+    'bootstrap_calendar',
     'crispy_forms',
     "crispy_bootstrap5",
     'django.contrib.admin',

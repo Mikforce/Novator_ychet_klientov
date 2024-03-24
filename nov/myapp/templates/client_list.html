@@ -24,7 +24,7 @@
     <tbody>
       {% for client in clients %}
         <tr>
-          <td>{{ client.full_name }}</td>
+          <td><a href="{% url 'view_client_profile' id=client.id %}">{{ client.full_name }}</a></td>
           <td>{{ client.birth_date }}</td>
           <td>{{ client.phone_number }}</td>
           <td>{{ client.parent_name }}</td>

@@ -1,19 +1,56 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<style>
+    .card {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input {
+        padding: 5px;
+        margin: 5px 0;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+
 <div class="container">
     <div class="card">
-      <h1>Добавить учителя</h1>
-      <form method="post">
-        {% csrf_token %}
-        <label for="full_name">Имя:</label>
-        <input type="text" id="full_name" name="full_name"><br><br>
-        <label for="phone_number">Номер телефона:</label>
-        <input type="text" id="phone_number" name="phone_number"><br><br>
-        <button type="submit">Сохранить</button>
-      </form>
-
-
+        <h1>Добавить учителя</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label for="full_name">Имя:</label>
+            <input type="text" id="full_name" name="full_name"><br>
+            <label for="phone_number">Номер телефона:</label>
+            <input type="text" id="phone_number" name="phone_number"><br>
+            <label for="percent">Проценты:</label>
+            <input type="text" id="percent" name="percent"><br>
+            <button type="submit">Сохранить</button>
+        </form>
     </div>
 </div>
+
 {% endblock %}

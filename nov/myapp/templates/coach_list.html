@@ -2,16 +2,65 @@
 
 {% block content %}
 
+<style>
+    .coach-card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .coach-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .coach-list li {
+        margin-bottom: 10px;
+    }
+
+    .coach-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+
+    .btn-edit {
+        background-color: #4CAF50;
+        color: white;
+        padding: 5px 10px;
+        text-decoration: none;
+        margin-right: 10px;
+        border-radius: 5px;
+    }
+
+    .btn-delete {
+        background-color: #f44336;
+        color: white;
+        padding: 5px 10px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+</style>
 <div class="container">
     <div class="card">
-
         <h1>Список учителей</h1>
-        <ul>
-          {% for coach in coaches %}
-            <li>{{ coach.id }} -{{ coach.full_name }} - {{ coach.phone_number }}</li>
-          {% empty %}
+        <ul class="coach-list">
+            {% for coach in coaches %}
+            <li class="coach-card">
+                <strong>{{ coach.id }}. {{ coach.full_name }}</strong> <br>
+                Телефон: {{ coach.phone_number }} <br>
+                <div class="coach-actions">
+                    <a href="{% url 'update_couch' pk=coach.id %}" class="btn-edit">Редактировать</a>
+                    <a href="{% url 'delete_couch' pk=coach.id %}" class="btn-delete"
+                        onclick="return confirm('Are you sure you want to delete this coach?')">Удалить</a>
+                </div>
+            </li>
+            {% empty %}
             <li>No coaches yet.</li>
-          {% endfor %}
+            {% endfor %}
         </ul>
     </div>
 </div>
