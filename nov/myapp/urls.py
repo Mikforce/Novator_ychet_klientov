@@ -2,7 +2,8 @@ from django.urls import path
 from . import views
 from .views import (delete_group, update_group, check, update_client,users_activity_view, delete_client,
                     edit_subscription, subscription_list, coach_list, add_coach, add_group, group_list,
-                    add_client, add_subscription, client_list, checkcouch, update_couch, view_client_profile)
+                    add_client, add_subscription, client_list, checkcouch, update_couch, view_client_profile,
+                    lesson_schedule_list, delete_subscription)
 
 from . import views as user_views
 from django.contrib.auth import views as auth_views
@@ -14,6 +15,7 @@ urlpatterns = [
     path('client/<int:id>/update/', update_client, name='update_client'),
     path('client/<int:id>/delete/', views.delete_client, name='delete_client'),
     path('client/<int:id>c/lient_profile/', view_client_profile, name='view_client_profile'),
+    path('view_client_profile_s/<int:id>/', views.view_client_profile, name='view_client_profile'),
 
 
     path('add_group/', add_group, name='add_group'),
@@ -30,6 +32,9 @@ urlpatterns = [
     path('add_subscription/', add_subscription, name='add_subscription'),
     path('subscription_list/', subscription_list, name='subscription_list'),
     path('subscriptions/<int:subscription_id>/edit/', edit_subscription, name='edit_subscription'),
+    path('subscriptions/<int:subscription_id>/delit/', delete_subscription, name='delete_subscription'),
+    path('update_subscription/<int:subscription_id>/<str:action>/', views.update_subscription,
+         name='update_subscription'),
 
 
     path('', views.home, name='home'),
@@ -51,5 +56,11 @@ urlpatterns = [
     path('checkcouch/', checkcouch, name='checkcouch'),
 
 
+    path('lesson_schedule_list/', views.lesson_schedule_list, name='lesson_schedule_list'),
+    path('create_lesson_schedule/', views.create_lesson_schedule, name='create_lesson_schedule'),
+    path('schedule/<int:pk>/delete/', views.delete_lesson_schedule, name='delete_lesson_schedule'),
+
+
+    path('training_room/', views.training_room, name='training_room')
 
 ]

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">Список расписаний уроков</h1>
+
+    <ul class="list-group">
+        {% for lesson_schedule in lesson_schedules %}
+        <li class="list-group-item">
+
+            <h4 class="mb-2">{{ lesson_schedule.name }}</h4>
+            <p><strong>Дни:</strong> {{ lesson_schedule.day_of_week }}</p>
+            <p><strong>Время:</strong> {{ lesson_schedule.time }}</p>
+            <p><strong>Количество занятий:</strong> {{ lesson_schedule.num_lessons }}</p>
+            <p><strong>Зал:</strong> {{ lesson_schedule.training_room }}</p>
+            <form method="POST" action="{% url 'delete_lesson_schedule' lesson_schedule.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Удалить</button>
+        </li>
+        {% empty %}
+        <li class="list-group-item">Нет расписания уроков</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -56,6 +56,8 @@ class Group(models.Model):
     coach = models.ForeignKey('Coach', on_delete=models.CASCADE, related_name='coach_groups')
     description = models.TextField()
     students = models.ManyToManyField(Client, related_name='group_students')
+    def __str__(self):
+        return f'{self.name} {self.coach} ({self.description}) {self.students}'
 
 class Coach(models.Model):
     full_name = models.CharField(max_length=255)
@@ -63,6 +65,23 @@ class Coach(models.Model):
     students = models.ManyToManyField(Client, related_name='coach_students')
     groupqs = models.ManyToManyField(Group, related_name='coach_groupqs')
     percent = models.FloatField(default=0)
+
+
+class TrainingRoom(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class LessonSchedule(models.Model):
+    name = models.ForeignKey(Group, on_delete=models.CASCADE)
+    day_of_week = models.CharField(max_length=100)  # Например: 'Понедельник', 'Вторник'
+    time = models.TimeField()
+    num_lessons = models.PositiveIntegerField()
+    training_room = models.ForeignKey(TrainingRoom, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.name} {self.day_of_week} {self.time} ({self.training_room})'
 
 
 class Subscription(models.Model):
@@ -75,6 +94,14 @@ class Subscription(models.Model):
     comment = models.TextField(blank=True, null=True)
     button_highlighted = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)  # Добавляем поле для даты создания
+    end_date = models.DateTimeField()  # Добавляем поле для даты окончания абонемента
+    lesson_schedule = models.ForeignKey(LessonSchedule, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if not self.end_date:  # If end_date is not set
+            self.end_date = self.date + timedelta(days=30) if self.date else timezone.now() + timedelta(days=30)
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return f'Subscription {self.id}'
@@ -86,3 +113,4 @@ class MarkedAttendance(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.group} - {self.timestamp}'
+

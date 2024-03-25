@@ -29,8 +29,13 @@
           {% endfor %}
         </select><br><br>
 
-        <label for="lessons_count">Количество занятий:</label>
-        <input type="text" id="lessons_count" name="lessons_count"><br><br>
+
+        <label for="lesson_schedule">Расписание уроков:</label>
+        <select id="lesson_schedule" name="lesson_schedule">
+            {% for schedule in lesson_schedules %}
+            <option value="{{ schedule.id }}">{{ schedule }}</option>
+            {% endfor %}
+
 
         <label for="attendance">Оплата:</label>
         <input type="hidden" name="attendance" value="off">

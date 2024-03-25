@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+
+    <h1>Создать новое расписание уроков</h1>
+
+    <form method="post" action="{% url 'create_lesson_schedule' %}">
+        {% csrf_token %}
+        <label for="id_name">Название:</label>
+        {{ form.name }}
+        <br>
+        <label for="id_day_of_week">День недели:</label>
+        {{ form.day_of_week }}
+        <br>
+        <label for="id_time">Время:</label>
+        {{ form.time }}
+        <br>
+        <label for="id_num_lessons">Количество уроков:</label>
+        {{ form.num_lessons }}
+        <br>
+        <label for="id_training_room">Учебное помещение:</label>
+        {{ form.training_room }}
+        <br>
+        <label for="id_description">Описание:</label>
+        <textarea id="id_description" name="description">{{ form.instance.description }}</textarea>
+        <br>
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+{% endblock %}

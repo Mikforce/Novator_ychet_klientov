@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
-from .models import Group, Coach, Subscription, Client, Profile, MarkedAttendance, UserActivityLog
+from .models import (Group, Coach, Subscription, Client, Profile, MarkedAttendance, UserActivityLog, TrainingRoom,
+                     LessonSchedule)
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, LessonScheduleForm, TrainingRoomForm
 import os
 import time
 from datetime import date
@@ -18,6 +19,7 @@ from django.contrib.auth import logout
 from django.db.models import Sum
 from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 
 
 
@@ -48,14 +50,29 @@ def logout_get(request):
         logout(request)
     return redirect('home')
 
+
+def get_client_by_card_number(card_number):
+    try:
+        client = Client.objects.get(card_number=card_number)
+        return client
+    except Client.DoesNotExist:
+        return None
 @login_required
 def home(request):
     groups = Group.objects.all()
     subscriptions = Subscription.objects.all()
-    # Фильтруем только тех клиентов, которые были помечены за сегодняшний день
     markedAttendance = MarkedAttendance.objects.filter(timestamp__date=date.today())
-    return render(request, 'index.html', {'groups': groups, 'subscriptions': subscriptions,
-                                          'markedAttendance': markedAttendance})
+
+    if 'card_number' in request.GET:
+        card_number = request.GET.get('card_number')
+        client = get_client_by_card_number(card_number)
+
+        if client:
+            # Redirect to the client's profile page
+            return redirect('view_client_profile', id=client.id)
+
+    return render(request, 'index.html',
+                  {'groups': groups, 'subscriptions': subscriptions, 'markedAttendance': markedAttendance})
 
 
 
@@ -176,11 +193,17 @@ def delete_client(request, id):
     return HttpResponseRedirect(reverse('client_list'))
 
 
-@login_required
+
+
 def view_client_profile(request, id):
     client = get_object_or_404(Client, id=id)
     subscriptions = Subscription.objects.filter(client=client)
-    return render(request, 'client_profile.html', {'client': client, 'subscriptions': subscriptions})
+    markedAttendance = MarkedAttendance.objects.filter(user__client=client)
+    clientVisitedDays = [attendance.timestamp.strftime('%Y-%m-%d') for attendance in markedAttendance]
+
+    return render(request, 'client_profile.html', {'client': client, 'subscriptions': subscriptions,
+                                                   'markedAttendance': markedAttendance,
+                                                   'clientVisitedDays': clientVisitedDays})
 
 
 @login_required
@@ -276,7 +299,7 @@ def add_subscription(request):
         group_id = request.POST['group']
         client_id = request.POST['client']
         coach_id = request.POST['coach']
-        lessons_count = request.POST['lessons_count']
+        selected_lesson_schedule = request.POST.get('lesson_schedule', '')
         attendance = request.POST.get('attendance', 'off') == 'on'
         price = request.POST.get('price')
         comment = request.POST['comment']
@@ -284,6 +307,8 @@ def add_subscription(request):
         group = Group.objects.get(id=group_id)
         client = Client.objects.get(id=client_id)
         coach = Coach.objects.get(id=coach_id)
+        selected_lesson_schedule_obj = LessonSchedule.objects.get(id=selected_lesson_schedule)
+        lessons_count = selected_lesson_schedule_obj.num_lessons
 
         subscription = Subscription(group=group, client=client, coach=coach, lessons_count=lessons_count,
                                     attendance=attendance, comment=comment, price=price)
@@ -294,8 +319,9 @@ def add_subscription(request):
         groups = Group.objects.all()
         clients = Client.objects.all()
         coaches = Coach.objects.all()
+        lesson_schedules = LessonSchedule.objects.all()
         return render(request, 'add_subscription.html', {'groups': groups, 'clients': clients,
-                                                         'coaches': coaches})
+                                                         'coaches': coaches, 'lesson_schedules': lesson_schedules})
 
 
 @login_required
@@ -307,15 +333,19 @@ def subscription_list(request):
 @login_required
 def edit_subscription(request, subscription_id):
     subscription = Subscription.objects.get(id=subscription_id)
+    lesson_schedules = LessonSchedule.objects.all()
 
     if request.method == 'POST':
         group_id = request.POST.get('group', '')
         client_id = request.POST.get('client', '')
         coach_id = request.POST.get('coach', '')
-        lessons_count = request.POST.get('lessons_count', '')
+        selected_lesson_schedule = request.POST.get('lesson_schedule', '')
         attendance = request.POST.get('attendance', False)
-        price = request.POST.get('price', None) # Получаем стоимость абонемента
+        price = request.POST.get('price', None)  # Получаем стоимость абонемента
         comment = request.POST.get('comment', '')
+
+        selected_lesson_schedule_obj = LessonSchedule.objects.get(id=selected_lesson_schedule)
+        lessons_count = selected_lesson_schedule_obj.num_lessons
 
         subscription.group_id = group_id
         subscription.client_id = client_id
@@ -338,7 +368,8 @@ def edit_subscription(request, subscription_id):
         'groups': groups,
         'clients': clients,
         'coaches': coaches,
-        'price': price
+        'price': price,
+        'lesson_schedules': lesson_schedules
     })
 
 
@@ -377,6 +408,12 @@ def update_subscription(request, subscription_id, action):
             return JsonResponse({'error': 'Subscription not found.'}, status=404)
 
     return JsonResponse({'error': 'Invalid request method.'}, status=400)
+
+@login_required
+def delete_subscription(request, subscription_id):
+    subscription = get_object_or_404(Subscription, id=subscription_id)
+    subscription.delete()
+    return HttpResponseRedirect(reverse('client_list'))
 
 
 
@@ -429,10 +466,59 @@ def checkcouch(request):
 
 
 
+def lesson_schedule_list(request):
+    lesson_schedules = LessonSchedule.objects.all()
+    context = {'lesson_schedules': lesson_schedules}
+    return render(request, 'lesson_schedule_list.html', context)
 
 
+def create_lesson_schedule(request):
+    if request.method == 'POST':
+        form = LessonScheduleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lesson_schedule_list')
+    else:
+        form = LessonScheduleForm()
+
+    context = {'form': form}
+    return render(request, 'create_lesson_schedule.html', context)
 
 
+@login_required
+def delete_lesson_schedule(request, pk):
+    delete_lesson_schedule = get_object_or_404(LessonSchedule, id=pk)
+
+    try:
+        with transaction.atomic():
+            # # Get the related TrainingRoom object and delete it
+            # training_room = delete_lesson_schedule.training_room
+            # training_room.delete()
+
+            # Delete all subscriptions related to the LessonSchedule
+            subscriptions_to_delete = Subscription.objects.filter(lesson_schedule=delete_lesson_schedule)
+            subscriptions_to_delete.delete()
+
+            # Now you can safely delete the LessonSchedule itself
+            delete_lesson_schedule.delete()
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    return HttpResponseRedirect(reverse('lesson_schedule_list'))
+
+
+def training_room(request):
+    if request.method == 'POST':
+        form = TrainingRoomForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lesson_schedule_list')  # Перенаправляем на страницу списка учебных планов
+    else:
+        form = TrainingRoomForm()
+
+    context = {'form': form}
+    return render(request, 'training_room.html', context)
 
 
 

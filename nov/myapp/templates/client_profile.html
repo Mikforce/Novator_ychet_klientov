@@ -1,62 +1,233 @@
+{% extends 'base.html' %}
 
+{% block content %}
+{% load static %}
 <style>
     body {
-        font-family: Arial, sans-serif;
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
     }
+
+    .card {
+      background-color: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
     h1 {
-        text-align: center;
-        margin-bottom: 40px;
-        color: #4CAF50;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #4CAF50;
     }
+
     p {
-        margin-bottom: 20px;
+      margin-bottom: 10px;
     }
+
     strong {
-        display: inline-block;
-        width: 150px;
-        text-align: right;
-        margin-right: 10px;
+      width: 150px;
+      display: inline-block;
+      text-align: right;
+      margin-right: 10px;
     }
+
     a {
-        display: block;
-        margin-top: 30px;
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
+      display: block;
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      text-align: center;
+      width: 50%;
+      margin: 20px auto;
     }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      text-align: center;
+      padding: 8px;
+    }
+
+    td.today {
+      background-color: #8f8c8c;
+    }
+
+    td.visited {
+      background-color: #a8e6cf; /* Зеленый цвет */
+    }
+
+
+    td.yellow {
+      background-color: #e1f26f;
+  }
 </style>
-<body>
-    <h1>Профиль клиента</h1>
-    <p><strong>Полное имя:</strong> {{ client.full_name }}</p>
-    <p><strong>Дата рождения:</strong> {{ client.birth_date }}</p>
-    <p><strong>Номер телефона:</strong> {{ client.phone_number }}</p>
-    <p><strong>Имя родителя:</strong> {{ client.parent_name }}</p>
-    <p><strong>Адрес:</strong> {{ client.address }}</p>
-    <p><strong>Номер карты:</strong> {{ client.card_number }}</p>
-    <p><strong>Группа:</strong> {{ client.group_obj.name }}</p>
-    <p><strong>Дата присоединения:</strong> {{ client.date_joined }}</p> <!-- Добавьте больше деталей при необходимости -->
-    <a href="{% url 'update_client' client.id %}">Редактировать клиента</a>
-    <a href="{% url 'delete_client' client.id %}">Удалить клиента</a>
 
-
-    <h2>Дни посещения занятий:</h2>
-    <ul>
+<div class="container">
+    <div class="card">
+        <h2>Обновить подписку:</h2>
         {% for subscription in subscriptions %}
-            {% if subscription.attendance %}
-                <li style="color: green;">{{ subscription.date }} - Посещено</li>
-            {% else %}
-                <li>{{ subscription.date }} - Не посещено</li>
-            {% endif %}
+        <p>{{ subscription.group.name }} - Оставшиеся уроки: {{ subscription.lessons_count }}</p>
+        <form method="post" action="{% url 'update_subscription' subscription.id 'subtract' %}">
+            {% csrf_token %}
+            <button type="submit">Посетил</button>
+        </form>
+        <form method="post" action="{% url 'update_subscription' subscription.id 'add' %}">
+            {% csrf_token %}
+            <button type="submit">Отменить посещение</button>
+        </form>
         {% endfor %}
-    </ul>
+        <h1>Профиль клиента</h1>
+        <p><strong>Полное имя:</strong> {{ client.full_name }}</p>
+        <p><strong>Дата рождения:</strong> {{ client.birth_date }}</p>
+        <p><strong>Номер телефона:</strong> {{ client.phone_number }}</p>
+        <p><strong>Имя родителя:</strong> {{ client.parent_name }}</p>
+        <p><strong>Адрес:</strong> {{ client.address }}</p>
+        <p><strong>Номер карты:</strong> {{ client.card_number }}</p>
+        <p><strong>Группа:</strong> {{ client.group_obj.name }}</p>
+        <p><strong>Дата присоединения:</strong> {{ client.date_joined }}</p>
+        {% for subscription in subscriptions %}
+        <p>Дата начала абонемента: {{ subscription.date }}</p>
+        <p>Дата конца абонемента: {{ subscription.end_date }}</p>
+        <!-- Другие данные о подписке -->
+        {% endfor %}
+        <!-- Добавьте больше деталей при необходимости -->
+        <a href="{% url 'update_client' client.id %}">Редактировать клиента</a>
+        <a href="{% url 'delete_client' client.id %}">Удалить клиента</a>
+
+
+        <div id="calendar"></div>
+        <button id="prevMonthBtn">Предыдущий месяц</button>
+        <button id="nextMonthBtn">Следующий месяц</button>
+
+
+        <h2>Дни посещения занятий:</h2>
+        <ul>
+            {% for markedAttendances in markedAttendance %}
+            <li>
+                {{ markedAttendances.timestamp }} - {% if markedAttendances.group %}
+                {{ markedAttendances.user.client.group_obj.name }}
+                {% endif %}
+
+                {% if markedAttendances.timestamp in clientVisitedDays %}
+                <span style="color: green;">(Посещено)</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script src="{% static 'calendar.js' %}"></script>
+<script>
+    const DaysOfWeek = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+    const divId = 'calendar';
+    const today = new Date();
+    let currYear = today.getFullYear();
+    let currMonth = today.getMonth();
+    let currDay = today.getDate();
+
+    // Здесь предполагается, что массив с днями посещения клиентом получается с сервера
+    const clientVisitedDays = {{ clientVisitedDays | safe }};
 
 
 
+    // Проверяем, является ли текущий день подпиской
+    const subscriptionDates = [
+    {% for subscription in subscriptions %}
+        "{{ subscription.date|date:"Y-m-d" }}",
+        "{{ subscription.end_date|date:"Y-m-d" }}",
+    {% endfor %}
+];
 
-</body>
+
+    function showMonth(y, m) {
+       const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+       const monthName = monthNames[m]; // Получаем название месяца
+
+
+       const firstDay = new Date(y, m, 1);
+       const startingDay = firstDay.getDay(); // День недели, с которого начинается месяц
+       const monthLength = new Date(y, m + 1, 0).getDate(); // Количество дней в текущем месяце
+
+       let calendarHtml = `
+           <h2>${monthName} ${y}</h2> <!-- Добавляем название месяца и года в заголовок -->
+          <table>
+               <thead>
+                   <tr>
+                       ${DaysOfWeek.map(day => `<td>${day}</td>`).join('')}
+                   </tr>
+               </thead>
+          <tbody>
+       `;
+
+       let day = 1;
+       for (let i = 0; i < 6; i++) {
+           calendarHtml += "<tr>";
+           for (let j = 0; j < 7; j++) {
+               if (i === 0 && j < startingDay) {
+                   calendarHtml += "<td></td>";
+               } else if (day > monthLength) {
+                   break;
+               } else {
+                   let cellClass = (day === currDay && m === currMonth && y === currYear) ? 'today' : 'normal';
+
+                   // Проверяем, является ли текущий день посещенным клиентом
+                   const currentDate = new Date(y, m, day);
+                   const dateString = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+                   if (clientVisitedDays.includes(dateString)) {
+                       cellClass = 'visited';
+                   }
+                   if (subscriptionDates.includes(dateString.replace(/-/g, ''))) {
+    cellClass = 'yellow';
+}
+
+                   calendarHtml += `<td class="${cellClass}">${day}</td>`;
+                   day++;
+               }
+           }
+           calendarHtml += "</tr>";
+       }
+
+       calendarHtml += `
+               </tbody>
+           </table>
+       `;
+
+       document.getElementById(divId).innerHTML = calendarHtml;
+    }
+
+    showMonth(currYear, currMonth);
+
+    document.getElementById('prevMonthBtn').addEventListener('click', function() {
+        currMonth--;
+        if (currMonth < 0) {
+            currMonth = 11;
+            currYear--;
+        }
+        showMonth(currYear, currMonth);
+    });
+
+    document.getElementById('nextMonthBtn').addEventListener('click', function() {
+        currMonth++;
+        if (currMonth > 11) {
+            currMonth = 0;
+            currYear++;
+        }
+        showMonth(currYear, currMonth);
+    });
+
+</script>
+{% endblock %}
