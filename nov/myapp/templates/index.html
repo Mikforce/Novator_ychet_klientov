@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 
 {% block content %}
@@ -52,6 +51,7 @@
                             </thead>
                             <tbody>
                             {% for subscription in subscriptions %}
+                            {% if subscription.lessons_count != 0 %}
                             <tr class="client-row" style="display: none;"
                                 data-group-name="{{ subscription.group.name }}">
                                 <td>{{ subscription.group.name }}</td>
@@ -59,36 +59,42 @@
                                 <td>
                                     <span>{{ subscription.lessons_count }}</span>
 
+                                    {% if subscription.lessons_count == 1 %}
+                                    <span style="color: red;">Напоминание: Осталось 1 занятие, необходимо выписать новый абонемент!</span>
+                                    {% endif %}
+
                                 </td>
                                 <td>
-
                                     {% if subscription.attendance %}
                                     Оплачено
                                     {% else %}
                                     Не оплачено
                                     {% endif %}
-
-
                                 </td>
                                 <td>
                                     <div class="button-wrapper">
                                         <form method="post"
                                               action="{% url 'update_subscription' subscription_id=subscription.id action='subtract' %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="mark-button" style="background-color: #4CAF50; color: white;">Посетил</button>
+                                            <button type="submit" class="mark-button"
+                                                    style="background-color: #4CAF50; color: white;">Посетил
+                                            </button>
                                         </form>
 
                                         <form method="post"
                                               action="{% url 'update_subscription' subscription_id=subscription.id action='add' %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="cancel-button" style="background-color: #f44336; color: white;">Отменить</button>
+                                            <button type="submit" class="cancel-button"
+                                                    style="background-color: #f44336; color: white;">Отменить
+                                            </button>
                                         </form>
                                     </div>
                                 </td>
                             </tr>
+                            {% endif %}
                             {% empty %}
                             <tr>
-                                <td colspan="3">No subscriptions available.</td>
+                                <td colspan="4">No subscriptions available.</td>
                             </tr>
                             {% endfor %}
                             </tbody>
@@ -196,4 +202,4 @@
 
     </script>
 
-{% endblock %}
+    {% endblock %}

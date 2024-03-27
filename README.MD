@@ -9,7 +9,7 @@
 1. Склонируйте репозиторий
 2. Активируйте виртаульное окружение
 ```commandline
-venv\Scripts\activate.bat 
+venv\Scripts\activate
 
 ```  
 3. Установите зависимости

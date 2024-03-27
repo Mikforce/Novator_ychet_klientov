@@ -317,7 +317,7 @@ def add_subscription(request):
         return redirect('subscription_list')
     else:
         groups = Group.objects.all()
-        clients = Client.objects.all()
+        clients = Client.objects.all().order_by('full_name')
         coaches = Coach.objects.all()
         lesson_schedules = LessonSchedule.objects.all()
         return render(request, 'add_subscription.html', {'groups': groups, 'clients': clients,
