@@ -1,133 +1,100 @@
-body {
-  font-family: Arial, sans-serif;
-  background-image: linear-gradient(to right top, #0f2027, #203a43, #2c5364);
-}
+    .content-wrapper {
+        margin: 0 auto; /* Центрирование содержимого */
+        max-width: 1200px; /* Ширина контейнера */
+        padding: 0 15px; /* Внутренние отступы */
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 50px;
-  color: #fff;
-  text-align: center;
-}
+    }
 
-h1 {
-  font-size: 3rem;
-  margin-bottom: 30px;
-}
+    .col-md-8 {
+        text-align: left; /* Выравнивание текста по левому краю */
+    }
+        body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #e6f7d7; /* Основной цвет фона (светло-зеленый) */
+        transition: background-color 0.5s ease;
+    }
 
-table {
-  border-collapse: collapse;
-  margin: auto;
-}
+    nav {
+        background-image: linear-gradient(to right, #77dd77, ##6de890);
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-th,
-td {
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #ddd;
-}
+    .nav-link active {
+    color: #0d290e;
+    }
 
-th {
-  background-color: #f2f2f2;
-}
+    nav a, .nav-link, .dropdown-item {
+    color: #2e7d32; /* Цвет текста для ссылок */
+        text-decoration: none;
+        transition: color 0.3s;
+    }
 
-tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
+    nav a:hover, .nav-link:hover, .dropdown-item:hover {
+    color: #004d00; /* Цвет текста при наведении */
+    }
 
-form {
-  max-width: 500px;
-  margin: 50px auto 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    .dropdown-menu {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 0;
+        transition: all 0.3s ease;
+    }
 
-label {
-  margin-bottom: 5px;
-  font-weight: bold;
-}
+    .dropdown-item {
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
 
-input[type="text"],
-select {
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    .dropdown-item:hover {
+    background-color: rgba(119, 221, 119, 0.3);
+    }
 
-button[type="submit"] {
-  padding: 10px 20px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
+    .active {
+    background-color: #3f9e36; /* Цвет активного элемента */
+    }
 
-button[type="submit"]:hover {
-  background-color: #0062cc;
-}
+    .alert {
+        margin-top: 1rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f8f9fa; /* измените на свой основной цвет фона навбара */
-  padding: 10px;
-}
+    .alert-dismissable {
+        position: relative;
+    }
 
-.navbar ul {
-  display: flex;
-  gap: 40px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+    .alert-dismissable .close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.5rem 1.5rem;
+        color: #fff;
+        opacity: 0.8;
+        transition: all 0.3s ease;
+    }
 
-.navbar li {
-  margin: 0;
-}
+    .alert-dismissable .close:hover {
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
 
-.navbar a {
-  text-decoration: none;
-  color: #333; /* измените на свой цвет текста ссылок */
-}
+    /* Adjust font size for table cells and table rows */
+    .table {
+                font-size: 16px;
+    font-family: "Arial", sans-serif; /* Замените на любой выбранный шрифт */
+    /* Установите любой другой декоративный стиль, если нужно */
+        }
 
-.btn-group-vertical button {
-  background-color: #474A51	;
-}
+        td {
+            font-size: 14px;
+            /* Font size for table cells */
+            transition: all 0.3s ease;
+        }
 
-nav {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,.1);
-  padding: 10px;
-}
-
-.nav {
-  display: flex;
-  justify-content: space-between;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-item {
-  margin-right: 15px;
-}
-
-.nav-link {
-  color: #333;
-  font-size: 16px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.3s ease-in-out;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: #007bff;
-}
+    td:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }

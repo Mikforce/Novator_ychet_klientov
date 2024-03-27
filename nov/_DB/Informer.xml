@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Informer>
+  <Item>
+    <ID>c62ee4cb-68d5-4889-b608-03c385f3ae5f</ID>
+    <Name>друзья</Name>
+  </Item>
+  <Item>
+    <ID>72eb005e-ab14-45f6-98f7-226594dcdc89</ID>
+    <Name>интернет</Name>
+  </Item>
+  <Item>
+    <ID>b97b0920-de1d-49ca-a7c8-2d873055f9be</ID>
+    <Name>вывеска</Name>
+  </Item>
+  <Item>
+    <ID>acbeedf2-47cd-4a6b-8836-41fa0c3b8588</ID>
+    <Name>листовка</Name>
+  </Item>
+  <Item>
+    <ID>0cf7d32e-9af0-411e-a2c9-ff72f3d1db9d</ID>
+    <Name>vk.com</Name>
+  </Item>
+</Informer>

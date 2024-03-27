@@ -20,17 +20,12 @@ class SubscriptionForm(ModelForm):
 
 
 class LessonScheduleForm(forms.ModelForm):
-
-
     class Meta:
         model = LessonSchedule
         fields = ['name', 'day_of_week', 'time', 'num_lessons', 'training_room']
-
         widgets = {
             'training_room': forms.Select(attrs={'class': 'form-control'}),
         }
-
-        group = forms.ModelChoiceField(queryset=Group.objects.all())
 
 
 class TrainingRoomForm(forms.ModelForm):

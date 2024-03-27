@@ -3,14 +3,6 @@
 {% block content %}
 {% load static %}
 <style>
-    body {
-      font-family: Arial, sans-serif;
-      width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #f9f9f9;
-    }
 
     .card {
       background-color: #fff;
@@ -18,36 +10,6 @@
       border-radius: 10px;
       padding: 20px;
       margin-top: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #4CAF50;
-    }
-
-    p {
-      margin-bottom: 10px;
-    }
-
-    strong {
-      width: 150px;
-      display: inline-block;
-      text-align: right;
-      margin-right: 10px;
-    }
-
-    a {
-      display: block;
-      margin-top: 20px;
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      text-decoration: none;
-      text-align: center;
-      width: 50%;
-      margin: 20px auto;
     }
 
     table {
@@ -76,60 +38,69 @@
 </style>
 
 <div class="container">
-    <div class="card">
-        <h2>Обновить подписку:</h2>
-        {% for subscription in subscriptions %}
-        <p>{{ subscription.group.name }} - Оставшиеся уроки: {{ subscription.lessons_count }}</p>
-        <form method="post" action="{% url 'update_subscription' subscription.id 'subtract' %}">
-            {% csrf_token %}
-            <button type="submit">Посетил</button>
-        </form>
-        <form method="post" action="{% url 'update_subscription' subscription.id 'add' %}">
-            {% csrf_token %}
-            <button type="submit">Отменить посещение</button>
-        </form>
-        {% endfor %}
-        <h1>Профиль клиента</h1>
-        <p><strong>Полное имя:</strong> {{ client.full_name }}</p>
-        <p><strong>Дата рождения:</strong> {{ client.birth_date }}</p>
-        <p><strong>Номер телефона:</strong> {{ client.phone_number }}</p>
-        <p><strong>Имя родителя:</strong> {{ client.parent_name }}</p>
-        <p><strong>Адрес:</strong> {{ client.address }}</p>
-        <p><strong>Номер карты:</strong> {{ client.card_number }}</p>
-        <p><strong>Группа:</strong> {{ client.group_obj.name }}</p>
-        <p><strong>Дата присоединения:</strong> {{ client.date_joined }}</p>
-        {% for subscription in subscriptions %}
-        <p>Дата начала абонемента: {{ subscription.date }}</p>
-        <p>Дата конца абонемента: {{ subscription.end_date }}</p>
-        <!-- Другие данные о подписке -->
-        {% endfor %}
-        <!-- Добавьте больше деталей при необходимости -->
-        <a href="{% url 'update_client' client.id %}">Редактировать клиента</a>
-        <a href="{% url 'delete_client' client.id %}">Удалить клиента</a>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card">
+                <h2>Отметить клиента:</h2>
+                {% for subscription in subscriptions %}
+                <p>{{ subscription.group.name }} - Оставшиеся уроки: {{ subscription.lessons_count }}</p>
+                <form method="post" action="{% url 'update_subscription' subscription.id 'subtract' %}">
+                    {% csrf_token %}
+                    <button type="submit">Посетил</button>
+                </form>
+                <form method="post" action="{% url 'update_subscription' subscription.id 'add' %}">
+                    {% csrf_token %}
+                    <button type="submit">Отменить посещение</button>
+                </form>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-sm-8">
+            <div class="card">
+                <h1>Профиль клиента</h1>
+                <p><strong>Полное имя:</strong> {{ client.full_name }}</p>
+                <p><strong>Дата рождения:</strong> {{ client.birth_date }}</p>
+                <p><strong>Номер телефона:</strong> {{ client.phone_number }}</p>
+                <p><strong>Имя родителя:</strong> {{ client.parent_name }}</p>
+                <p><strong>Адрес:</strong> {{ client.address }}</p>
+                <p><strong>Номер карты:</strong> {{ client.card_number }}</p>
+                <p><strong>Группа:</strong> {{ client.group_obj.name }}</p>
+                <p><strong>Дата присоединения:</strong> {{ client.date_joined }}</p>
+                {% for subscription in subscriptions %}
+                <p>Дата начала абонемента: {{ subscription.date }}</p>
+                <p>Дата конца абонемента: {{ subscription.end_date }}</p>
+                <!-- Другие данные о подписке -->
+                {% endfor %}
+                <!-- Добавьте больше деталей при необходимости -->
+                <a href="{% url 'update_client' client.id %}">Редактировать клиента</a>
+                <a href="{% url 'delete_client' client.id %}">Удалить клиента</a>
 
 
-        <div id="calendar"></div>
-        <button id="prevMonthBtn">Предыдущий месяц</button>
-        <button id="nextMonthBtn">Следующий месяц</button>
+                <div id="calendar"></div>
+                <button id="prevMonthBtn">Предыдущий месяц</button>
+                <button id="nextMonthBtn">Следующий месяц</button>
 
 
-        <h2>Дни посещения занятий:</h2>
-        <ul>
-            {% for markedAttendances in markedAttendance %}
-            <li>
-                {{ markedAttendances.timestamp }} - {% if markedAttendances.group %}
-                {{ markedAttendances.user.client.group_obj.name }}
-                {% endif %}
+                <h2>Дни посещения занятий:</h2>
+                <ul>
+                    {% for markedAttendances in markedAttendance %}
+                    <li>
+                        {{ markedAttendances.timestamp }} - {% if markedAttendances.group %}
+                        {{ markedAttendances.user.client.group_obj.name }}
+                        {% endif %}
 
-                {% if markedAttendances.timestamp in clientVisitedDays %}
-                <span style="color: green;">(Посещено)</span>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
+                        {% if markedAttendances.timestamp in clientVisitedDays %}
+                        <span style="color: green;">(Посещено)</span>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
-
+</div>
 <script src="{% static 'calendar.js' %}"></script>
 <script>
     const DaysOfWeek = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];

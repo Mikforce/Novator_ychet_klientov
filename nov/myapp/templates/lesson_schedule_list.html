@@ -7,7 +7,6 @@
     <ul class="list-group">
         {% for lesson_schedule in lesson_schedules %}
         <li class="list-group-item">
-
             <h4 class="mb-2">{{ lesson_schedule.name }}</h4>
             <p><strong>Дни:</strong> {{ lesson_schedule.day_of_week }}</p>
             <p><strong>Время:</strong> {{ lesson_schedule.time }}</p>
@@ -16,6 +15,11 @@
             <form method="POST" action="{% url 'delete_lesson_schedule' lesson_schedule.pk %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Удалить</button>
+            </form>
+            <form method="POST" action="{% url 'edit_lesson_schedule' lesson_schedule.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Редактировать</button>
+            </form>
         </li>
         {% empty %}
         <li class="list-group-item">Нет расписания уроков</li>

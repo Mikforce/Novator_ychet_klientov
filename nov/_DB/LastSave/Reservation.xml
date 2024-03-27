@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Reservation>
+  <Item Updated="3|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|03.09.2018 19:28:01" Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|03.09.2018 19:05:24">
+    <ID>4d6aa05b-a6aa-4e39-8f25-e6dcf37e9099</ID>
+    <ReservationType>Group</ReservationType>
+    <ClientType Updated="2|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|03.09.2018 19:26:59">ExistClient</ClientType>
+    <ID_Client Updated="2|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|03.09.2018 19:26:59">5ca8bac1-6f8f-4cf6-bc60-8a1abad0c033</ID_Client>
+    <LastName>Григорьев</LastName>
+    <Name>Максим</Name>
+    <MiddleName>Сергеевич</MiddleName>
+    <Time>03.09.2018 19:00:00</Time>
+    <ID_Group>ce2d0762-4a41-4bdc-af43-876d9240b5fc</ID_Group>
+    <ParentLastName>Черноброва</ParentLastName>
+    <ParentName>Людмила</ParentName>
+    <ParentMiddleName>Николаевна</ParentMiddleName>
+    <ParentMobilePhone1>89286613694</ParentMobilePhone1>
+    <ID_Status Updated="2|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|03.09.2018 19:28:01">11af989c-537b-4dff-8a6f-1563ae2f93a8</ID_Status>
+    <LastConverseTime>03.09.2018 19:04:10</LastConverseTime>
+    <Informers />
+    <Schedule />
+  </Item>
+  <Item Updated="3|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|23.07.2019 18:04:28" Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|23.07.2019 18:03:12">
+    <ID>0c6c5c47-bbe3-42c9-b0b2-385cba1b0078</ID>
+    <ClientType>ExistClient</ClientType>
+    <ID_Client>75104af9-6797-4a8f-b48e-cd7c267cf7ca</ID_Client>
+    <Time>30.07.2019 18:00:00</Time>
+    <ReservationType>Group</ReservationType>
+    <ID_Group>5ed11df3-0de7-4872-96fb-b571f63d5067</ID_Group>
+    <ID_Status Updated="2|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|23.07.2019 18:04:28">11af989c-537b-4dff-8a6f-1563ae2f93a8</ID_Status>
+    <LastConverseTime>23.07.2019 18:03:12</LastConverseTime>
+    <Informers />
+    <Schedule />
+  </Item>
+</Reservation>

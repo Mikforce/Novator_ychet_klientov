@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Редактирование Расписания Уроков</h1>
+<p>Текущие Детали:</p>
+<p>Название: {{ form.instance.name }}</p>
+<p>День Недели: {{ form.instance.day_of_week }}</p>
+<p>Время: {{ form.instance.time }}</p>
+<p>Количество Уроков: {{ form.instance.num_lessons }}</p>
+<p>Учебный Кабинет: {{ form.instance.training_room }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
+
+
+
+{% endblock %}

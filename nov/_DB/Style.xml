@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Style>
+  <Item Updated="3|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|07.10.2019 12:02:08" Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|08.02.2017 12:15:44">
+    <ID>4a69401d-68a6-4aec-8bae-54015dcba494</ID>
+    <Name Updated="3|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|07.10.2019 12:02:08">hip-hop 11 - 13</Name>
+  </Item>
+  <Item Updated="3|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:19:50" Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|09.02.2017 13:05:01">
+    <ID>445fd231-da0a-4a54-85b4-7631d6ed8d7c</ID>
+    <Name Updated="3|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:19:50">HIP HOP млд.гр </Name>
+  </Item>
+  <Item Updated="3|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:18:21" Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|09.02.2017 13:07:10">
+    <ID>ecde7102-7c74-43eb-bfbc-639cbc0ca51d</ID>
+    <Name Updated="3|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:18:21">Break dance </Name>
+  </Item>
+  <Item Updated="2|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:11:32" Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|09.02.2017 13:08:14">
+    <ID>3cae5194-52a3-4ddf-9b2e-18946101d29f</ID>
+    <Name Updated="2|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:11:32">Эстрада стр.гр Diva </Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|09.02.2017 13:09:02">
+    <ID>f6c28464-708c-4679-9ec2-ab0662e4219a</ID>
+    <Name>Фитнес</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|09.02.2017 13:09:39">
+    <ID>a519f73d-7e50-4866-8dc6-16b4b859da8e</ID>
+    <Name>Стрейтчинг</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|09.02.2017 13:10:45">
+    <ID>abeb33bd-4946-4c53-be27-552cb4396849</ID>
+    <Name>Основы хореографии</Name>
+  </Item>
+  <Item Updated="2|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:13:31" Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|09.02.2017 13:11:14">
+    <ID>b6069cb5-6c3a-4053-97a9-ff5eece993fd</ID>
+    <Name Updated="2|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:13:31">Эстрада "Мини-Бамбини" </Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|24.10.2017 13:37:16">
+    <ID>6787dce4-3cb6-40c5-abfc-bd22c966ab78</ID>
+    <Name>восток</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|24.10.2017 13:38:03">
+    <ID>4e4a104e-c257-45ee-89b8-1f69266d564c</ID>
+    <Name>спортивно бальные дети</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|24.10.2017 13:42:02">
+    <ID>6162e021-45df-4967-aa35-8d9df09b3d37</ID>
+    <Name>спортивно бальные взрослые 18+</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|01.11.2017 14:57:56">
+    <ID>13259529-f007-4591-a9e8-dad124efaf65</ID>
+    <Name>индивидуалка</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|12.09.2018 19:03:42">
+    <ID>45f05b61-a03c-4623-b87f-fa58f6cc9b42</ID>
+    <Name>спортивно бал. дети</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|09.10.2018 10:59:49">
+    <ID>a6129446-120f-4d78-b9db-21130dfec133</ID>
+    <Name>Zumba</Name>
+  </Item>
+  <Item Updated="3|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|12.09.2019 14:31:39" Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|07.11.2018 14:12:04">
+    <ID>0334f433-5251-4e0e-99b6-6128b067a14c</ID>
+    <Name Updated="3|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|12.09.2019 14:31:39">street kids  4 - 6</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|07.11.2018 14:22:43">
+    <ID>7d68ad44-9420-4802-aeb4-5035e0918766</ID>
+    <Name>Lady style</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|07.11.2018 14:23:09">
+    <ID>f3c19cb9-4bc5-48b7-bf69-ed7be953ac76</ID>
+    <Name>Belly dance</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|14.11.2018 19:07:01">
+    <ID>5a490a70-8bfd-4096-ac56-925469117b08</ID>
+    <Name>ритмика</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|30.11.2018 14:11:24">
+    <ID>f209de8e-20cd-4fd9-8338-aec3766f4d4a</ID>
+    <Name>йога</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|07.12.2018 11:22:18">
+    <ID>09ca65cd-66af-4f4f-ac9a-b154699dc278</ID>
+    <Name>Йога</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|07.02.2019 14:00:21">
+    <ID>6b7bec46-b8e1-4b10-975c-7ae56f0107b5</ID>
+    <Name>Breakletics</Name>
+  </Item>
+  <Item Created="1|25421898-cff8-4b1b-9861-0bd753b4db32|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|01.04.2019 17:03:55">
+    <ID>d220ef6a-ec87-4e2f-8173-654e32b7380b</ID>
+    <Name>dancehall</Name>
+  </Item>
+  <Item Created="1|25421898-cff8-4b1b-9861-0bd753b4db32|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|01.04.2019 17:05:19">
+    <ID>6129810b-42c3-4260-bf74-2d765d78df68</ID>
+    <Name>dancehall 3.5-5</Name>
+  </Item>
+  <Item Created="1|25421898-cff8-4b1b-9861-0bd753b4db32|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|01.04.2019 17:06:15">
+    <ID>c6d251e7-b45d-43ff-bd05-be70a4f55ce8</ID>
+    <Name>dancehall 10-18</Name>
+  </Item>
+  <Item Created="1|25421898-cff8-4b1b-9861-0bd753b4db32|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|18.04.2019 16:06:31">
+    <ID>aa4629dc-e923-4ed6-9937-7df8f4e94ff8</ID>
+    <Name>Лезгинка</Name>
+  </Item>
+  <Item Created="1|930bf0cb-9b67-4269-b1d7-55ce51368b43|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|23.04.2019 18:03:37">
+    <ID>af2e50a1-9b6f-47d2-bb3d-84bcdb61bfee</ID>
+    <Name>Национальные танцы</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|23.09.2019 13:07:22">
+    <ID>50221b08-a3ec-462e-b340-5bc895cca447</ID>
+    <Name>Вокал</Name>
+  </Item>
+  <Item Updated="2|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:25:50" Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|02.10.2019 19:42:30">
+    <ID>a4ae7bff-6c81-48d8-af4e-9d340c80c2f1</ID>
+    <Name Updated="2|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:25:50">HIP-HOP </Name>
+  </Item>
+  <Item Created="1|25421898-cff8-4b1b-9861-0bd753b4db32|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|13.01.2020 18:29:04">
+    <ID>e67fe314-2619-4ff0-8329-e2644166ad0c</ID>
+    <Name>Шоу БАЛЕТ</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|05.02.2020 14:54:04">
+    <ID>ea188d15-a3c4-41bd-a3b8-c56bf1fa9a2b</ID>
+    <Name>Breaking</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|12.02.2020 19:04:10">
+    <ID>c7b4a392-305e-4f88-9f04-3c8d467b4bbd</ID>
+    <Name>Stretching</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|17.08.2020 16:35:45">
+    <ID>64149dd2-a3c6-4560-b410-42e38fd14845</ID>
+    <Name>Funny english</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|02.10.2020 16:34:41">
+    <ID>a47e4141-4ae4-4956-9501-57a6fac083e2</ID>
+    <Name>Цирковая гимнастика</Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|10.11.2020 20:08:20">
+    <ID>12cd6cd7-8f78-43bc-aa2b-0ab870e46285</ID>
+    <Name>бачата</Name>
+  </Item>
+  <Item Created="1|37f97a5d-9b46-4079-a050-c652eacb9a32|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|19.04.2021 16:28:28">
+    <ID>616723c1-c315-456d-90d1-8f6b6881dac4</ID>
+    <Name>vogue</Name>
+  </Item>
+  <Item Created="1|37f97a5d-9b46-4079-a050-c652eacb9a32|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|19.04.2021 16:31:39">
+    <ID>f146aa3c-323e-409f-a8b1-6831f795cd6f</ID>
+    <Name>strip plastic</Name>
+  </Item>
+  <Item Updated="3|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:14:23" Created="1|37f97a5d-9b46-4079-a050-c652eacb9a32|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|09.08.2021 15:52:18">
+    <ID>b349fa71-7f01-4089-bd6a-22e6d86a0efa</ID>
+    <Name Updated="3|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:14:23">Эстрада пдг.гр Diva </Name>
+  </Item>
+  <Item Updated="2|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 15:21:50" Created="1|37f97a5d-9b46-4079-a050-c652eacb9a32|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|30.08.2021 17:49:02">
+    <ID>9ad29bcc-e228-4bc8-9a07-1b81f3596daa</ID>
+    <Name Updated="2|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 15:21:50">Цирковая гимнастика </Name>
+  </Item>
+  <Item Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|02.09.2022 15:41:40">
+    <ID>2d012266-b41f-45ef-ae09-e548fc3c5f60</ID>
+    <Name>Цирковая гимнастика парни</Name>
+  </Item>
+  <Item Created="1|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|09.01.2023 15:43:52">
+    <ID>b3262cd4-b4f8-466b-ad56-f0978534a059</ID>
+    <Name>Акробатика </Name>
+  </Item>
+  <Item Created="1|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 15:16:14">
+    <ID>f0499d1b-a5fb-42de-8463-b28af8d66aaa</ID>
+    <Name>Партерная акробатика </Name>
+  </Item>
+  <Item Created="1|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|17.03.2023 16:09:10">
+    <ID>de419cb1-9c1c-4d88-ab33-33991b67948c</ID>
+    <Name>Эстрада 18+</Name>
+  </Item>
+  <Item Created="1|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|68A2-7774-DAEA-1CDA-A686-07C9-B45A-6E58|07.06.2023 16:54:20">
+    <ID>569ee5a4-43ab-4a13-8f00-6dadf84e4851</ID>
+    <Name>Подготов.гимнастика </Name>
+  </Item>
+  <Item Created="1|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|14.11.2023 19:52:40">
+    <ID>84dbfe70-a948-43be-b563-7d6f6826205d</ID>
+    <Name>современная хореография </Name>
+  </Item>
+  <Item Created="1|7a5b3dbc-104c-4e56-be48-a4ff3fbe9da4|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|14.11.2023 20:10:55">
+    <ID>c1f9a120-addd-47e7-b990-0acea441e257</ID>
+    <Name>Эксперементал</Name>
+  </Item>
+</Style>

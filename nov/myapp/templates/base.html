@@ -7,172 +7,263 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/myapp.css' %}">
+
     <script src="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
-i
+
     <title>Novator</title>
     <style>
+
+    .content-wrapper {
+        margin: 0 auto; /* Центрирование содержимого */
+        max-width: 1200px; /* Ширина контейнера */
+        padding: 0 15px; /* Внутренние отступы */
+
+    }
+
+    .col-md-8 {
+        text-align: left; /* Выравнивание текста по левому краю */
+    }
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
-            transition: background-color 0.5s ease;
+        font-family: 'Roboto', sans-serif;
+        background-color: #e6f7d7; /* Основной цвет фона (светло-зеленый) */
+        transition: background-color 0.5s ease;
+    }
+
+    nav {
+                background-image: linear-gradient(to right, #77dd77, #3f9e36);
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .nav-link active {
+    color: #0d290e;
+    }
+    nav a, .nav-link, .dropdown-item {
+    color: #000000; /* Цвет текста для ссылок */
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    nav a:hover, .nav-link:hover, .dropdown-item:hover {
+    color: #004d00; /* Цвет текста при наведении */
+    }
+
+    .dropdown-menu {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 0;
+        transition: all 0.3s ease;
+    }
+
+    .dropdown-item {
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .dropdown-item:hover {
+    background-color: rgba(119, 221, 119, 0.3);
+    }
+
+    .active {
+    background-color: #3f9e36; /* Цвет активного элемента */
+    }
+
+    .alert {
+        margin-top: 1rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .alert-dismissable {
+        position: relative;
+    }
+
+    .alert-dismissable .close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.5rem 1.5rem;
+        color: #fff;
+        opacity: 0.8;
+        transition: all 0.3s ease;
+    }
+
+    .alert-dismissable .close:hover {
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Настройка размера шрифта для ячеек и строк таблицы */
+    .table {
+        font-size: 16px;
+        font-family: "Roboto", sans-serif; /* Замените на любой выбранный шрифт */
+
         }
 
-        nav {
-            background-image: linear-gradient(to right, #2980b9, #3f51b5);
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+    .td {
+        font-size: 16px;
+        /* Размер шрифта ячеек таблицы */
+        transition: all 0.3s ease;
+    }
 
-        nav a, .nav-link, .dropdown-item {
-            color: #1b2e38;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+    .td:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
 
-        nav a:hover, .nav-link:hover, .dropdown-item:hover {
-            color: #184d3c;
-        }
+    .container {
+        margin-top: 20px;
+        background-color: #96f2a0;
+    }
 
-        .dropdown-menu {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 0;
-            transition: all 0.3s ease;
-        }
+    .group-button {
+        background: #4CAF50;
+        color: #333;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        cursor: pointer;
+    }
 
-        .dropdown-item {
-            padding: 0.5rem 1.5rem;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
+    .group-button:hover {
+        background: #89f091;
+    }
 
-        .dropdown-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
 
-        .active {
-            background-color: #455a9e;
-        }
 
-        .alert {
-            margin-top: 1rem;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
 
-        .alert-dismissable {
-            position: relative;
-        }
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
 
-        .alert-dismissable .close {
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 0.5rem 1.5rem;
-            color: #fff;
-            opacity: 0.8;
-            transition: all 0.3s ease;
-        }
+    .card-header {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        border-radius: 5px 5px 0 0;
+    }
 
-        .alert-dismissable .close:hover {
-            opacity: 1;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
 
-        /* Adjust font size for table cells and table rows */
-            table {
-                    font-size: 16px;
-        font-family: "Arial", sans-serif; /* Замените на любой выбранный шрифт */
-        /* Установите любой другой декоративный стиль, если нужно */
-            }
+    input,
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
 
-            td {
-                font-size: 14px;
-                /* Font size for table cells */
-                transition: all 0.3s ease;
-            }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-        td:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
+    button:hover {
+        background-color: #0056b3;
+    }
+
+
+
     </style>
 </head>
 <body>
 <nav>
-    {% if user.is_authenticated %}
-    <a class="nav-item nav-link" href="{% url 'profile' %}">Профиль</a>
-    <a class="nav-item nav-link" href="{% url 'logout' %}">Выход</a>
-    {% else %}
-    <a class="nav-item nav-link" href="{% url 'login' %}">Вход</a>
-    <a class="nav-item nav-link" href="{% url 'register' %}">Регистрация</a>
-    {% endif %}
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link active" href="{% url 'home' %}">Главная</a>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownStudents" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">Ученики</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownStudents">
-                <li><a class="dropdown-item" href="{% url 'client_list' %}">Все Ученики</a></li>
-                <li><a class="dropdown-item" href="{% url 'student_list' %}">Добавить Ученика</a></li>
-            </ul>
-        </li>
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-md-8">
+                {% if user.is_authenticated %}
+                <a class="nav-item nav-link" href="{% url 'profile' %}">Профиль</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Выход</a>
+                {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}">Вход</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}">Регистрация</a>
+                {% endif %}
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'home' %}">Главная</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownStudents" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">Ученики</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownStudents">
+                            <li><a class="dropdown-item" href="{% url 'client_list' %}">Все Ученики</a></li>
+                            <li><a class="dropdown-item" href="{% url 'student_list' %}">Добавить Ученика</a></li>
+                        </ul>
+                    </li>
 
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownGroups" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">Группы</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownGroups">
-                <li><a class="dropdown-item" href="{% url 'group_list' %}">Все Группы</a></li>
-                <li><a class="dropdown-item" href="{% url 'add_group' %}">Добавить Группу</a></li>
-            </ul>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">Абонементы</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li><a class="dropdown-item" href="{% url 'subscription_list' %}">Все Абонементы</a></li>
-                <li><a class="dropdown-item" href="{% url 'add_subscription' %}">Добавить Абонемент</a></li>
-            </ul>
-        </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownGroups" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">Группы</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownGroups">
+                            <li><a class="dropdown-item" href="{% url 'group_list' %}">Все Группы</a></li>
+                            <li><a class="dropdown-item" href="{% url 'add_group' %}">Добавить Группу</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">Абонементы</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="{% url 'subscription_list' %}">Все Абонементы</a></li>
+                            <li><a class="dropdown-item" href="{% url 'add_subscription' %}">Добавить Абонемент</a></li>
+                        </ul>
+                    </li>
 
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCoaches" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">Учителя</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
-                <li><a class="dropdown-item" href="{% url 'coach_list' %}">Все Учителя</a></li>
-                <li><a class="dropdown-item" href="{% url 'add_coach' %}">Добавить Учителя</a></li>
-            </ul>
-        </li>
-
-
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncheck" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">check</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
-                <li><a class="dropdown-item" href="{% url 'check' %}">Чек</a></li>
-                <li><a class="dropdown-item" href="{% url 'users_activity' %}">Кол. часов за месяц администратора</a>
-                </li>
-                <li><a class="dropdown-item" href="{% url 'checkcouch' %}">Сумма абонементов у тренера</a></li>
-            </ul>
-        </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCoaches" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">Учителя</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
+                            <li><a class="dropdown-item" href="{% url 'coach_list' %}">Все Учителя</a></li>
+                            <li><a class="dropdown-item" href="{% url 'add_coach' %}">Добавить Учителя</a></li>
+                        </ul>
+                    </li>
 
 
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowntraining_room" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">Рассписания</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
-                <li><a class="dropdown-item" href="{% url 'lesson_schedule_list' %}">Список расписаний</a></li>
-                <li><a class="dropdown-item" href="{% url 'create_lesson_schedule' %}">Создать расписание</a></li>
-                <li><a class="dropdown-item" href="{% url 'training_room' %}">Создать тренировочный зал</a></li>
-            </ul>
-        </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncheck" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">check</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
+                            <li><a class="dropdown-item" href="{% url 'check' %}">Чек</a></li>
+                            <li><a class="dropdown-item" href="{% url 'users_activity' %}">Кол. часов за месяц
+                                администратора</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'checkcouch' %}">Сумма абонементов у тренера</a>
+                            </li>
+                        </ul>
+                    </li>
 
 
-    </ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowntraining_room" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">Рассписания</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
+                            <li><a class="dropdown-item" href="{% url 'lesson_schedule_list' %}">Список расписаний</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'create_lesson_schedule' %}">Создать
+                                расписание</a></li>
+                            <li><a class="dropdown-item" href="{% url 'training_room' %}">Создать тренировочный зал</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
 </nav>
 <div class="col-md-8">
     {% if messages %}

@@ -1,101 +1,4 @@
-<style>
 
-    .container {
-        margin-top: 20px;
-    }
-
-    .card {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-body {
-        padding: 15px;
-    }
-
-    .group-list {
-        list-style: none;
-        padding: 0;
-    }
-
-    .group-list li {
-        margin-bottom: 10px;
-    }
-
-.button-wrapper form {
-    margin-top: 0;
-    display: inline-block;
-    margin-right: 10px; /* Adjust as needed */
-}
-
-
-/* Изменить цвет кнопки "Отменить" */
-.cancel-button {
-    background-color: #f75e5e; /* Используйте любой желаемый цвет */
-    color: white;
-}
-    .group-button {
-        background: #f0f0f0;
-        color: #333;
-        padding: 5px 10px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        cursor: pointer;
-    }
-
-    .group-button:hover {
-        background: #e0e0e0;
-    }
-
-
-    /* Style for "Отметить" button */
-    .mark-button {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        border: none;
-        border-radius: 5px;
-    }
-
-    /* Style for "Отменить" button */
-    .cancel-button {
-        background-color: #f44336;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        border: none;
-        border-radius: 5px;
-    }
-
-    .client-list {
-        margin-top: 20px;
-    }
-
-    .client-list h3 {
-        margin-bottom: 10px;
-    }
-
-    .client-list table {
-        width: 100%;
-        color: #333;
-    }
-
-    .client-list th, .client-list td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-    .button-wrapper {
-        display: inline-block;
-    }
-
-</style>
 {% extends 'base.html' %}
 
 {% block content %}
@@ -106,7 +9,8 @@
             <h2>Введите номер карты</h2>
             <form method="GET" action="">
                 <input type="text" name="card_number" placeholder="Введите номер карты">
-                <button type="submit">Поиск</button>
+                <button type="submit" style="background-color: #4CAF50; color: white;">Поиск</button>
+
             </form>
         </div>
     </div>
@@ -154,7 +58,7 @@
                                 <td>{{ subscription.client.full_name }}</td>
                                 <td>
                                     <span>{{ subscription.lessons_count }}</span>
-                                    <span>{{ subscription.button_highlighted }}</span>
+
                                 </td>
                                 <td>
 
@@ -171,13 +75,13 @@
                                         <form method="post"
                                               action="{% url 'update_subscription' subscription_id=subscription.id action='subtract' %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="mark-button">Посетил</button>
+                                            <button type="submit" class="mark-button" style="background-color: #4CAF50; color: white;">Посетил</button>
                                         </form>
 
                                         <form method="post"
                                               action="{% url 'update_subscription' subscription_id=subscription.id action='add' %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="cancel-button">Отменить</button>
+                                            <button type="submit" class="cancel-button" style="background-color: #f44336; color: white;">Отменить</button>
                                         </form>
                                     </div>
                                 </td>
@@ -212,7 +116,7 @@
                                             </tr>
                                             {% empty %}
                                             <tr>
-                                                <td colspan="3">No marked attendances available.</td>
+                                                <td colspan="3">Нет отмеченных посещений.</td>
                                             </tr>
                                             {% endfor %}
                                             </tbody>

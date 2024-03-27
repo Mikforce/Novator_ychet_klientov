@@ -51,13 +51,16 @@ class Client(models.Model):
     group_obj = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, blank=True)
     date_joined = models.DateField()
 
+    def __str__(self):
+        return self.full_name
+
 class Group(models.Model):
     name = models.CharField(max_length=255)
     coach = models.ForeignKey('Coach', on_delete=models.CASCADE, related_name='coach_groups')
     description = models.TextField()
     students = models.ManyToManyField(Client, related_name='group_students')
     def __str__(self):
-        return f'{self.name} {self.coach} ({self.description}) {self.students}'
+        return f'{self.name} {self.coach}'
 
 class Coach(models.Model):
     full_name = models.CharField(max_length=255)
@@ -65,7 +68,8 @@ class Coach(models.Model):
     students = models.ManyToManyField(Client, related_name='coach_students')
     groupqs = models.ManyToManyField(Group, related_name='coach_groupqs')
     percent = models.FloatField(default=0)
-
+    def __str__(self):
+        return self.full_name
 
 class TrainingRoom(models.Model):
     name = models.CharField(max_length=50)

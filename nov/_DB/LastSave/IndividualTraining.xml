@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<IndividualTraining>
+  <Item Updated="4|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|19.12.2018 20:01:57" Created="1|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|19.12.2018 20:01:20">
+    <ID>428f0d27-54ef-441d-90b7-43bc88c0f118</ID>
+    <ID_Client>a04a4dcf-6762-4038-9653-e4ca36a65562</ID_Client>
+    <Prepayment>600</Prepayment>
+    <PaymentType>Cash</PaymentType>
+    <IndividualTrainingTypeName>Стандарт</IndividualTrainingTypeName>
+    <IndividualTrainingTypeCost>600</IndividualTrainingTypeCost>
+    <Schedule />
+    <Visits>
+      <Item ID="7e907daf-66bf-4751-8a08-28c354b79e6a" Created="19.12.2018 20:01:39" Date="10.12.2018" Name="Стандарт" Cost="600" TeacherPay="" />
+      <Item ID="d2889044-f913-4f00-83e6-d46245116076" Created="19.12.2018 20:01:39" Date="12.12.2018" Name="Стандарт" Cost="600" TeacherPay="" />
+    </Visits>
+    <Deposit Updated="2|910267f7-b5ae-4903-87da-ffbcf2a8a19f|A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76|19.12.2018 20:01:57">
+      <Item ID="3fb05470-5f7c-47fa-8fdd-ba9de382de22" Time="19.12.2018 20:01:39" ItemType="Pay" Sum="600" UserID="910267f7-b5ae-4903-87da-ffbcf2a8a19f" ComputerID="A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76" PaymentType="Cash" />
+      <Item ID="efc3ac53-45f1-458a-8206-e090d630b9bb" Time="19.12.2018 20:01:39" ItemType="WriteOff" Sum="600" UserID="910267f7-b5ae-4903-87da-ffbcf2a8a19f" ComputerID="A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76" VisitID="7e907daf-66bf-4751-8a08-28c354b79e6a" />
+      <Item ID="15743284-5651-4ed8-aebd-70e8e9824c08" Time="19.12.2018 20:01:39" ItemType="Debt" Sum="600" UserID="910267f7-b5ae-4903-87da-ffbcf2a8a19f" ComputerID="A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76" VisitID="d2889044-f913-4f00-83e6-d46245116076" />
+      <Item ID="cc2587dc-bc2d-425e-a6ed-7c938b5137a8" Time="19.12.2018 20:01:55" ItemType="PayDebt" Sum="600" UserID="910267f7-b5ae-4903-87da-ffbcf2a8a19f" ComputerID="A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76" PaymentType="Cash" />
+      <Item ID="5404ff09-a598-4473-a233-940a4172b933" Time="19.12.2018 20:01:55" ItemType="Undebt" Sum="600" UserID="910267f7-b5ae-4903-87da-ffbcf2a8a19f" ComputerID="A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76" VisitID="d2889044-f913-4f00-83e6-d46245116076" />
+      <Item ID="a0a04b5f-52c1-4afb-b242-8f83ff5d253d" Time="19.12.2018 20:01:55" ItemType="WriteOff" Sum="600" UserID="910267f7-b5ae-4903-87da-ffbcf2a8a19f" ComputerID="A42E-843A-EE3B-CE57-B3CC-13CD-AEF7-FD76" VisitID="d2889044-f913-4f00-83e6-d46245116076" />
+    </Deposit>
+  </Item>
+</IndividualTraining>

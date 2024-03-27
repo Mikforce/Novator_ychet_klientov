@@ -226,7 +226,7 @@ def add_group(request):
 
 @login_required
 def group_list(request):
-    groups = Group.objects.all()
+    groups = Group.objects.all().order_by('coach__full_name')  # Sort by coach's full name
     return render(request, 'group_list.html', {'groups': groups})
 
 
@@ -384,6 +384,7 @@ def update_subscription(request, subscription_id, action):
                 if subscription.lessons_count < 0:
                     subscription.lessons_count = 0
                     subscription.button_highlighted = True
+
             elif action == 'add':
                 subscription.lessons_count += 1
                 subscription.button_highlighted = False
@@ -391,7 +392,7 @@ def update_subscription(request, subscription_id, action):
 
             subscription.save()
 
-            # Save information about the marked attendance
+            # Сохранять информацию об отмеченной посещаемости
             marked_attendance = MarkedAttendance(user=subscription, group=subscription.group)
             marked_attendance.save()
             # Перенаправление на текущую страницу
@@ -508,6 +509,21 @@ def delete_lesson_schedule(request, pk):
     return HttpResponseRedirect(reverse('lesson_schedule_list'))
 
 
+def edit_lesson_schedule(request, pk):
+    lesson_schedule = get_object_or_404(LessonSchedule, id=pk)
+
+    if request.method == 'POST':
+        form = LessonScheduleForm(request.POST, instance=lesson_schedule)
+        if form.is_valid():
+            form.save()
+            return redirect('lesson_schedule_list')
+    else:
+        form = LessonScheduleForm(instance=lesson_schedule)
+
+    context = {'form': form}
+    return render(request, 'edit_lesson_schedule.html', context)
+
+
 def training_room(request):
     if request.method == 'POST':
         form = TrainingRoomForm(request.POST)
@@ -519,6 +535,8 @@ def training_room(request):
 
     context = {'form': form}
     return render(request, 'training_room.html', context)
+
+
 
 
 

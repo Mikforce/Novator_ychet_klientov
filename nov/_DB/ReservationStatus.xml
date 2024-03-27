@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ReservationStatus>
+  <Item>
+    <ID>170b1799-7ad1-4ba0-9257-c84d7870bdfb</ID>
+    <Name>первичный контакт</Name>
+    <Colour>FF95CAFE</Colour>
+  </Item>
+  <Item>
+    <ID>c21b8873-29d7-447c-a3f2-64a7ca359d28</ID>
+    <Name>принимает решение</Name>
+    <Colour>FFFEF995</Colour>
+  </Item>
+  <Item>
+    <ID>2d1d2751-b407-4a12-87a9-31ccd58f23b8</ID>
+    <Name>ожидает действия от нас</Name>
+    <Colour>FFFFCA62</Colour>
+  </Item>
+  <Item>
+    <ID>ad0119c1-3708-486e-8994-93285fa651f9</ID>
+    <Name>решил прийти</Name>
+    <Colour>FFFFCFCB</Colour>
+  </Item>
+  <Item>
+    <ID>60CE10F1-E5CD-4F5A-96FD-CA4E23974946</ID>
+    <Name>оформил разовое занятие</Name>
+    <Colour>FFE9CBFF</Colour>
+  </Item>
+  <Item>
+    <ID>11af989c-537b-4dff-8a6f-1563ae2f93a8</ID>
+    <Name>оформил абонемент</Name>
+    <Colour>FFCCF261</Colour>
+  </Item>
+  <Item>
+    <ID>7d1c89d1-fcbf-474c-a9b8-a5b8f7c99e6c</ID>
+    <Colour>FFD3D8DC</Colour>
+    <Name>не выходит на связь</Name>
+  </Item>
+  <Item>
+    <ID>4ef9a219-ba02-46f8-abca-b527156eba65</ID>
+    <Name>отказался</Name>
+    <Colour>FFF5F8FD</Colour>
+  </Item>
+</ReservationStatus>

@@ -59,8 +59,8 @@ urlpatterns = [
     path('lesson_schedule_list/', views.lesson_schedule_list, name='lesson_schedule_list'),
     path('create_lesson_schedule/', views.create_lesson_schedule, name='create_lesson_schedule'),
     path('schedule/<int:pk>/delete/', views.delete_lesson_schedule, name='delete_lesson_schedule'),
+    path('edit_lesson_schedule/<int:pk>/', views.edit_lesson_schedule, name='edit_lesson_schedule'),
 
-
-    path('training_room/', views.training_room, name='training_room')
+    path('training_room/', views.training_room, name='training_room'),
 
 ]

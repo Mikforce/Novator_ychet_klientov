@@ -33,9 +33,9 @@
         <label for="lesson_schedule">Расписание уроков:</label>
         <select id="lesson_schedule" name="lesson_schedule">
             {% for schedule in lesson_schedules %}
-            <option value="{{ schedule.id }}">{{ schedule }}</option>
+            <option value="{{ schedule.id }}">{{ schedule.name }} ({{ schedule.num_lessons }} ур.)</option>
             {% endfor %}
-
+        </select><br><br>
 
         <label for="attendance">Оплата:</label>
         <input type="hidden" name="attendance" value="off">
