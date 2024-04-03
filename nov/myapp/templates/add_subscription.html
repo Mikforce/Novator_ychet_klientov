@@ -31,6 +31,7 @@
 
 
         <label for="lesson_schedule">Расписание уроков:</label>
+        {{ schedule.name }}
         <select id="lesson_schedule" name="lesson_schedule">
             {% for schedule in lesson_schedules %}
             <option value="{{ schedule.id }}">{{ schedule.name }} ({{ schedule.num_lessons }} ур.)</option>

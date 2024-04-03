@@ -4,6 +4,11 @@
 * Django
 
 
+## Как запустить Docker 
+
+docker build -t my_django_image .
+docker run -p 8000:8000 my_django_image
+
 ## Как запустить
 
 1. Склонируйте репозиторий

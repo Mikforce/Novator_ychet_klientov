@@ -67,9 +67,34 @@ def get_client_by_card_number(card_number):
         return None
 
 
+
+
+
+
+
+from django.utils import timezone
 @login_required
 def home(request):
-    groups = Group.objects.all()
+    # groups = Group.objects.all()
+    def get_current_day():
+        return timezone.now().strftime("%A")
+
+    weekdays_map = {
+        'Monday': 'Понедельник',
+        'Tuesday': 'Вторник',
+        'Wednesday': 'Среда',
+        'Thursday': 'Четверг',
+        'Friday': 'Пятница',
+        'Saturday': 'Суббота',
+        'Sunday': 'Воскресенье'
+    }
+    current_day = get_current_day()
+    current_day_of_week_ru = weekdays_map.get(current_day)
+
+    groups = Group.objects.filter(
+        lessonschedule__day_of_week__contains=current_day_of_week_ru
+    ).distinct().order_by('lessonschedule__time')
+
     subscriptions = Subscription.objects.all()
     markedAttendance = MarkedAttendance.objects.filter(timestamp__date=date.today())
 
@@ -461,16 +486,28 @@ def update_subscription(request, subscription_id, action):
                     subscription.lessons_count = 0
                     subscription.button_highlighted = True
 
+
             elif action == 'add':
                 subscription.lessons_count += 1
                 subscription.button_highlighted = False
 
-
             subscription.save()
+
 
             # Сохранять информацию об отмеченной посещаемости
             marked_attendance = MarkedAttendance(user=subscription, group=subscription.group)
             marked_attendance.save()
+            if subscription.lessons_count == 0:
+                selected_client = subscription.client.id
+                clients = [{'id': client.id, 'full_name': client.full_name} for client in Client.objects.all()]
+                group = [{'id': group.id, 'name': group.name} for group in Group.objects.all()]
+                return HttpResponseRedirect(reverse('add_subscription') ,{
+                    'subscription': subscription,
+                    'selected_client': selected_client,
+                    'clients': clients,
+                    'groups': group,
+                })
+
 
             # Перенаправление на текущую страницу
             return HttpResponseRedirect(reverse(home))
