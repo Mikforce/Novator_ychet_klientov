@@ -8,7 +8,7 @@
             <h2>Введите номер карты</h2>
             <form method="GET" action="">
                 <input type="text" name="card_number" placeholder="Введите номер карты">
-                <button type="submit" style="background-color: #4CAF50; color: white;">Поиск</button>
+                <button type="submit" style="background-color: #4c43b5; color: white;">Поиск</button>
 
             </form>
         </div>
@@ -23,6 +23,7 @@
                         <h2 class="mb-2">Список групп</h2>
                         <ul class="group-list">
                             {% for group in groups %}
+                            <hr>
                             <li>
                                 <button class="group-button" data-group-name="{{ group.name }}">{{ group.name }}
                                 </button>
@@ -77,7 +78,7 @@
                                               action="{% url 'update_subscription' subscription_id=subscription.id action='subtract' %}">
                                             {% csrf_token %}
                                             <button type="submit" class="mark-button"
-                                                    style="background-color: #4CAF50; color: white;">Посетил
+                                                    style="background-color: #4c43b5; color: white;">Посетил
                                             </button>
                                         </form>
 
@@ -85,7 +86,7 @@
                                               action="{% url 'update_subscription' subscription_id=subscription.id action='add' %}">
                                             {% csrf_token %}
                                             <button type="submit" class="cancel-button"
-                                                    style="background-color: #f44336; color: white;">Отменить
+                                                    style="background-color: #b161f2; color: white;">Отменить
                                             </button>
                                         </form>
                                     </div>

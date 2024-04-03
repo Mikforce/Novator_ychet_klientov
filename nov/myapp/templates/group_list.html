@@ -8,12 +8,14 @@
     <ul>
         {% for group in groups %}
             <li><a href="{% url 'group-detail' group.pk %}">{{ group.name }}</a></li>
+        <hr>
         {% endfor %}
     </ul>
 
         {% regroup groups by coach.full_name as coach_groups %}
 
         {% for coach_group in coach_groups %}
+        <hr>
             <h2>{{ coach_group.grouper }}</h2>
             <table>
                 <tr>
@@ -28,8 +30,10 @@
                     <td>{{ group.description }}</td>
                     <td><a class="btn btn-default" href="{% url 'update_group' group.pk %}">Редактировать</a></td>
                     <td><a class="btn btn-default" href="{% url 'delete_group' group.pk %}">Удалить</a></td>
+
                 </tr>
                 {% endfor %}
+
             </table>
         {% endfor %}
 

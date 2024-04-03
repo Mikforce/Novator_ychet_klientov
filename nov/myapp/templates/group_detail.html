@@ -10,7 +10,7 @@
     <h2>Ученики:</h2>
     <ul>
         {% for subscription in group.subscription_set.all %}
-            <li>{{ subscription.client.full_name }} - Оставшиеся занятия: {{ subscription.lessons_count }}</li>
+            <li><a href="{% url 'view_client_profile' id=subscription.client.id %}">{{ subscription.client.full_name }}</a> - Оставшиеся занятия: {{ subscription.lessons_count }}</li>
         {% empty %}
             <li>В этой группе нет учеников</li>
         {% endfor %}

@@ -22,6 +22,7 @@
                 <th>Стоимость абонемента</th>
                 <th>Оплата</th>
                 <th>Коментарий</th>
+                <hr>
             </tr>
             </thead>
             <tbody>
@@ -43,7 +44,9 @@
 
                 <td>
                     <a href="{% url 'edit_subscription' subscription.id %}">Редактировать</a>
+<hr>
                     <a href="{% url 'delete_subscription' subscription_id=subscription.id %}">Удалить</a>
+                    <hr>
                 </td>
             </tr>
             {% empty %}
