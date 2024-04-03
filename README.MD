@@ -16,6 +16,7 @@ venv\Scripts\activate
 ```commandline
 pip install -r requirements.txt
 ```
+pip install docxtpl
 pip install django-crispy-forms
 pip install crispy-bootstrap5
 pip install django-user-activity-log

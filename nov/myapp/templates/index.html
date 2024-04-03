@@ -55,7 +55,7 @@
                             <tr class="client-row" style="display: none;"
                                 data-group-name="{{ subscription.group.name }}">
                                 <td>{{ subscription.group.name }}</td>
-                                <td>{{ subscription.client.full_name }}</td>
+                                <td><a href="{% url 'view_client_profile' id=subscription.client.id %}">{{ subscription.client.full_name }}</a></td>
                                 <td>
                                     <span>{{ subscription.lessons_count }}</span>
 
@@ -138,6 +138,7 @@
     </div>
 
     <script>
+
         const groupButtons = document.querySelectorAll('.group-button');
     const clientRows = document.querySelectorAll('.client-row');
 
@@ -199,6 +200,7 @@
         }
         return cookieValue;
     }
+
 
     </script>
 

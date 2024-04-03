@@ -56,6 +56,7 @@
             </div>
         </div>
 
+
         <div class="col-sm-8">
             <div class="card">
                 <h1>Профиль клиента</h1>
@@ -68,8 +69,8 @@
                 <p><strong>Группа:</strong> {{ client.group_obj.name }}</p>
                 <p><strong>Дата присоединения:</strong> {{ client.date_joined }}</p>
                 {% for subscription in subscriptions %}
-                <p>Дата начала абонемента: {{ subscription.date }}</p>
-                <p>Дата конца абонемента: {{ subscription.end_date }}</p>
+                <p>Дата начала абонемента {{ subscription.group.name }}: {{ subscription.date }}</p>
+                <p>Дата конца абонемента {{ subscription.group.name }}: {{ subscription.end_date }}</p>
                 <!-- Другие данные о подписке -->
                 {% endfor %}
                 <!-- Добавьте больше деталей при необходимости -->
@@ -98,8 +99,26 @@
                 </ul>
             </div>
         </div>
+
+
+
+            <div class="col-md-4">
+                <div class="card">
+                    <h2>Абонементы клиента:</h2>
+                    {% for subscription in subscriptions %}
+                    <p>{{ subscription.group.name }} - Оставшиеся уроки: {{ subscription.lessons_count }}
+                    <a href="{% url 'edit_subscription' subscription.id %}">Редактировать Абонемент</a>
+                        </p>
+                    {% endfor %}
+
+            </div>
+        </div>
+
+
     </div>
 </div>
+
+
 </div>
 <script src="{% static 'calendar.js' %}"></script>
 <script>

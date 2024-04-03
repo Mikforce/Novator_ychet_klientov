@@ -48,7 +48,7 @@ class Client(models.Model):
     parent_name = models.CharField(max_length=255)
     address = models.CharField(max_length=255, default='Unknown Address')  # Add a default value here
     card_number = models.CharField(max_length=100, unique=True)
-    group_obj = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, blank=True)
+    group_obj = models.ForeignKey('Group', on_delete=models.SET_NULL, null=True, blank=True)
     date_joined = models.DateField()
 
     def __str__(self):
@@ -56,11 +56,18 @@ class Client(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=255)
-    coach = models.ForeignKey('Coach', on_delete=models.CASCADE, related_name='coach_groups')
+    coach = models.ForeignKey('Coach', on_delete=models.PROTECT, related_name='coach_groups')
     description = models.TextField()
     students = models.ManyToManyField(Client, related_name='group_students')
     def __str__(self):
         return f'{self.name} {self.coach}'
+    def get_students(self):
+        return self.students.all()
+    def delete(self, *args, **kwargs):
+        # Remove the relationship between the Group and its related Client instances
+        self.students.clear()
+        # Call the superclass delete method to delete the Group instance
+        super().delete(*args, **kwargs)
 
 class Coach(models.Model):
     full_name = models.CharField(max_length=255)

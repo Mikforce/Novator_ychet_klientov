@@ -1,15 +1,13 @@
-
-
-
 {% extends 'base.html' %}
 
 {% block content %}
-      <h2>Редактировать клиента</h2>
-      <form method="POST">
+<div class="container">
+    <h2>Редактировать клиента</h2>
+    <form method="POST">
         {% csrf_token %}
         <label for="full_name">ФИО:</label>
         <input type="text" name="full_name" value="{{ client.full_name }}" required><br>
-
+        <p>Дата рождения: {{ client.birth_date }}</p>
         <label for="birth_date">Дата рождения:</label>
         <input type="date" name="birth_date" value="{{ client.birth_date }}" required><br>
 
@@ -19,27 +17,30 @@
         <label for="parent_name">ФИО родителя:</label>
         <input type="text" name="parent_name" value="{{ client.parent_name }}" required><br>
 
-          <label for="parent_name">address:</label>
+        <label for="parent_name">address:</label>
         <input type="text" name="address" value="{{ client.address }}" required><br>
 
-          <label for="parent_name">card_number:</label>
+        <label for="parent_name">card_number:</label>
         <input type="text" name="card_number" value="{{ client.card_number }}" required><br>
 
         <label for="group">Группа:</label>
         <select name="group" required>
-          {% for group in groups %}
+            {% for group in groups %}
             {% if group.id == client.group_obj.id %}
-              <option value="{{ group.id }}" selected>{{ group.name }}</option>
+            <option value="{{ group.id }}" selected>{{ group.name }}</option>
             {% else %}
-          <option value="{{ group.id }}">{{ group.name }}</option>
-        {% endif %}
-      {% endfor %}
-    </select><br>
+            <option value="{{ group.id }}">{{ group.name }}</option>
+            {% endif %}
+            {% endfor %}
+        </select><br>
 
-    <label for="date_joined">Дата изменения:</label>
-    <input type="date" name="date_joined" value="{{ client.date_joined }}" required><br>
+        <label for="date_joined">Дата изменения:</label>
+        <input type="date" name="date_joined" value="{{ client.date_joined }}" required><br>
 
-    <button type="submit">Сохранить</button>
+        <button type="submit">Сохранить</button>
+
+
+</div>
 {% endblock %}
 
 

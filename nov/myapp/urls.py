@@ -7,6 +7,9 @@ from .views import (delete_group, update_group, check, update_client,users_activ
 
 from . import views as user_views
 from django.contrib.auth import views as auth_views
+from django.views.static import serve
+from django.conf import settings
+from pathlib import Path
 
 urlpatterns = [
 
@@ -22,6 +25,10 @@ urlpatterns = [
     path('group_list/', group_list, name='group_list'),
     path('group/<int:id>/update/', update_group, name='update_group'),
     path('group/<int:id>/delete/', delete_group, name='delete_group'),
+    path('groups/', views.GroupListView.as_view(), name='group-list'),
+    path('group/<int:pk>/', views.GroupDetailView.as_view(), name='group-detail'),
+    path('group/<int:pk>/download_report/', views.download_report, name='download_report'),
+
 
 
     path('add_coach/', add_coach, name='add_coach'),

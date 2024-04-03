@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+    <h1>{{ group.name }}</h1>
+    <h3>Тренер: {{ group.coach }}</h3>
+
+
+    <h2>Ученики:</h2>
+    <ul>
+        {% for subscription in group.subscription_set.all %}
+            <li>{{ subscription.client.full_name }} - Оставшиеся занятия: {{ subscription.lessons_count }}</li>
+        {% empty %}
+            <li>В этой группе нет учеников</li>
+        {% endfor %}
+    </ul>
+
+
+    <!-- Содержимое страницы -->
+    <a href="{% url 'download_report' group.id %}" class="btn btn-primary">Скачать выписку</a>
+
+
+
+    </div>
+</div>
+{% endblock %}

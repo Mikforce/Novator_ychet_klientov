@@ -4,6 +4,12 @@
 <div class="container">
     <div class="card">
         <h1>Список групп</h1>
+            <h1>Groups List</h1>
+    <ul>
+        {% for group in groups %}
+            <li><a href="{% url 'group-detail' group.pk %}">{{ group.name }}</a></li>
+        {% endfor %}
+    </ul>
 
         {% regroup groups by coach.full_name as coach_groups %}
 
@@ -21,6 +27,7 @@
                     <td>{{ group.name }}</td>
                     <td>{{ group.description }}</td>
                     <td><a class="btn btn-default" href="{% url 'update_group' group.pk %}">Редактировать</a></td>
+                    <td><a class="btn btn-default" href="{% url 'delete_group' group.pk %}">Удалить</a></td>
                 </tr>
                 {% endfor %}
             </table>

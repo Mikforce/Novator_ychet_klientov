@@ -4,47 +4,55 @@
 
 <div class="container">
     <div class="card">
-  <table>
-    <thead>
-        <tr>
-            <th>Группа</th>
-            <th>Клиент</th>
-            <th>Тренер</th>
-            <th>Количество занятий</th>
-            <th>Стоимость абонемента</th>
-            <th>Оплата</th>
-            <th>Коментарий</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for subscription in subscriptions %}
-        <tr>
-                    <td>{{ subscription.group.name }}</td>
 
-                    <td>{{ subscription.client.full_name }}</td>
+        <h1>Поиск абонемента по фамилии</h1>
+        <form method="GET">
+            <input type="text" name="q" placeholder="Введите имя" value="{{ request.GET.q }}">
+            <button type="submit">Поиск</button>
+        </form>
 
-                    <td>{{ subscription.coach.full_name }}</td>
 
-                    <td>{{ subscription.lessons_count }}</td>
+        <table>
+            <thead>
+            <tr>
+                <th>Группа</th>
+                <th>Клиент</th>
+                <th>Тренер</th>
+                <th>Количество занятий</th>
+                <th>Стоимость абонемента</th>
+                <th>Оплата</th>
+                <th>Коментарий</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for subscription in subscriptions %}
+            <tr>
+                <td>{{ subscription.group.name }}</td>
 
-                    <td>{{ subscription.price }}</td>
+                <td>{{ subscription.client.full_name }}</td>
 
-                    <td>{{ subscription.attendance|yesno:"оплатил,не оплатил" }}</td>
+                <td>{{ subscription.coach.full_name }}</td>
 
-                    <td>{{ subscription.comment }}</td>
+                <td>{{ subscription.lessons_count }}</td>
 
-            <td>
-                <a href="{% url 'edit_subscription' subscription.id %}">Редактировать</a>
-                <a href="{% url 'delete_subscription' subscription_id=subscription.id %}">Удалить</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4">No subscriptions yet.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                <td>{{ subscription.price }}</td>
+
+                <td>{{ subscription.attendance|yesno:"оплатил,не оплатил" }}</td>
+
+                <td>{{ subscription.comment }}</td>
+
+                <td>
+                    <a href="{% url 'edit_subscription' subscription.id %}">Редактировать</a>
+                    <a href="{% url 'delete_subscription' subscription_id=subscription.id %}">Удалить</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No subscriptions yet.</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
 
     </div>

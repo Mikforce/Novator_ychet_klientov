@@ -20,8 +20,16 @@ from django.db.models import Sum
 from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-
-
+from docxtpl import DocxTemplate
+from django.db import transaction
+from docxtpl import DocxTemplate
+from django.conf import settings
+import subprocess
+from django.views.generic import ListView, DetailView
+from django.http import FileResponse
+from django.http import HttpResponse
+import io
+from django.shortcuts import get_object_or_404
 
 def register(request):
     if request.method == 'POST':
@@ -57,6 +65,8 @@ def get_client_by_card_number(card_number):
         return client
     except Client.DoesNotExist:
         return None
+
+
 @login_required
 def home(request):
     groups = Group.objects.all()
@@ -140,21 +150,20 @@ def add_client(request):
             'client_id': client.id,
         }
 
-        client_details_text = render_to_string('client_details_template/client_details_template.txt',
-                                               context)
+        template_dir = os.path.join(settings.BASE_DIR, 'myapp')
+        template_path = os.path.join(template_dir, 'templates/client_details_template/client_doc.docx')
+        # Загрузка шаблона
+        doc = DocxTemplate(template_path)
+        # Заполнение шаблона данными
+        doc.render(context)
+        # Сохранение документа в текущем рабочем каталоге
 
-        # Save the client information to a text file
-        file_name = f"{slugify(full_name)}_{client.id}_client_details.txt"
-        file_path = os.path.join('client_details', file_name)
+        saved_file_name = f"{full_name}_{client.id}.docx"
+        saved_file_path = os.path.join(template_dir, 'templates/client_details_template', saved_file_name)
+        doc.save(saved_file_path)
 
-        # Create the directory if it doesn't exist
-        os.makedirs('client_details', exist_ok=True)
-
-        with open(file_path, 'w', encoding='utf-8') as file:
-            file.write(client_details_text)
-        time.sleep(2)
-        # Open the file after saving
-        os.system(f'start {file_path}')
+        # Открытие сохраненного документа
+        subprocess.Popen(['start', saved_file_path], shell=True)
 
         return redirect('client_list')
 
@@ -247,8 +256,55 @@ def update_group(request, id):
 @login_required
 def delete_group(request, id):
     group = get_object_or_404(Group, id=id)
+    for client in group.students.all():
+        client.group_obj = None
+        client.save()
     group.delete()
     return HttpResponseRedirect(reverse('group_list'))
+
+
+class GroupListView(ListView):
+    model = Group
+    template_name = 'group_list.html'
+    context_object_name = 'groups'
+
+
+class GroupDetailView(DetailView):
+    model = Group
+    template_name = 'group_detail.html'
+    context_object_name = 'group'
+
+    def generate_report(self, group):
+        context = {
+            'group': group,
+            'clients': [subscription.client for subscription in group.subscription_set.all()]
+        }
+
+        template_dir = os.path.join(settings.BASE_DIR, 'myapp')
+        template_path = os.path.join(template_dir, 'templates', 'client_details_template', 'group_report_template.docx')
+
+        doc = DocxTemplate(template_path)
+        doc.render(context)
+
+        report = io.BytesIO()
+        doc.save(report)
+
+        report.seek(0)
+        return report
+
+
+def download_report(request, pk):
+    group = get_object_or_404(Group, pk=pk)
+    group_detail_view = GroupDetailView()
+
+    report = group_detail_view.generate_report(group)
+
+    response = HttpResponse(report,
+                            content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = f'attachment; filename="{group.name}_report.docx'
+
+    return response
+
 
 
 @login_required
@@ -324,9 +380,22 @@ def add_subscription(request):
                                                          'coaches': coaches, 'lesson_schedules': lesson_schedules})
 
 
+
+
+
+
+
 @login_required
 def subscription_list(request):
-    subscriptions = Subscription.objects.all()
+
+    query = request.GET.get('q')
+
+    if query:
+        subscriptions = Subscription.objects.filter(client__full_name__icontains=query)
+    else:
+        subscriptions = Subscription.objects.all()
+
+
     return render(request, 'subscription_list.html', {'subscriptions': subscriptions})
 
 
@@ -363,12 +432,19 @@ def edit_subscription(request, subscription_id):
     clients = Client.objects.all()
     coaches = Coach.objects.all()
     price = Subscription.objects.all()
+    subscription = Subscription.objects.get(id=subscription_id)
+    start_date = subscription.date
+    end_date = subscription.end_date
+
     return render(request, 'edit_subscription.html', {
         'subscription': subscription,
         'groups': groups,
         'clients': clients,
         'coaches': coaches,
         'price': price,
+        'subscription': subscription,
+        'start_date': start_date,
+        'end_date': end_date,
         'lesson_schedules': lesson_schedules
     })
 
@@ -395,6 +471,7 @@ def update_subscription(request, subscription_id, action):
             # Сохранять информацию об отмеченной посещаемости
             marked_attendance = MarkedAttendance(user=subscription, group=subscription.group)
             marked_attendance.save()
+
             # Перенаправление на текущую страницу
             return HttpResponseRedirect(reverse(home))
         except Subscription.DoesNotExist:

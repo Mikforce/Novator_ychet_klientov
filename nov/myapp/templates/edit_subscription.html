@@ -41,6 +41,9 @@
                 <input type="checkbox" id="attendance" name="attendance" class="form-check-input me-3" {% if subscription.attendance %} checked {% endif %}>
                 <label for="attendance">Оплата</label>
             </div>
+            <p>Дата начала: {{ start_date }}</p>
+            <p>Дата окончания: {{ end_date }}</p>
+            <p>Стоимость: {{ subscription.price }}</p>
 
             <div class="form-group d-flex align-items-center mb-3">
                 <label for="price" class="me-3">Стоимость абонемента:</label>
