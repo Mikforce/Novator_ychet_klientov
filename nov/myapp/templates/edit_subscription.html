@@ -3,72 +3,46 @@
 {% block content %}
 <div class="container">
     <div class="card">
-        <h1 class="card-title">Редактировать абонемент</h1>
-
-        <form method="POST">
+        <h1>Редактировать абонемент</h1>
+        <form method="post">
             {% csrf_token %}
+            {{ form.as_p }}
 
-            <div class="form-group d-flex align-items-center mb-3">
-                <label for="group" class="me-3">Группа:</label>
-                <select id="group" name="group" class="form-control flex-grow-1">
-                    {% for group in groups %}
-                    <option value="{{ group.id }}" {% if group.id == subscription.group.id %} selected {% endif %}>{{ group.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="form-group d-flex align-items-center mb-3">
-                <label for="client" class="me-3">Ученик:</label>
-                <select id="client" name="client" class="form-control flex-grow-1">
-                    {% for client in clients %}
-                    <option value="{{ client.id }}" {% if client.id == subscription.client.id %} selected {% endif %}>{{ client.full_name }}</option>
-
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="form-group d-flex align-items-center mb-3">
-                <label for="coach" class="me-3">Учитель:</label>
-                <select id="coach" name="coach" class="form-control flex-grow-1">
-                    {% for coach in coaches %}
-                    <option value="{{ coach.id }}" {% if coach.id == subscription.coach.id %} selected {% endif %}>{{ coach.full_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            <style>
+                #id_attendance {
+                  height: 20px;
+                  padding: 10px;
+                  border: 2px solid #ccc;
+                  transform: scale(5);
+                  vertical-align: middle;
+                }
+            </style>
 
 
-            <div class="form-check d-flex align-items-center mb-3">
-                <input type="checkbox" id="attendance" name="attendance" class="form-check-input me-3" {% if subscription.attendance %} checked {% endif %}>
-                <label for="attendance">Оплата</label>
-            </div>
-            <p>Дата начала: {{ start_date }}</p>
-            <p>Дата окончания: {{ end_date }}</p>
-            <p>Стоимость: {{ subscription.price }}</p>
-
-            <div class="form-group d-flex align-items-center mb-3">
-                <label for="price" class="me-3">Стоимость абонемента:</label>
-                <input type="number" id="price" name="price" class="form-control flex-grow-1" value="{{ price }}"
-                       required>
-            </div>
-
-            <div class="form-group">
-                <label for="comment">Комментарии:</label>
-                <textarea id="comment" name="comment" class="form-control">{{ subscription.comment }}</textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="lesson_schedule">Расписание уроков:</label>
-                <select id="lesson_schedule" name="lesson_schedule">
-                    {% for schedule in lesson_schedules %}
-                    <option value="{{ schedule.id }}">{{ schedule }}</option>
-                    {% endfor %}
-                </select><br><br>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-
+            <button type="submit">Сохранить</button>
         </form>
+
+        <h2>Детали абонемента:</h2>
+        <p>Группа: {{ subscription.group }}</p>
+        <p>Клиент: {{ subscription.client }}</p>
+        <p>Тренер: {{ subscription.coach }}</p>
+        <p>Количество занятий: {{ subscription.lessons_count }}</p>
+        <p>Посещаемость: {{ subscription.attendance }}</p>
+        <p>Цена: {{ subscription.price }}</p>
+        <p>Комментарий: {{ subscription.comment }}</p>
+        <p>Дата начала: {{ start_date }}</p>
+        <p>Дата окончания: {{ end_date }}</p>
+        <p>Расписание уроков: {{ subscription.lesson_schedule }}</p>
+
+        <h2>Расписание уроков:</h2>
+        <ul>
+            {% for lesson_schedule in lesson_schedules %}
+            <li>{{ lesson_schedule }}</li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'subscription_list' %}">Вернуться к списку абонементов</a>
+
     </div>
 </div>
-
 {% endblock %}

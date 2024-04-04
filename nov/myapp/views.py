@@ -3,7 +3,7 @@ from .models import (Group, Coach, Subscription, Client, Profile, MarkedAttendan
                      LessonSchedule)
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from .forms import UserRegisterForm, LessonScheduleForm, TrainingRoomForm
+from .forms import UserRegisterForm, LessonScheduleForm, TrainingRoomForm, SubscriptionForm
 import os
 import time
 from datetime import date
@@ -405,11 +405,6 @@ def add_subscription(request):
                                                          'coaches': coaches, 'lesson_schedules': lesson_schedules})
 
 
-
-
-
-
-
 @login_required
 def subscription_list(request):
 
@@ -430,28 +425,14 @@ def edit_subscription(request, subscription_id):
     lesson_schedules = LessonSchedule.objects.all()
 
     if request.method == 'POST':
-        group_id = request.POST.get('group', '')
-        client_id = request.POST.get('client', '')
-        coach_id = request.POST.get('coach', '')
-        selected_lesson_schedule = request.POST.get('lesson_schedule', '')
-        attendance = request.POST.get('attendance', False)
-        price = request.POST.get('price', None)  # Получаем стоимость абонемента
-        comment = request.POST.get('comment', '')
-
-        selected_lesson_schedule_obj = LessonSchedule.objects.get(id=selected_lesson_schedule)
-        lessons_count = selected_lesson_schedule_obj.num_lessons
-
-        subscription.group_id = group_id
-        subscription.client_id = client_id
-        subscription.coach_id = coach_id
-        subscription.lessons_count = lessons_count
-        subscription.attendance = attendance == 'on' if isinstance(attendance, str) else attendance
-        subscription.price = price
-        subscription.comment = comment
-
-        subscription.save()
+        form = SubscriptionForm(request.POST, instance=subscription)
+        if form.is_valid():
+            form.save()
+            return redirect('subscription_list')
 
         return redirect('subscription_list')
+    else:
+        form = SubscriptionForm(instance=subscription)
 
     groups = Group.objects.all()
     clients = Client.objects.all()
@@ -462,6 +443,7 @@ def edit_subscription(request, subscription_id):
     end_date = subscription.end_date
 
     return render(request, 'edit_subscription.html', {
+        'form': form,
         'subscription': subscription,
         'groups': groups,
         'clients': clients,
@@ -482,26 +464,25 @@ def update_subscription(request, subscription_id, action):
 
             if action == 'subtract':
                 subscription.lessons_count -= 1
+                subscription.button_highlighted = True
                 if subscription.lessons_count < 0:
                     subscription.lessons_count = 0
-                    subscription.button_highlighted = True
-
 
             elif action == 'add':
                 subscription.lessons_count += 1
                 subscription.button_highlighted = False
-
+            print(subscription.button_highlighted)
             subscription.save()
 
-
-            # Сохранять информацию об отмеченной посещаемости
+            # Сохранение информации о посещаемости
             marked_attendance = MarkedAttendance(user=subscription, group=subscription.group)
             marked_attendance.save()
+
             if subscription.lessons_count == 0:
                 selected_client = subscription.client.id
                 clients = [{'id': client.id, 'full_name': client.full_name} for client in Client.objects.all()]
                 group = [{'id': group.id, 'name': group.name} for group in Group.objects.all()]
-                return HttpResponseRedirect(reverse('add_subscription') ,{
+                return HttpResponseRedirect(reverse('add_subscription'), {
                     'subscription': subscription,
                     'selected_client': selected_client,
                     'clients': clients,

@@ -10,8 +10,10 @@
     <style>
 
         .body {
-            font-family: 'Arial Narrow', sans-serif;
-            background-color: #232a4f; /* Основной цвет фона  */
+    font-family: 'Arial Narrow', sans-serif;
+    background-image: url("{% static 'img/blackmin.png' %}");
+    background-size: cover;
+    background-position: center;
 
         }
         .content-wrapper {
@@ -172,92 +174,100 @@
         button:hover {
             background-color: #0056b3;
         }
+.attendance {
+  height: 100px;
+  padding: 10px;
+  border: 2px solid #ccc;
+  transform: scale(5);
+  vertical-align: middle;
+}
 
-
+.highlighted {
+    background-color: #ffe6e6; /* Change this color to the desired highlight color */
+}
     </style>
 </head>
 <body>
-<nav>
-    <div class="content-wrapper">
-        <div class="row">
-            <div class="col-md-8">
-                {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href="{% url 'logout' %}">Выход</a>
-                <a class="nav-item nav-link" href="{% url 'profile' %}">Профиль</a>
-                {% else %}
-                <a class="nav-item nav-link" href="{% url 'login' %}">Вход</a>
-                <a class="nav-item nav-link" href="{% url 'register' %}">Регистрация</a>
-                {% endif %}
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'home' %}">Главная</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownStudents" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">Ученики</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownStudents">
-                            <li><a class="dropdown-item" href="{% url 'client_list' %}">Все Ученики</a></li>
-                            <li><a class="dropdown-item" href="{% url 'student_list' %}">Добавить Ученика</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">Абонементы</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="{% url 'subscription_list' %}">Все Абонементы</a></li>
-                            <li><a class="dropdown-item" href="{% url 'add_subscription' %}">Добавить Абонемент</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowntraining_room" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">Рассписания</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
-                            <li><a class="dropdown-item" href="{% url 'lesson_schedule_list' %}">Список расписаний</a>
-                            </li>
-                            <li><a class="dropdown-item" href="{% url 'create_lesson_schedule' %}">Создать
-                                расписание</a></li>
-                            <li><a class="dropdown-item" href="{% url 'training_room' %}">Создать тренировочный зал</a>
-                            </li>
-                        </ul>
-                    </li>
+<body class="body">
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-md-8">
+            {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="{% url 'logout' %}">Выход</a>
+            <a class="nav-item nav-link" href="{% url 'profile' %}">Профиль</a>
+            {% else %}
+            <a class="nav-item nav-link" href="{% url 'login' %}">Вход</a>
+            <a class="nav-item nav-link" href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'home' %}">Главная</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownStudents" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Ученики</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownStudents">
+                        <li><a class="dropdown-item" href="{% url 'client_list' %}">Все Ученики</a></li>
+                        <li><a class="dropdown-item" href="{% url 'student_list' %}">Добавить Ученика</a></li>
+                    </ul>
+                </li>
 
                 <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownGroups" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">Группы</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownGroups">
-                            <li><a class="dropdown-item" href="{% url 'group_list' %}">Все Группы</a></li>
-                            <li><a class="dropdown-item" href="{% url 'add_group' %}">Добавить Группу</a></li>
-                        </ul>
-                    </li>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Абонементы</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'subscription_list' %}">Все Абонементы</a></li>
+                        <li><a class="dropdown-item" href="{% url 'add_subscription' %}">Добавить Абонемент</a></li>
+                    </ul>
+                </li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCoaches" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">Учителя</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
-                            <li><a class="dropdown-item" href="{% url 'coach_list' %}">Все Учителя</a></li>
-                            <li><a class="dropdown-item" href="{% url 'add_coach' %}">Добавить Учителя</a></li>
-                        </ul>
-                    </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowntraining_room" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Рассписания</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
+                        <li><a class="dropdown-item" href="{% url 'lesson_schedule_list' %}">Список расписаний</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'create_lesson_schedule' %}">Создать
+                            расписание</a></li>
+                        <li><a class="dropdown-item" href="{% url 'training_room' %}">Создать тренировочный зал</a>
+                        </li>
+                    </ul>
+                </li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncheck" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">check</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
-                            <li><a class="dropdown-item" href="{% url 'check' %}">Чек</a></li>
-                            <li><a class="dropdown-item" href="{% url 'users_activity' %}">Кол. часов за месяц
-                                администратора</a>
-                            </li>
-                            <li><a class="dropdown-item" href="{% url 'checkcouch' %}">Сумма абонементов у тренера</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownGroups" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Группы</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownGroups">
+                        <li><a class="dropdown-item" href="{% url 'group_list' %}">Все Группы</a></li>
+                        <li><a class="dropdown-item" href="{% url 'add_group' %}">Добавить Группу</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCoaches" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Учителя</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
+                        <li><a class="dropdown-item" href="{% url 'coach_list' %}">Все Учителя</a></li>
+                        <li><a class="dropdown-item" href="{% url 'add_coach' %}">Добавить Учителя</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncheck" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">check</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownCoaches">
+                        <li><a class="dropdown-item" href="{% url 'check' %}">Чек</a></li>
+                        <li><a class="dropdown-item" href="{% url 'users_activity' %}">Кол. часов за месяц
+                            администратора</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'checkcouch' %}">Сумма абонементов у тренера</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
-</nav>
+</div>
 <div class="col-md-8">
     {% if messages %}
     {% for message in messages %}
@@ -268,7 +278,7 @@
     {% endif %}
 
 </div>
-
+</body>
 {% block content %}
 
 {% endblock %}

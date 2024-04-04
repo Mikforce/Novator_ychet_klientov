@@ -13,10 +13,26 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-class SubscriptionForm(ModelForm):
+class SubscriptionForm(forms.ModelForm):
+    lesson_schedule = forms.ModelChoiceField(queryset=LessonSchedule.objects.none())
+
     class Meta:
         model = Subscription
-        fields = ['group', 'client', 'coach', 'lessons_count', 'attendance', 'comment']
+        fields = ['group', 'client', 'coach', 'lesson_schedule', 'attendance', 'price', 'comment', 'lessons_count']
+        labels = {
+            'group': 'Группа',
+            'client': 'Клиент',
+            'coach': 'Тренер',
+            'attendance': 'Посещаемость',
+            'price': 'Цена',
+            'comment': 'Комментарий',
+            'lessons_count': 'Количество занятий',
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['lesson_schedule'].queryset = LessonSchedule.objects.filter(name=self.instance.group)
+        self.fields['lesson_schedule'].label = 'График занятий'
 
 
 class LessonScheduleForm(forms.ModelForm):
