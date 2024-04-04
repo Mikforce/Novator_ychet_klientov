@@ -40,7 +40,7 @@
                             <tr>
 
                                 <th>Клиент</th>
-                                <th>Кол. занятий</th>
+                                <th>Кол.</th>
                                 <th>Оплата</th>
                                 <th>Комментарии</th>
                                 <th>Посещение</th>
@@ -53,9 +53,9 @@
                             <tr class="client-row" style="display: none;"
                                 data-group-name="{{ subscription.group.name }}">
 
-                                <td><a href="{% url 'view_client_profile' id=subscription.client.id %}">{{ subscription.client.full_name }}</a></td>
+                                <td><a style="font-size: 20px; color: #18043d;" href="{% url 'view_client_profile' id=subscription.client.id %}">{{ subscription.client.full_name }}</a></td>
                                 <td>
-                                    <span>{{ subscription.lessons_count }}</span>
+                                    <span style="font-size: 20px;">{{ subscription.lessons_count }}</span>
 
                                     {% if subscription.lessons_count == 1 %}
                                     <span style="color: red;">Напоминание: Осталось 1 занятие, необходимо выписать новый абонемент!</span>
@@ -64,19 +64,19 @@
                                 </td>
                                 <td>
                                     {% if subscription.attendance %}
-                                    Оплачено
+                                    <span style="color: #009c2c;">Оплачено</span>
                                     {% else %}
-                                    Не оплачено
+                                    <span style="color: red;">Не оплачено</span>
                                     {% endif %}
                                 </td>
                                 <td>
-                                    {{ subscription.comment }}
+                                    <span style="color: #8b8c8c;">{{ subscription.comment }}</span>
                                 </td>
                                 <td>
                                     {% if subscription.button_highlighted %}
-                                        <li style="color: green;">Сегодня</li>
+                                        <li style="color: #009c2c; font-size: 20px;">Сегодня</li>
                                     {% else %}
-
+                                        <li style="color: #8b8c8c; font-size: 20px;">Отсутствует</li>
                                     {% endif %}
                                 </td>
                                 <td>

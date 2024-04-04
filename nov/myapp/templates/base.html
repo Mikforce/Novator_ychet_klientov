@@ -10,15 +10,12 @@
     <style>
 
         .body {
-    font-family: 'Arial Narrow', sans-serif;
-    background-image: url("{% static 'img/blackmin.png' %}");
-    background-size: cover;
-    background-position: center;
-
+            font-family: 'Arial Narrow', sans-serif;
+            background-color: #2f3554
         }
         .content-wrapper {
             margin: 0 auto; /* Центрирование содержимого */
-            max-width: 1400px; /* Ширина контейнера */
+            max-width: 1600px; /* Ширина контейнера */
             padding: 0 15px; /* Внутренние отступы */
             background-color: #4c547d; /* Основной цвет фона  */
         }
@@ -110,32 +107,31 @@
         }
 
         .container {
-        font-family: 'Arial Narrow', sans-serif;
+            max-width: 1600px; /* Ширина контейнера */
+            font-family: 'Arial Narrow', sans-serif;
             margin-top: 20px;
             background-color: #4c547d;
         }
 
         .group-button {
-        font-family: 'Arial Narrow', sans-serif;
+            font-family: 'Arial Narrow', sans-serif;
             background: #918cdb;
             color: #080808;
             padding: 5px 10px;
             border: 1px solid #ccc;
             border-radius: 3px;
             cursor: pointer;
+            font-size: 24px; /* Выберите желаемый размер шрифта */
         }
 
         .group-button:hover {
             background: #89bbf0;
         }
 
-
-
-
         .card {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
-            background-color: #c4ddf5;
+            background-color: #dce8f2;
             padding: 20px;
             margin-bottom: 20px;
         }
@@ -174,24 +170,27 @@
         button:hover {
             background-color: #0056b3;
         }
-.attendance {
-  height: 100px;
-  padding: 10px;
-  border: 2px solid #ccc;
-  transform: scale(5);
-  vertical-align: middle;
-}
+        .attendance {
+          height: 100px;
+          padding: 10px;
+          border: 2px solid #ccc;
+          transform: scale(5);
+          vertical-align: middle;
+        }
 
-.highlighted {
-    background-color: #ffe6e6; /* Change this color to the desired highlight color */
-}
+        .highlighted {
+            background-color: #ffe6e6; /* Change this color to the desired highlight color */
+        }
+        .a, .span {
+        font-size: 20px;
+        }
     </style>
 </head>
 <body>
 <body class="body">
 <div class="content-wrapper">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             {% if user.is_authenticated %}
             <a class="nav-item nav-link" href="{% url 'logout' %}">Выход</a>
             <a class="nav-item nav-link" href="{% url 'profile' %}">Профиль</a>
