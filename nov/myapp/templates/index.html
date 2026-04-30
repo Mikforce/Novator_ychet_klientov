@@ -1,5 +1,8 @@
+
 {% extends 'base.html' %}
 {% block content %}
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -20,9 +23,18 @@
                         <h2 class="mb-2">Список групп</h2>
                         <ul class="group-list">
                             {% for group in groups %}
+
                             <hr>
                             <li>
-                                <button class="group-button" data-group-name="{{ group.name }}">{{ group.name }}</button>
+                                <button class="group-button" data-group-name="{{ group.name }}">{{ group.name }}
+                                    <span class="client-counter" style="margin-left: 5px; color: #6c757d;"></span>
+
+                                    {% for key, value in highlighted_counts.items %}
+                                        {% if group.name in key %}
+                                            ({{ value }})
+                                        {% endif %}
+                                    {% endfor %}
+                                </button>
                             </li>
                             {% empty %}
                             <li>No groups available.</li>
@@ -31,6 +43,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-9">
                 <div class="card card-right">
                     <div class="card-inner">
@@ -53,7 +66,8 @@
                             <tr class="client-row" style="display: none;"
                                 data-group-name="{{ subscription.group.name }}">
 
-                                <td><a style="font-size: 20px; color: #18043d;" href="{% url 'view_client_profile' id=subscription.client.id %}">{{ subscription.client.full_name }}</a></td>
+                                <td><a style="font-size: 20px; color: #18043d;"
+                                       href="{% url 'view_client_profile' id=subscription.client.id %}">{{ subscription.client.full_name }}</a></td>
                                 <td>
                                     <span style="font-size: 20px;">{{ subscription.lessons_count }}</span>
 
@@ -74,9 +88,9 @@
                                 </td>
                                 <td>
                                     {% if subscription.button_highlighted %}
-                                        <li style="color: #009c2c; font-size: 20px;">Сегодня</li>
+                                    <li style="color: #000000; font-size: 20px; background-color: #009c2c;">Сегодня</li>
                                     {% else %}
-                                        <li style="color: #8b8c8c; font-size: 20px;">Отсутствует</li>
+                                    <li style="color: #8b8c8c; font-size: 20px;">Отсутствует</li>
                                     {% endif %}
                                 </td>
                                 <td>
@@ -84,14 +98,17 @@
                                         <form method="post"
                                               action="{% url 'update_subscription' subscription_id=subscription.id action='subtract' %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="mark-button" id="mark-button" style="background-color: #4c43b5; color: white;">Посетил</button>
+                                            <button type="submit" class="mark-button" id="mark-button"
+                                                    style="background-color: #4c43b5; color: white;">Посетил
+                                            </button>
                                         </form>
 
                                         <form method="post"
                                               action="{% url 'update_subscription' subscription_id=subscription.id action='add' %}">
                                             {% csrf_token %}
                                             <button type="submit" class="cancel-button"
-                                                    style="background-color: #b161f2; color: white;">Отменить</button>
+                                                    style="background-color: #b161f2; color: white;">Отменить
+                                            </button>
                                         </form>
                                     </div>
                                 </td>
@@ -104,7 +121,6 @@
                             {% endfor %}
                             </tbody>
                         </table>
-
                         <div class="client-list-container">
                             <div class="card client-list">
                                 <div class="card-body" style="text-align: center;">
@@ -116,6 +132,7 @@
                                                 <th>Клиент</th>
                                                 <th>Группа</th>
                                                 <th>Дата</th>
+                                                <th>Посещение</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -124,6 +141,9 @@
                                                 <td>{{ markedAttendance.user.client.full_name }}</td>
                                                 <td>{{ markedAttendance.user.client.group_obj.name }}</td>
                                                 <td>{{ markedAttendance.timestamp }}</td>
+                                                <td>
+                                                <input type="checkbox" {% if markedAttendance.user.button_highlighted %} checked {% endif %} disabled>
+                                            </td>
                                             </tr>
                                             {% empty %}
                                             <tr>
@@ -160,6 +180,7 @@
 
                 // Save group state in
                 localStorage.setItem('currentGroup', groupName);
+
             });
 
             // Restore group state from localStorage on page load
@@ -193,4 +214,4 @@
 
 
     </script>
-{% endblock %}
+    {% endblock %}

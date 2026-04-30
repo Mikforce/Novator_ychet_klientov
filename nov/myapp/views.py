@@ -68,14 +68,26 @@ def get_client_by_card_number(card_number):
 
 
 
-
-
-
-
 from django.utils import timezone
 @login_required
 def home(request):
-    # groups = Group.objects.all()
+    # Update existing logic to include calculation of button_highlighted count for each group
+    subscriptions = Subscription.objects.all()
+    highlighted_counts = {}  # Dictionary to store count of button_highlighted=True for each group
+
+    for subscription in subscriptions:
+        if subscription.button_highlighted:
+            last_marked_attendance = MarkedAttendance.objects.filter(user=subscription).order_by('-timestamp').first()
+            if last_marked_attendance:
+                time_difference = timezone.now() - last_marked_attendance.timestamp
+                if time_difference.total_seconds() > 12 * 60 * 60:
+                    subscription.button_highlighted = False
+                    subscription.save()
+
+            # Count button_highlighted=True for each group
+            group_name = subscription.group.name
+            highlighted_counts[group_name] = highlighted_counts.get(group_name, 0) + 1
+    print(highlighted_counts)
     def get_current_day():
         return timezone.now().strftime("%A")
 
@@ -106,8 +118,13 @@ def home(request):
             # Redirect to the client's profile page
             return redirect('view_client_profile', id=client.id)
 
+    context = {'groups': groups,
+               'subscriptions': subscriptions,
+               'markedAttendance': markedAttendance,
+               'highlighted_counts': highlighted_counts}
+
     return render(request, 'index.html',
-                  {'groups': groups, 'subscriptions': subscriptions, 'markedAttendance': markedAttendance})
+                  context)
 
 
 
@@ -463,15 +480,18 @@ def update_subscription(request, subscription_id, action):
             subscription = Subscription.objects.get(id=subscription_id)
 
             if action == 'subtract':
-                subscription.lessons_count -= 1
-                subscription.button_highlighted = True
-                if subscription.lessons_count < 0:
-                    subscription.lessons_count = 0
+                if subscription.button_highlighted == False:
+                    subscription.lessons_count -= 1
+                    subscription.button_highlighted = True
+                    if subscription.lessons_count < 0:
+                        subscription.lessons_count = 0
 
             elif action == 'add':
-                subscription.lessons_count += 1
-                subscription.button_highlighted = False
-            print(subscription.button_highlighted)
+                if subscription.button_highlighted == True:
+                    subscription.lessons_count += 1
+                    subscription.button_highlighted = False
+                print(subscription.button_highlighted)
+
             subscription.save()
 
             # Сохранение информации о посещаемости

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.novator.backup</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/ivantolpeev/Documents/Novator_ychet_klientov v 4.0/scripts/daily_backup.sh</string>
+    </array>
+
+    <key>StartInterval</key>
+    <integer>86400</integer>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/ivantolpeev/Documents/Novator_ychet_klientov v 4.0/backups/backup.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/ivantolpeev/Documents/Novator_ychet_klientov v 4.0/backups/backup.log</string>
+</dict>
+</plist>
