@@ -1,6 +1,34 @@
-backups/
-*.tar.gz
+# Django
 *.log
-__pycache__/
+*.pot
 *.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+static/
+
+# Environment
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# Database files
+nov/db.sqlite3
+nov/_DB/
+nov/Client.xml
+nov/generated_reports/
+
+# IDEs
+.idea/
+.vscode/
+
+# Node
+node_modules/
+
+# OS
 .DS_Store
+Thumbs.db
